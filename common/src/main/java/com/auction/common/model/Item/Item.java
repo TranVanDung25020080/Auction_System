@@ -1,6 +1,7 @@
 package com.auction.common.model.Item;
 
 import com.auction.common.model.Entity;
+import com.auction.common.model.User.Seller;
 
 public class Item implements Entity {
     private String id;
