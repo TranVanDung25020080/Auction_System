@@ -5,8 +5,8 @@ import com.auction.common.enums.UserRole;
 public class Bidder extends User {
     private double balance;
 
-    public Bidder(String userId, String username, String email, String password, UserRole role, String roleLevel, double balance) {
-        super(userId, username,email,password,role,roleLevel);
+    public Bidder(String userId, String username, String email, String password, UserRole role, double balance) {
+        super(userId, username,email,password,role);
         this.balance = balance;
     }
 
