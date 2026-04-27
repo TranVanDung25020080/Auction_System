@@ -5,8 +5,13 @@ import com.auction.common.enums.UserRole;
 public class Seller extends User {
     private String shop_name;
     private double rating;
-    public Seller(String userId, String username, String email, String password, UserRole role, String shopName, double rating) {
-        super(userId,username,email,password,role);
+
+    public Seller() {
+        super(UserRole.SELLER);
+
+    }
+    public Seller(String userId, String username, String email, String password, String shopName, double rating) {
+        super(userId,username,email,password,UserRole.SELLER);
         this.shop_name = shopName;
         this.rating = rating;
     }

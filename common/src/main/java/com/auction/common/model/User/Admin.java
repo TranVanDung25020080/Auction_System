@@ -6,8 +6,12 @@ public class Admin extends User {
 
     private String role_level;
 
-    public Admin(String userId, String username, String email, String password, UserRole role) {
-        super(userId, username, email, password, role);
+    public Admin() {
+        super(UserRole.ADMIN);
+    }
+
+    public Admin(String userId, String username, String email, String password,String role_level) {
+        super(userId, username, email, password, UserRole.ADMIN);
         this.role_level = role_level;
     }
 

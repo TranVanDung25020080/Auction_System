@@ -3,12 +3,18 @@ package com.auction.common.model.User;
 import com.auction.common.enums.UserRole;
 import com.auction.common.model.Entity;
 
-public class User implements Entity {
+public abstract class User implements Entity {
     private String userId;
     private String username;
     private String email;
     private String password;
     private UserRole role;
+
+    public User() {}
+
+    public User(UserRole role) {
+        this.role = role;
+    }
 
     public User(String userId, String username, String email, String password, UserRole role) {
         this.userId = userId;
