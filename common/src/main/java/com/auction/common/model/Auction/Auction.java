@@ -1,0 +1,58 @@
+package com.auction.common.model.Auction;
+
+import com.auction.common.enums.AuctionStatus;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+public class Auction implements Serializable {
+    private String auctionId;
+    private String itemId;
+    private double currentHighestPrice;
+    private String winningBidderId;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private AuctionStatus status;
+
+    public Auction(String auctionId, String itemId, double currentHighestPrice, LocalDateTime startTime, LocalDateTime endTime) {
+        this.auctionId = auctionId;
+        this.itemId = itemId;
+        this.currentHighestPrice = currentHighestPrice;
+        this.winningBidderId = "None";
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.status = AuctionStatus.PENDING;
+    }
+
+    //Getter
+    //region
+    public String getItemId() {
+        return itemId;
+    }
+
+    public String getAuctionId() {
+        return auctionId;
+    }
+
+    public double getCurrentHighestPrice() {
+        return currentHighestPrice;
+    }
+
+    public String getWinningBidderId() {
+        return winningBidderId;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public AuctionStatus getStatus() {
+        return status;
+    }
+    //endregion
+
+}
