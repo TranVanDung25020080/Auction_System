@@ -1,26 +1,27 @@
 package com.auction.common.model.User;
 
-import com.auction.common.enums.UserRole;
-
 public class Seller extends User {
-    private String shop_name;
+    private String shopName;
     private double rating;
+    private double balance;
 
-    public Seller() {
-        super(UserRole.SELLER);
-
-    }
-    public Seller(String userId, String username, String email, String password, String shopName, double rating) {
-        super(userId,username,email,password,UserRole.SELLER);
-        this.shop_name = shopName;
+    public Seller(String userId, String userName, String email, String shopName, double rating, double balance) {
+        super(userId, userName, email);
+        this.shopName = shopName;
         this.rating = rating;
+        this.balance = balance;
     }
-    public String getShopName() { return shop_name; }
-    public double getRating() { return rating; }
+
+    public String getShopName() {
+        return shopName;
+    }
+    public double getRating() {
+        return rating;
+    }
+    public double getBalance() {return balance;}
 
     @Override
     public void printInfo() {
-        super.printInfo();
-        System.out.println("Shop Name: " + shop_name + " - Rating: " + rating + "⭐");
+        System.out.println("[SELLER] Id: " + getUserId() + "Name: " + getUserName() + "ShopName " + shopName + "Rating: " + rating);
     }
 }

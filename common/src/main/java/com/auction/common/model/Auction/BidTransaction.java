@@ -1,8 +1,9 @@
 package com.auction.common.model.Auction;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class BidTransaction {
+public class BidTransaction implements Serializable {
     private String transactionId;
     private String auctionId;
     private String bidderId;

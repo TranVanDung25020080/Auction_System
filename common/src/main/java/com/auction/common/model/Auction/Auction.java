@@ -14,14 +14,14 @@ public class Auction implements Serializable {
     private LocalDateTime endTime;
     private AuctionStatus status;
 
-    public Auction(String auctionId, String itemId, double currentHighestPrice, LocalDateTime startTime, LocalDateTime endTime) {
+    public Auction(String auctionId, String itemId, double currentHighestPrice, String winningBidderId, LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status) {
         this.auctionId = auctionId;
         this.itemId = itemId;
         this.currentHighestPrice = currentHighestPrice;
-        this.winningBidderId = "None";
+        this.winningBidderId = winningBidderId;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.status = AuctionStatus.PENDING;
+        this.status = status ;
     }
 
     //Getter
@@ -54,5 +54,9 @@ public class Auction implements Serializable {
         return status;
     }
     //endregion
+
+    public String ToString() {
+        return "starttime: " + startTime;
+    }
 
 }

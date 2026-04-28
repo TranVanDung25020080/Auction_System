@@ -1,17 +1,13 @@
 package com.auction.common.model.Item;
 
-import com.auction.common.enums.ItemType;
+import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.User.Seller;
 
 public class Vehicle extends Item {
     private String company;
 
-    public Vehicle() {
-        super(ItemType.VEHICLE);
-    }
-
-    public Vehicle(String id, String name, String description, double initialPrice, Seller seller, String company) {
-        super(id, name, description, initialPrice, ItemType.VEHICLE, seller);
+    public Vehicle(String id, String name, String description, double initialPrice, Seller seller, ItemStatus itemStatus, String company) {
+        super(id, name, description, initialPrice, seller,itemStatus);
         this.company = company;
     }
 
@@ -21,6 +17,6 @@ public class Vehicle extends Item {
 
     @Override
     public void printInfo() {
-        System.out.println("[Vehicle] Name: " + getName() + ", SellerID: " + getSeller().getUserId() + ", Initial Price: " + getInitialPrice() + ", Company: " + company);
+        System.out.println("[Vehicle] Name: " + getName() + ", SellerID: " + getSeller().getUserId() + ", Initial Price: " + getInitialPrice() + ", Company: " + company + ", Item_status: " + getItem_status());
     }
 }

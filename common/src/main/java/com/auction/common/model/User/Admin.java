@@ -1,27 +1,19 @@
 package com.auction.common.model.User;
 
-import com.auction.common.enums.UserRole;
-
 public class Admin extends User {
+    private String roleLevel;
 
-    private String role_level;
-
-    public Admin() {
-        super(UserRole.ADMIN);
-    }
-
-    public Admin(String userId, String username, String email, String password,String role_level) {
-        super(userId, username, email, password, UserRole.ADMIN);
-        this.role_level = role_level;
+    public Admin(String userId, String userName, String email, String roleLevel) {
+        super(userId, userName, email);
+        this.roleLevel = roleLevel;
     }
 
     public String getRoleLevel() {
-        return role_level;
+        return roleLevel;
     }
 
     @Override
     public void printInfo() {
-        super.printInfo();
-        System.out.println("Admin Role Level: " + role_level);
+        System.out.println("[ADMIN] Id: " + getUserId() + "Name: " + getUserName() + "RoleLevel: " + roleLevel);
     }
 }
