@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" styleClass="root" stylesheets="@../css/auth-styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.RegisterController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" styleClass="root" stylesheets="@../css/auth-styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.LoginController">
    <children>
       <VBox alignment="CENTER" layoutX="300.0" layoutY="120.0" spacing="25.0" styleClass="form-card">
          <children>
-            <Label styleClass="form-title" text="TẠO TÀI KHOẢN MỚI" />
+            <Label styleClass="form-title" text="Đăng nhập" />
             <TextField fx:id="txtUsername" promptText="Tên đăng nhập" styleClass="input-field" />
             <PasswordField fx:id="txtPassword" promptText="Mật khẩu" styleClass="input-field" />
-            <Button fx:id="btnRegister" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" styleClass="submit-button" text="Đăng ký ngay" />
+            <Button fx:id="btnRegister" mnemonicParsing="false" onAction="#handleRegister" prefHeight="45.0" prefWidth="200.0" styleClass="submit-button" text="Đăng nhập" />
          </children>
          <padding>
             <Insets bottom="50.0" left="40.0" right="40.0" top="50.0" />

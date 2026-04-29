@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class RegisterController {
+public class LoginController {
 
     @FXML private TextField txtUsername;
     @FXML private PasswordField txtPassword;
@@ -20,7 +20,7 @@ public class RegisterController {
         String pass = txtPassword.getText();
 
         if (user.isEmpty() || pass.isEmpty()) {
-            showAlert("Thông báo", "Vui lòng nhập đầy đủ thông tin!");
+            showAlert("Lỗi", "Vui lòng nhập đầy đủ thông tin!");
         } else {
             System.out.println("Gửi đăng ký cho user: " + user);
             // Sau này code kết nối DB sẽ viết ở đây
