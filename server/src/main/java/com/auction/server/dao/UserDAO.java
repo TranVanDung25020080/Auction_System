@@ -31,13 +31,13 @@ public class UserDAO {
         registerParameter.put(Bidder.class, new BidderRegister());
     }
 
-    public User login(String name, String password) throws Exception {
+    public User login(String userName, String password) throws DatabaseException {
         String query = "select * from user where username= ? and password= ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setString(1, name);
+            pst.setString(1, userName);
             pst.setString(2, password);
 
             ResultSet rs = pst.executeQuery();
