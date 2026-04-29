@@ -24,6 +24,7 @@ public class LoginController {
         } else {
             System.out.println("Gửi đăng ký cho user: " + user);
             // Sau này code kết nối DB sẽ viết ở đây
+
         }
     }
 
