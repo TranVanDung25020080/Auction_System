@@ -5,14 +5,18 @@ public class Respone {
     private String message;
     private String payload;
 
+
     public Respone(boolean success, String message, String payload) {
         this.success = success;
         this.message = message;
         this.payload = payload;
     }
+    public Respone(String message){
+        this.message=message;
+    }
+
 
     //Getter
-    //region
     public boolean isSuccess() {
         return success;
     }
@@ -22,5 +26,4 @@ public class Respone {
     public String getPayload() {
         return payload;
     }
-    //endregion
 }

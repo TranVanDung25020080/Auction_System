@@ -1,5 +1,6 @@
 package com.auction.common.dto.response;
 
+import com.auction.common.enums.AuthStatus;
 import com.auction.common.enums.UserRole;
 import com.auction.common.model.User.User;
 
@@ -9,6 +10,10 @@ public class UserResponseDTO {
     private String userEmail;
     private UserRole userRole;
     private double balance;
+    private AuthStatus authStatus;
+    private String message;
+
+
     //Construtor
     public UserResponseDTO(String userId, String userName, String userEmail, UserRole userRole, double balance) {
         this.userId = userId;
@@ -24,13 +29,20 @@ public class UserResponseDTO {
         this.userRole=user.getUserRole();
         this.balance=user.getBalance();
     }
+    public UserResponseDTO(){}
 
     //Getter
-    //region
     public String getUserId() {return userId;}
     public String getUserName() {return userName;}
     public String getUserEmail() {return userEmail;}
     public UserRole getUserRole() {return userRole;}
     public double getBalance() {return balance;}
-    //endregion
+    //Setter
+    public void setAuthStatus(AuthStatus authStatus){
+        this.authStatus=authStatus;
+    }
+    public void setMessage(String message){
+        this.message=message;
+    }
+
 }

@@ -12,7 +12,7 @@ public abstract class User implements Entity, Serializable {
     protected UserRole userRole;
     protected double balance;
 
-
+    //Constructor
     public User(String userId, String userName, String email,double balance) {
         this.userId = userId;
         this.userName = userName;
@@ -24,6 +24,7 @@ public abstract class User implements Entity, Serializable {
         this.userName = userName;
         this.email = email;
     }
+
 
     //region
     public String getUserId() { return userId; }

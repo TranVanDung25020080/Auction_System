@@ -59,7 +59,8 @@ public class UserDAO {
         return  null;
     }
 
-    public boolean registerUser(User user, String password) throws Exception {
+
+    public boolean registerUser(User user, String password) throws DatabaseException {
         String query = "INSERT INTO user (userId, userName, email, password, role, role_level, shop_name, rating, balance) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -83,6 +84,7 @@ public class UserDAO {
             throw new DatabaseException("Loi he thong: khong the luu thong tin nguoi dung!!",e);
         }
     }
+
 
     public boolean updateBalance(String userId, double amount) throws Exception {
         String query = "UPDATE user SET balance = balance + ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
