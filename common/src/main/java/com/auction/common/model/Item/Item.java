@@ -7,13 +7,13 @@ import com.auction.common.model.User.Seller;
 import java.io.Serializable;
 
 public abstract class Item implements Entity, Serializable {
-    private String id;
-    private String name;
-    private String description;
-    private double initialPrice;
-    private Seller seller;
-    private ItemStatus item_status;
-
+    protected String id;
+    protected String name;
+    protected String description;
+    protected double initialPrice;
+    protected Seller seller;
+    protected ItemStatus item_status;
+    //Constructor
     public Item(String id, String name, String description, double InitialPrice, Seller seller, ItemStatus item_status) {
         this.id = id;
         this.name = name;
@@ -22,6 +22,8 @@ public abstract class Item implements Entity, Serializable {
         this.seller = seller;
         this.item_status = item_status;
     }
+    public Item(){};
+    //
 
     //region
     public String getName() { return name; }

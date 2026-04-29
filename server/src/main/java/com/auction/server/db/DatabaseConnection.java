@@ -39,4 +39,5 @@ public class DatabaseConnection {
             System.out.println("Connection pool is closed.");
         }
     }
+
 }
