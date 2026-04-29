@@ -3,12 +3,16 @@ package com.auction.common.model.User;
 import com.auction.common.enums.UserRole;
 
 public class Bidder extends User {
-    private double balance;
-
+    //Constructor
     public Bidder(String userId, String username, String email, double balance) {
         super(userId, username, email,balance);
         this.userRole= UserRole.BIDDER;
     }
+    public Bidder(String ownerName,String userName,String password){
+        super(ownerName,userName,password,UserRole.BIDDER);
+    }
+
+    //getter
 
     public double getBalance() {
         return balance;

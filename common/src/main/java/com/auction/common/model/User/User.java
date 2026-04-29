@@ -7,7 +7,9 @@ import java.io.Serializable;
 
 public abstract class User implements Entity, Serializable {
     protected String userId;
+    protected String ownerName;
     protected String userName;
+    protected String password;
     protected String email;
     protected UserRole userRole;
     protected double balance;
@@ -24,9 +26,14 @@ public abstract class User implements Entity, Serializable {
         this.userName = userName;
         this.email = email;
     }
+    public User(String ownerName,String userName,String password,UserRole userRole){
+        this.ownerName=ownerName;
+        this.userName=userName;
+        this.password=password;
+        this.userRole=userRole;
+    }
 
-
-    //region
+    //Getter
     public String getUserId() { return userId; }
     public String getUserName() { return userName; }
     public String getEmail() { return email; }
@@ -37,12 +44,9 @@ public abstract class User implements Entity, Serializable {
         return this.balance;
     }
 
-    //endregion
-
 
     @Override
     public String getId() { return userId; }
     public void printInfo() {}
-    //getter
 
 }
