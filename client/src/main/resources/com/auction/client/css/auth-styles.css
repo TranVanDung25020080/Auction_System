@@ -47,8 +47,8 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,210,255,0.4), 10, 0, 0, 0);
 }
 
-/* Nút Đăng ký */
-.submit-button {
+/* Nút Đăng Nhập */
+.login-button {
     /* Màu xanh lam nhưng đậm hơn và có gradient tinh tế */
     -fx-background-color: linear-gradient(to right, #00d2ff, #3a7bd5);
     -fx-background-radius: 30;
@@ -64,6 +64,40 @@
     -fx-background-color: linear-gradient(to right, #3a7bd5, #00d2ff);
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
+}
+.register-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #00d2ff;
+    -fx-border-width: 2px;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-text-fill: #00d2ff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.register-button:hover {
+    -fx-background-color: rgba(0, 210, 255, 0.1);
+}
+
+/* Nút kiểu đường dẫn dành cho "Quay lại đăng nhập" */
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #00d2ff;
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.link-button:hover {
+    -fx-text-fill: white;
+}
+
+/* Label tiêu đề nhỏ cho từng ô nhập liệu */
+.input-label {
+    -fx-text-fill: #a0aab4;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
 }
 
 /* Hiệu ứng thu nhỏ khi nhấn nút */
