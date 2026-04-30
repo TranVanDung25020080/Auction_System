@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 
 public class LoginApi {
     public UserResponseDTO login(LoginRequestDTO loginRequestDTO) throws IOException {
-        URL url = new URL("https://localhost:8080/login");
+        URL url = new URL("https://localhost:8000/login");
 
         HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 
