@@ -59,13 +59,12 @@ public class UserDAO {
         return  null;
     }
 
-
     public boolean registerUser(User user, String password) throws DatabaseException {
         String query = "INSERT INTO user (userId, userName, email, password, role, role_level, shop_name, rating, balance) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pst = conn.prepareStatement(query)) {
-            pst.setString(1, user.getUserId());
+            pst.setInt(1, user.getId());
             pst.setString(2, user.getUserName());
             pst.setString(3, user.getEmail());
             pst.setString(4,password);
@@ -85,15 +84,14 @@ public class UserDAO {
         }
     }
 
-
-    public boolean updateBalance(String userId, double amount) throws Exception {
+    public boolean updateBalance(int userId, double amount) throws Exception {
         String query = "UPDATE user SET balance = balance + ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setDouble(1, amount);
-            pst.setString(2, userId);
+            pst.setInt(2, userId);
 
             return pst.executeUpdate() > 0;
 

@@ -5,7 +5,7 @@ import com.auction.common.enums.UserRole;
 public class Admin extends User {
     private String roleLevel;
 
-    public Admin(String userId, String userName, String email, String roleLevel) {
+    public Admin(int userId, String userName, String email, String roleLevel) {
         super(userId, userName, email);
         this.roleLevel = roleLevel;
         this.userRole= UserRole.ADMIN;

@@ -5,13 +5,12 @@ import com.auction.common.model.User.Seller;
 
 public class Vehicle extends Item {
     private String company;
+
     //Constructor
-    public Vehicle(String id, String name, String description, double initialPrice, Seller seller, ItemStatus itemStatus, String company) {
+    public Vehicle(int id, String name, String description, double initialPrice, Seller seller, ItemStatus itemStatus, String company) {
         super(id, name, description, initialPrice, seller,itemStatus);
         this.company = company;
     }
-
-    //
 
     public String getCompany() {
         return this.company;

@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class BidTransaction implements Serializable {
-    private String transactionId;
-    private String auctionId;
-    private String bidderId;
+    private int transactionId;
+    private int auctionId;
+    private int bidderId;
     private double bidAmount;
     private LocalDateTime bidTime;
 
-    public BidTransaction(String transactionId, String auctionId, String bidderId, double bidAmount, LocalDateTime bidTime) {
+    public BidTransaction(int transactionId, int auctionId, int bidderId, double bidAmount, LocalDateTime bidTime) {
         this.transactionId = transactionId;
         this.auctionId = auctionId;
         this.bidderId = bidderId;
@@ -19,9 +19,9 @@ public class BidTransaction implements Serializable {
     }
 
     //region
-    public String getTransactionId() { return transactionId; }
-    public String getAuctionId() { return auctionId; }
-    public String getBidderId() { return bidderId; }
+    public int getTransactionId() { return transactionId; }
+    public int getAuctionId() { return auctionId; }
+    public int getBidderId() { return bidderId; }
     public double getBidAmount() { return bidAmount; }
     public LocalDateTime getBidTime() { return bidTime; }
     //endregion

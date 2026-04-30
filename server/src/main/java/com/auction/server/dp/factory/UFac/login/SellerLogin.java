@@ -10,7 +10,7 @@ public class SellerLogin implements UserLogin {
     @Override
     public User logUser(ResultSet rs) throws SQLException {
         return new Seller(
-                rs.getString("userId"),
+                rs.getInt("userId"),
                 rs.getString("userName"),
                 rs.getString("email"),
                 rs.getString("password"),

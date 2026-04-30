@@ -12,10 +12,10 @@ public class GetArt implements GetItem {
     @Override
     public Item getItem(ResultSet rs) throws SQLException {
         Seller seller_id = new Seller(
-                rs.getString("seller_id"),
+                rs.getInt("seller_id"),
                 null,null,null,0.0,0.0);
         return new Art(
-                rs.getString("id"),
+                rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("description"),
                 rs.getDouble("initialPrice"),
