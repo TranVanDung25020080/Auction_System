@@ -6,6 +6,7 @@ import com.auction.common.model.Item.Item;
 import com.auction.common.model.Item.Vehicle;
 import com.auction.common.model.User.Seller;
 import com.auction.server.db.DatabaseConnection;
+import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.dp.factory.IFac.add.*;
 import com.auction.server.dp.factory.IFac.get.*;
@@ -37,7 +38,8 @@ public class ItemDAO {
         String query = "INSERT INTO item (id, name, description, initialPrice, item_type, seller_id, warranty, company, author) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        /*try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, item.getId());
@@ -65,7 +67,8 @@ public class ItemDAO {
     public Item getItemById(int itemId) throws DatabaseException {
         String query = "SELECT * FROM item WHERE id = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+       /* try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, itemId);
@@ -90,7 +93,8 @@ public class ItemDAO {
         List<Item> itemList = new ArrayList<>();
         String query = "SELECT * FROM item";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+      /*  try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query);
              ResultSet rs = pst.executeQuery()) {
 
@@ -113,7 +117,8 @@ public class ItemDAO {
         String query = "SELECT * FROM item WHERE seller_id = ?";
         List<Item> itemList = new ArrayList<>();
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        /*try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, sellerId);

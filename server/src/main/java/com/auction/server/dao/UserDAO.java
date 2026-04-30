@@ -5,6 +5,7 @@ import com.auction.common.model.User.Bidder;
 import com.auction.common.model.User.Seller;
 import com.auction.common.model.User.User;
 import com.auction.server.db.DatabaseConnection;
+import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.dp.factory.UFac.login.*;
 import com.auction.server.dp.factory.UFac.register.*;
@@ -34,7 +35,8 @@ public class UserDAO {
     public User login(String userName, String password) throws DatabaseException {
         String query = "select * from user where username= ? and password= ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        /*try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setString(1, userName);
@@ -62,8 +64,9 @@ public class UserDAO {
     public boolean registerUser(User user, String password) throws DatabaseException {
         String query = "INSERT INTO user (userId, ownerName, userName, password, role, role_level, shop_name, rating, balance) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement pst = conn.prepareStatement(query)) {
+        /*try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
+             PreparedStatement pst = conn.prepareStatement(query)) {
             pst.setInt(1, user.getId());
             pst.setString(2, user.getOwnerName());
             pst.setString(3, user.getUserName());
@@ -87,7 +90,8 @@ public class UserDAO {
     public boolean updateBalance(int userId, double amount) throws Exception {
         String query = "UPDATE user SET balance = balance + ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        /*try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setDouble(1, amount);
