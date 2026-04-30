@@ -39,7 +39,7 @@ public class LoginApi {
 
         reader.close();
 
-        return new Gson().fromJson(jsonRequest.toString(),UserResponseDTO.class);
+        return new Gson().fromJson(jsonReponse.toString(),UserResponseDTO.class);
 
 
     }

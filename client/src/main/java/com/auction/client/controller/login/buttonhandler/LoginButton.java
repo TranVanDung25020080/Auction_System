@@ -20,6 +20,7 @@ public class LoginButton {
             Alert.showAlert("Thông báo", "Vui lòng nhập đầy đủ thông tin!");
         } else {
             System.out.println("Đăng nhập với user: " + user);
+
             //Xu li call api
             LoginRequestDTO loginRequestDTO=new LoginRequestDTO(user,pass);
 
