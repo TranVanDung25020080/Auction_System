@@ -40,11 +40,11 @@ public class ItemDAO {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setString(1, item.getId());
+            pst.setInt(1, item.getId());
             pst.setString(2, item.getName());
             pst.setString(3, item.getDescription());
             pst.setDouble(4, item.getInitialPrice());
-            pst.setString(6, item.getSeller().getId());
+            pst.setInt(6, item.getSeller().getId());
 
             AddItem ai = adds.get(item.getClass());
 
@@ -62,13 +62,13 @@ public class ItemDAO {
         }
     }
 
-    public Item getItemById(String itemId) throws DatabaseException {
+    public Item getItemById(int itemId) throws DatabaseException {
         String query = "SELECT * FROM item WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setString(1, itemId);
+            pst.setInt(1, itemId);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -109,14 +109,14 @@ public class ItemDAO {
         }
     }
 
-    public List<Item> getItemBySellerId(Seller seller) throws DatabaseException {
+    public List<Item> getItemBySellerId(int sellerId) throws DatabaseException {
         String query = "SELECT * FROM item WHERE seller_id = ?";
         List<Item> itemList = new ArrayList<>();
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setString(1, seller.getId());
+            pst.setInt(1, sellerId);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {

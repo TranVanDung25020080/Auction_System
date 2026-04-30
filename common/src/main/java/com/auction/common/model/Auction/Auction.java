@@ -6,15 +6,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Auction implements Serializable {
-    private String auctionId;
-    private String itemId;
+    private int auctionId;
+    private int itemId;
     private double currentHighestPrice;
-    private String winningBidderId;
+    private int winningBidderId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private AuctionStatus status;
 
-    public Auction(String auctionId, String itemId, double currentHighestPrice, String winningBidderId, LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status) {
+    public Auction(int auctionId, int itemId, double currentHighestPrice, int winningBidderId, LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status) {
         this.auctionId = auctionId;
         this.itemId = itemId;
         this.currentHighestPrice = currentHighestPrice;
@@ -26,11 +26,11 @@ public class Auction implements Serializable {
 
     //Getter
     //region
-    public String getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public String getAuctionId() {
+    public int getAuctionId() {
         return auctionId;
     }
 
@@ -38,7 +38,7 @@ public class Auction implements Serializable {
         return currentHighestPrice;
     }
 
-    public String getWinningBidderId() {
+    public int getWinningBidderId() {
         return winningBidderId;
     }
 

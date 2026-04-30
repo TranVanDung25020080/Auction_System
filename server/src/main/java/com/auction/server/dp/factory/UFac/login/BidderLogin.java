@@ -10,7 +10,7 @@ public class BidderLogin implements UserLogin {
     @Override
     public User logUser(ResultSet rs) throws SQLException {
         return new Bidder(
-                rs.getString("userId"),
+                rs.getInt("userId"),
                 rs.getString("userName"),
                 rs.getString("email"),
                 rs.getDouble("balance"));
