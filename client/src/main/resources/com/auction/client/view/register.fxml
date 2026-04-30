@@ -8,18 +8,40 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" styleClass="root" stylesheets="@../css/auth-styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.RegisterController">
-   <children>
-      <VBox alignment="CENTER" layoutX="300.0" layoutY="120.0" spacing="25.0" styleClass="form-card">
-         <children>
-            <Label styleClass="form-title" text="TẠO TÀI KHOẢN MỚI" />
-            <TextField fx:id="txtUsername" promptText="Tên đăng nhập" styleClass="input-field" />
-            <PasswordField fx:id="txtPassword" promptText="Mật khẩu" styleClass="input-field" />
-            <Button fx:id="btnRegister" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" styleClass="submit-button" text="Đăng ký ngay" />
-         </children>
-         <padding>
-            <Insets bottom="50.0" left="40.0" right="40.0" top="50.0" />
-         </padding>
-      </VBox>
-   </children>
+<AnchorPane prefHeight="650.0" prefWidth="900.0" styleClass="root" stylesheets="@../css/auth-styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.RegisterController">
+    <children>
+        <VBox alignment="CENTER" layoutX="275.0" layoutY="70.0" spacing="20.0" styleClass="form-card" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="275.0" AnchorPane.rightAnchor="275.0" AnchorPane.topAnchor="70.0">
+            <children>
+                <Label styleClass="form-title" text="TẠO TÀI KHOẢN MỚI" />
+
+                <VBox spacing="8.0">
+                    <children>
+                        <Label styleClass="input-label" text="Tên hiển thị" />
+                        <TextField fx:id="txtDisplayName" promptText="Nhập tên người dùng của bạn" styleClass="input-field" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="8.0">
+                    <children>
+                        <Label styleClass="input-label" text="Tên đăng nhập" />
+                        <TextField fx:id="txtUsername" promptText="Nhập tên đăng nhập" styleClass="input-field" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="8.0">
+                    <children>
+                        <Label styleClass="input-label" text="Mật khẩu" />
+                        <PasswordField fx:id="txtPassword" promptText="Nhập mật khẩu" styleClass="input-field" />
+                    </children>
+                </VBox>
+
+                <Button mnemonicParsing="false" onAction="#handleFinalizeRegistration" prefHeight="50.0" prefWidth="300.0" styleClass="login-button" text="ĐĂNG KÝ NGAY" />
+
+                <Button mnemonicParsing="false" onAction="#switchToLogin" styleClass="link-button" text="Đã có tài khoản? Quay lại Đăng nhập" />
+            </children>
+            <padding>
+                <Insets bottom="40.0" left="50.0" right="50.0" top="40.0" />
+            </padding>
+        </VBox>
+    </children>
 </AnchorPane>
