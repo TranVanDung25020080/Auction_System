@@ -10,8 +10,9 @@ public class MyDatabaseConfig {
     private static final String user="root";
     private static final String password="";
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         connection= DriverManager.getConnection(URL,user,password);
         return connection;
     }
+
 }

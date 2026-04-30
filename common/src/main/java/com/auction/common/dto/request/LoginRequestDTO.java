@@ -1,18 +1,18 @@
 package com.auction.common.dto.request;
 
 public class LoginRequestDTO {
-    private String email;
+    private String userName;
     private String password;
 
-    public LoginRequestDTO(String email, String password) {
-        this.email = email;
+    public LoginRequestDTO(String userName, String password) {
+        this.userName = userName;
         this.password = password;
     }
 
     //Getter
     //region
     public String getEmail() {
-        return email;
+        return userName;
     }
     public String getPassword() { return password; }
     //endregion
