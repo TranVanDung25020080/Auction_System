@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 
 public class LoginController {
 
@@ -15,7 +17,13 @@ public class LoginController {
     @FXML private Button btnLogin,btnRegister;
 
     public void initialize(){
-        btnLogin.setOnAction(event -> new LoginButton().handle(event,txtUsername,txtPassword));
+        btnLogin.setOnAction(event -> {
+            try {
+                new LoginButton().handle(event,txtUsername,txtPassword);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         btnRegister.setOnAction(event -> new SwitchToRegisterButton().handle(event));
     }
