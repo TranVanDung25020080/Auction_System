@@ -6,8 +6,8 @@ import com.auction.common.model.User.User;
 
 public class UserResponseDTO {
     private int userId;
+    private String ownerName;
     private String userName;
-    private String userEmail;
     private UserRole userRole;
     private double balance;
     private AuthStatus authStatus;
@@ -15,17 +15,17 @@ public class UserResponseDTO {
 
 
     //Construtor
-    public UserResponseDTO(int userId, String userName, String userEmail, UserRole userRole, double balance) {
+    public UserResponseDTO(int userId, String ownerName, String userName, UserRole userRole, double balance) {
         this.userId = userId;
         this.userName = userName;
-        this.userEmail = userEmail;
+        this.ownerName = ownerName;
         this.userRole = userRole;
         this.balance = balance;
     }
     public UserResponseDTO(User user){
         this.userId = user.getUserId();
         this.userName=user.getUserName();
-        this.userEmail=user.getEmail();
+        this.ownerName=user.getOwnerName();
         this.userRole=user.getUserRole();
         this.balance=user.getBalance();
     }
@@ -34,7 +34,7 @@ public class UserResponseDTO {
     //Getter
     public int getUserId() {return userId;}
     public String getUserName() {return userName;}
-    public String getUserEmail() {return userEmail;}
+    public String getOwnerName() {return ownerName;}
     public UserRole getUserRole() {return userRole;}
     public double getBalance() {return balance;}
     //Setter

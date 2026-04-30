@@ -11,8 +11,8 @@ public class AdminLogin implements UserLogin {
     public User logUser(ResultSet rs) throws SQLException {
         return new Admin(
                 rs.getInt("userId"),
+                rs.getString("ownerName"),
                 rs.getString("userName"),
-                rs.getString("email"),
                 rs.getString("role_level"));
     }
 }

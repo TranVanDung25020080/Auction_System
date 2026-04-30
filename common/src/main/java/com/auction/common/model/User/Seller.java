@@ -7,13 +7,13 @@ public class Seller extends User {
     private double rating;
 
     //Constructor
-    public Seller(int userId, String userName, String email, String shopName, double rating, double balance) {
-        super(userId, userName, email,balance);
+    public Seller(int userId, String ownerName, String userName, String shopName, double rating, double balance) {
+        super(userId, ownerName, userName, balance);
         this.shopName = shopName;
         this.rating = rating;
         this.userRole= UserRole.SELLER;
     }
-    public Seller(String ownerName,String userName,String password){
+    public Seller(String ownerName, String userName, String password){
         super(ownerName,userName,password,UserRole.SELLER);
     }
 
@@ -29,6 +29,6 @@ public class Seller extends User {
 
     @Override
     public void printInfo() {
-        System.out.println("[SELLER] Id: " + getUserId() + "Name: " + getUserName() + "ShopName " + shopName + "Rating: " + rating);
+        System.out.println("[SELLER] Id: " + getUserId() + "Name: " + getOwnerName() + "ShopName " + shopName + "Rating: " + rating);
     }
 }

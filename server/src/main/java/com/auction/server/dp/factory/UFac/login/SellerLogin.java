@@ -11,9 +11,9 @@ public class SellerLogin implements UserLogin {
     public User logUser(ResultSet rs) throws SQLException {
         return new Seller(
                 rs.getInt("userId"),
+                rs.getString("ownerName"),
                 rs.getString("userName"),
-                rs.getString("email"),
-                rs.getString("password"),
+                rs.getString("shop_name"),
                 rs.getDouble("rating"),
                 rs.getDouble("balance"));
     }

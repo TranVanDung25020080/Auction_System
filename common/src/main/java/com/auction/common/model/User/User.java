@@ -15,16 +15,16 @@ public abstract class User implements Entity, Serializable {
     protected double balance;
 
     //Constructor
-    public User(int userId, String userName, String email,double balance) {
+    public User(int userId, String ownerName, String userName, double balance) {
         this.userId = userId;
+        this.ownerName = ownerName;
         this.userName = userName;
-        this.email = email;
         this.balance=balance;
     }
-    public User(int userId, String userName, String email){
+    public User(int userId, String ownerName, String userName){
         this.userId = userId;
-        this.userName = userName;
-        this.email = email;
+        this.userName = ownerName;
+        this.email = userName;
     }
     public User(String ownerName,String userName,String password,UserRole userRole){
         this.ownerName=ownerName;
@@ -35,8 +35,8 @@ public abstract class User implements Entity, Serializable {
 
     //Getter
     public int getUserId() { return userId; }
+    public String getOwnerName() { return ownerName; }
     public String getUserName() { return userName; }
-    public String getEmail() { return email; }
     public UserRole getUserRole(){
         return this.userRole;
     }
