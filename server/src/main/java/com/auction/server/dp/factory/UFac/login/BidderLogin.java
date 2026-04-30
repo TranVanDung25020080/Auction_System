@@ -11,8 +11,8 @@ public class BidderLogin implements UserLogin {
     public User logUser(ResultSet rs) throws SQLException {
         return new Bidder(
                 rs.getInt("userId"),
+                rs.getString("ownerName"),
                 rs.getString("userName"),
-                rs.getString("email"),
                 rs.getDouble("balance"));
     }
 }

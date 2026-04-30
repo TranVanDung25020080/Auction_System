@@ -5,8 +5,8 @@ import com.auction.common.enums.UserRole;
 public class Admin extends User {
     private String roleLevel;
 
-    public Admin(int userId, String userName, String email, String roleLevel) {
-        super(userId, userName, email);
+    public Admin(int userId, String ownerName, String email, String roleLevel) {
+        super(userId, ownerName, email);
         this.roleLevel = roleLevel;
         this.userRole= UserRole.ADMIN;
     }
@@ -17,6 +17,6 @@ public class Admin extends User {
 
     @Override
     public void printInfo() {
-        System.out.println("[ADMIN] Id: " + getUserId() + "Name: " + getUserName() + "RoleLevel: " + roleLevel);
+        System.out.println("[ADMIN] Id: " + getUserId() + "Name: " + getOwnerName() + "RoleLevel: " + roleLevel);
     }
 }

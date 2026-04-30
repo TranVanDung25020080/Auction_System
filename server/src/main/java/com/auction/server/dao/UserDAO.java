@@ -60,13 +60,13 @@ public class UserDAO {
     }
 
     public boolean registerUser(User user, String password) throws DatabaseException {
-        String query = "INSERT INTO user (userId, userName, email, password, role, role_level, shop_name, rating, balance) " +
+        String query = "INSERT INTO user (userId, ownerName, userName, password, role, role_level, shop_name, rating, balance) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pst = conn.prepareStatement(query)) {
             pst.setInt(1, user.getId());
-            pst.setString(2, user.getUserName());
-            pst.setString(3, user.getEmail());
+            pst.setString(2, user.getOwnerName());
+            pst.setString(3, user.getUserName());
             pst.setString(4,password);
 
             UserRegister ur = registerParameter.get(user.getClass());
