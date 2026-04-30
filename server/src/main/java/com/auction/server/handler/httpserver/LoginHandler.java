@@ -38,6 +38,8 @@ public class LoginHandler extends HttpBaseHandler {
 
         } catch (DatabaseException e) {
             userResponseDTO.setMessage(e.getMessage());
+        } catch (Exception e) {
+            userResponseDTO.setMessage(e.getMessage());
         }
 
         this.response=new Gson().toJson(userResponseDTO);
