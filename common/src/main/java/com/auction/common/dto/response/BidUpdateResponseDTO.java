@@ -18,6 +18,7 @@ public class BidUpdateResponseDTO {
         this.bidderId=bidderId;
         this.newHighestPrice=newHighestPrice;
     }
+    public BidUpdateResponseDTO(){}
 
     //Getter
     //region
