@@ -20,6 +20,7 @@ public class LoginHandler extends HttpBaseHandler {
         try {
 
             String request=super.getResponse(exchange);
+            System.out.println(request);
 
             JsonObject jsonObject=JsonParser.parseString(request).getAsJsonObject();
 

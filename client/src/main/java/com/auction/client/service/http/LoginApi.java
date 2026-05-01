@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 
 public class LoginApi {
     public UserResponseDTO login(LoginRequestDTO loginRequestDTO) throws IOException {
-        URL url = new URL("https://localhost:8000/login");
+        URL url = new URL("http://localhost:8000/login");
 
         HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 
@@ -26,6 +26,7 @@ public class LoginApi {
 
         try (OutputStream outputStream=connection.getOutputStream()){
             outputStream.write(jsonRequest.getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
         }
 
         StringBuilder jsonReponse=new StringBuilder();

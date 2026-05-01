@@ -11,7 +11,7 @@ public class LoginRequestDTO {
 
     //Getter
     //region
-    public String getEmail() {
+    public String getUserName() {
         return userName;
     }
     public String getPassword() { return password; }
