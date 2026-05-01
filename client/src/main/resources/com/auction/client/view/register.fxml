@@ -35,9 +35,9 @@
                     </children>
                 </VBox>
 
-                <Button mnemonicParsing="false" onAction="#handleFinalizeRegistration" prefHeight="50.0" prefWidth="300.0" styleClass="login-button" text="ĐĂNG KÝ NGAY" />
+                <Button fx:id="registerButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" styleClass="login-button" text="ĐĂNG KÝ NGAY" />
 
-                <Button mnemonicParsing="false" onAction="#switchToLogin" styleClass="link-button" text="Đã có tài khoản? Quay lại Đăng nhập" />
+                <Button fx:id="switchToLoginButton" mnemonicParsing="false" styleClass="link-button" text="Đã có tài khoản? Quay lại Đăng nhập" />
             </children>
             <padding>
                 <Insets bottom="40.0" left="50.0" right="50.0" top="40.0" />
