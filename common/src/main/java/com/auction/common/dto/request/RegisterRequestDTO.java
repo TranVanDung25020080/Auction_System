@@ -4,13 +4,13 @@ import com.auction.common.enums.UserRole;
 
 public class RegisterRequestDTO {
     private String username;
-    private String email;
+    private String ownerName;
     private String password;
     private UserRole role;
 
-    public RegisterRequestDTO(String username, String email, String password, UserRole role) {
+    public RegisterRequestDTO(String username, String ownerName, String password, UserRole role) {
         this.username = username;
-        this.email = email;
+        this.ownerName = ownerName;
         this.password = password;
         this.role = role;
     }
@@ -18,7 +18,7 @@ public class RegisterRequestDTO {
     //Getter
     //region
     public String getUsername() {return username;}
-    public String getEmail() {return email;}
+    public String getEmail() {return ownerName;}
     public String getPassword() {return password;}
     public UserRole getRole() {return role;}
     //endregion

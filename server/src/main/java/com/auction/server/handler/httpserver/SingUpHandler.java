@@ -1,6 +1,7 @@
 package com.auction.server.handler.httpserver;
 
 import com.auction.common.dto.response.UserResponseDTO;
+import com.auction.common.enums.AuthStatus;
 import com.auction.common.enums.UserRole;
 import com.auction.common.model.User.User;
 import com.auction.server.exception.DatabaseException;
@@ -29,7 +30,10 @@ public class SingUpHandler extends HttpBaseHandler {
 
 
             userResponseDTO=new SignUpService().signUp(ownerName,userName,password,role);
+            userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+            userResponseDTO.setMessage("register successfully");
         } catch (DatabaseException e) {
+            userResponseDTO.setAuthStatus(AuthStatus.INVALID_CREDENTIALS);
             userResponseDTO.setMessage(e.getMessage());
         }
 

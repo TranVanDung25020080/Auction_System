@@ -19,8 +19,10 @@ public class ResigterButton {
             return; // Dừng xử lý nếu thiếu thông tin
         }
 
-        // Logic xử lý đăng ký (Sau này kết nối MySQL/JDBC tại đây)
+        // Logic xử lý đăng ký (Sau này kết nối MySQL/JDBC tại đây) and call api do khanh viet
         System.out.println("Đang tiến hành đăng ký cho: " + displayName);
+
+
 
 
 
