@@ -17,6 +17,8 @@ public class BidService {
             bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
         }
         else {
+
+
             bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,highCurrentPrice);
             bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
         }
