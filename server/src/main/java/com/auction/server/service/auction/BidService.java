@@ -3,9 +3,11 @@ package com.auction.server.service.auction;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
+import com.auction.server.dao.AuctionDAO;
+import com.auction.server.exception.DatabaseException;
 
 public class BidService {
-    public BidUpdateResponseDTO normalBid(BidRequestDTO bidRequestDTO){
+    public BidUpdateResponseDTO normalBid(BidRequestDTO bidRequestDTO) throws DatabaseException {
         BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
 
         int bidderId=bidRequestDTO.getBidderId();
@@ -17,8 +19,7 @@ public class BidService {
             bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
         }
         else {
-
-
+            new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);
             bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,highCurrentPrice);
             bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
         }

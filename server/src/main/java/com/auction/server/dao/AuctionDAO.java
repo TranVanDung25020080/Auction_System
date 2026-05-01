@@ -36,8 +36,8 @@ public class AuctionDAO {
         }
     }
 
-    public void updateCurrentPrice(int itemId, double newPrice, int bidderId) throws DatabaseException {
-        String query = "UPDATE auction SET currentHighestPrice = ? , winningBidderId = ? WHERE itemId = ?";
+    public void updateCurrentPrice(int auctionId, double newPrice, int bidderId) throws DatabaseException {
+        String query = "UPDATE auction SET currentHighestPrice = ? , winningBidderId = ? WHERE auctionId = ?";
 
         /*try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
@@ -45,7 +45,7 @@ public class AuctionDAO {
 
             pst.setDouble(1,newPrice);
             pst.setInt(2, bidderId);
-            pst.setInt(3, itemId);
+            pst.setInt(3, auctionId);
 
         }
         catch (SQLException e) {
