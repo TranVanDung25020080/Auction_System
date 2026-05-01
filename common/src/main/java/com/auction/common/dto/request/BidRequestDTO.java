@@ -1,18 +1,18 @@
 package com.auction.common.dto.request;
 
 public class BidRequestDTO {
-    private String auctionId;
+    private int auctionId;
     private String bidAmount;
 
 
-    public BidRequestDTO(String auctionId, String bidAmount) {
+    public BidRequestDTO(int auctionId, String bidAmount) {
         this.auctionId = auctionId;
         this.bidAmount = bidAmount;
     }
 
     //Getter
     //region
-    public String getAuctionId() {return auctionId;}
+    public int getAuctionId() {return auctionId;}
     public String getBidAmount() {return bidAmount;}
     //endregion
 }

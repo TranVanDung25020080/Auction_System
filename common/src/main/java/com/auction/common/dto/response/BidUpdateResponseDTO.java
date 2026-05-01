@@ -6,6 +6,7 @@ public class BidUpdateResponseDTO {
     private String highestBidderName;
     private String timeStamp;
 
+    //Constructor
     public BidUpdateResponseDTO(int auctionId, double newHighestPrice, String highestBidderName, String timeStamp) {
         this.auctionId = auctionId;
         this.newHighestPrice = newHighestPrice;

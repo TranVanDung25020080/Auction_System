@@ -21,6 +21,8 @@ public class ResigterButton {
 
         // Logic xử lý đăng ký (Sau này kết nối MySQL/JDBC tại đây) and call api do khanh viet
         System.out.println("Đang tiến hành đăng ký cho: " + displayName);
+        
+
 
 
 
