@@ -5,12 +5,19 @@ import com.auction.common.dto.response.BidUpdateResponseDTO;
 
 public class BidService {
     public BidUpdateResponseDTO normalBid(BidRequestDTO bidRequestDTO){
+        BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
+
         int auctionId=bidRequestDTO.getAuctionId();
         double bidAmmount=bidRequestDTO.getBidAmount();
 
 
 
 
+
+
+
+
+        return bidUpdateResponseDTO;
 
     }
 }
