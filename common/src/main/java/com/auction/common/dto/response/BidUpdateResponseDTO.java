@@ -1,12 +1,12 @@
 package com.auction.common.dto.response;
 
 public class BidUpdateResponseDTO {
-    private String auctionId;
+    private int auctionId;
     private double newHighestPrice;
     private String highestBidderName;
     private String timeStamp;
 
-    public BidUpdateResponseDTO(String auctionId, double newHighestPrice, String highestBidderName, String timeStamp) {
+    public BidUpdateResponseDTO(int auctionId, double newHighestPrice, String highestBidderName, String timeStamp) {
         this.auctionId = auctionId;
         this.newHighestPrice = newHighestPrice;
         this.highestBidderName = highestBidderName;
@@ -15,7 +15,7 @@ public class BidUpdateResponseDTO {
 
     //Getter
     //region
-    public String getAuctionId() { return auctionId; }
+    public int getAuctionId() { return auctionId; }
     public double getNewHighestPrice() { return newHighestPrice; }
     public String getHighestBidderName() { return highestBidderName; }
     public String getTimeStamp() { return timeStamp; }
