@@ -25,4 +25,6 @@ public class BidService {
         return bidUpdateResponseDTO;
 
     }
+
+
 }
