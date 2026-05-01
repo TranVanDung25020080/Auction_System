@@ -17,6 +17,7 @@ public class LoginController {
     @FXML private Button btnLogin,btnRegister;
 
     public void initialize(){
+        //set on action for buttons
         btnLogin.setOnAction(event -> {
             try {
                 new LoginButton().handle(event,txtUsername,txtPassword);
