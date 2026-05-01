@@ -13,9 +13,9 @@ public class SignUpService {
         UserResponseDTO userResponseDTO = null;
         User user = null;
 
-        if (role.equals("BIDDER")) {
+        if (role.equalsIgnoreCase("BIDDER")) {
             user = new Bidder(ownerName, userName, password);
-        } else if (role.equals("SELLER")){
+        } else if (role.equalsIgnoreCase("SELLER")){
             user = new Seller(ownerName, userName, password);
         }
 
