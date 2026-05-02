@@ -37,6 +37,8 @@ public class SingUpHandler extends HttpBaseHandler {
         } catch (DatabaseException e) {
             userResponseDTO.setAuthStatus(AuthStatus.INVALID_CREDENTIALS);
             userResponseDTO.setMessage(e.getMessage());
+        } catch (Exception e) {
+            userResponseDTO.setAuthStatus(AuthStatus.SERVER_ERROR);
         }
 
         this.response=new Gson().toJson(userResponseDTO);
