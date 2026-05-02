@@ -1,5 +1,6 @@
 package com.auction.client.controller.register;
 
+import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.register.buttonhandler.ResigterButton;
 import com.auction.client.controller.register.buttonhandler.SwitchToLoginButton;
 import javafx.fxml.FXML;
@@ -8,6 +9,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+
+import java.io.IOException;
 
 public class RegisterController {
     @FXML private TextField txtUsername, txtDisplayName;
@@ -31,8 +34,23 @@ public class RegisterController {
         btnOwnerRole.setToggleGroup(roleGroup);
 
         registerButton.setOnAction(event -> {
-            boolean isBidder = btnBidderRole.isSelected();
-            new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, isBidder);
+            StringBuilder role=new StringBuilder();
+
+            if (btnBidderRole.isSelected()){
+                role.append("BIDDER");
+            }
+            else if (btnOwnerRole.isSelected()){
+                role.append("SELLER");
+            }
+            else{
+                Alert.showAlert("Register Error!","Select your role first");
+            }
+
+            try {
+                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, role.toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         switchToLoginButton.setOnAction(event -> new SwitchToLoginButton().handle(event));

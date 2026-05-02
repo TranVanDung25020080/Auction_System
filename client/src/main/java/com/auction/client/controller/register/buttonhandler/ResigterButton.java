@@ -1,6 +1,10 @@
 package com.auction.client.controller.register.buttonhandler;
 
 import com.auction.client.controller.annoucement.Alert;
+import com.auction.client.service.http.SignUpApi;
+import com.auction.common.dto.request.RegisterRequestDTO;
+import com.auction.common.dto.response.UserResponseDTO;
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,7 +17,7 @@ import java.io.IOException;
 
 public class ResigterButton {
     public void handle(ActionEvent event, TextField txtDisplayName, TextField txtUsername,
-                       TextField txtPassword, boolean isBidder) {
+                       TextField txtPassword, String role) throws IOException {
 
         String username = txtUsername.getText().trim();
         String password = txtPassword.getText().trim();
@@ -25,20 +29,23 @@ public class ResigterButton {
             return;
         }
 
-        // 2. Kiểm tra vai trò
-        if (!isBidder) {
-            Alert.showAlert("Thông báo", "Vui lòng chọn vai trò 'NGƯỜI ĐẤU GIÁ' để vào sàn!");
-            return;
-        }
-
         // --- Logic Đăng ký (API/Database) viết ở đây ---
         System.out.println("Đăng ký thành công cho: " + displayName);
+
+        //call api:
+        RegisterRequestDTO registerRequestDTO=new RegisterRequestDTO(username,displayName,password,role);
+
+        UserResponseDTO userResponseDTO=new SignUpApi().register(registerRequestDTO);
+
+        System.out.println(new Gson().toJson(userResponseDTO));
+
+
 
         // 3. Thông báo thành công
         Alert.showAlert("Thành công", "Tài khoản " + username + " đã được tạo thành công!");
 
-        // 4. QUAN TRỌNG: Gọi hàm chuyển cảnh ngay tại đây
-        switchToDashboard(event);
+        /*// 4. QUAN TRỌNG: Gọi hàm chuyển cảnh ngay tại đây
+        switchToDashboard(event);*/
     }
 
     private void switchToDashboard(ActionEvent event) {
