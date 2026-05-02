@@ -38,8 +38,7 @@ public class ItemDAO {
         String query = "INSERT INTO item (id, name, description, initialPrice, item_type, seller_id, warranty, company, author) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        /*try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, item.getId());
@@ -67,8 +66,7 @@ public class ItemDAO {
     public Item getItemById(int itemId) throws DatabaseException {
         String query = "SELECT * FROM item WHERE id = ?";
 
-       /* try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, itemId);
@@ -93,8 +91,7 @@ public class ItemDAO {
         List<Item> itemList = new ArrayList<>();
         String query = "SELECT * FROM item";
 
-      /*  try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query);
              ResultSet rs = pst.executeQuery()) {
 
@@ -117,8 +114,7 @@ public class ItemDAO {
         String query = "SELECT * FROM item WHERE seller_id = ?";
         List<Item> itemList = new ArrayList<>();
 
-        /*try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, sellerId);

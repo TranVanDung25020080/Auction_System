@@ -9,19 +9,19 @@ import com.auction.server.exception.DatabaseException;
 import javax.naming.AuthenticationException;
 
 public class LoginService {
-    public UserResponseDTO login(String userName,String password) throws DatabaseException, AuthException {
-        UserResponseDTO userResponseDTO=null;
+    private final UserDAO userDAO = new UserDAO();
 
-        User user=new UserDAO().login(userName,password);
+    public UserResponseDTO login(String userName,String password) throws DatabaseException, AuthException {
+        UserResponseDTO userResponseDTO = null;
+
+        User user = userDAO.login(userName,password);
 
         if (user==null){
             throw new AuthException("wrong username or password!");
         }
         else{
-
-            userResponseDTO=new UserResponseDTO(user);
+            userResponseDTO = new UserResponseDTO(user.getUserId(), user.getOwnerName(), user.getUserName(), user.getUserRole(), user.getBalance());
         }
-
         return userResponseDTO;
     }
 }

@@ -2,7 +2,6 @@ package com.auction.common.dto.response;
 
 import com.auction.common.enums.AuthStatus;
 import com.auction.common.enums.UserRole;
-import com.auction.common.model.User.User;
 
 public class UserResponseDTO {
     private int userId;
@@ -15,21 +14,22 @@ public class UserResponseDTO {
 
 
     //Construtor
-    public UserResponseDTO(int userId, String ownerName, String userName, UserRole userRole, double balance) {
+    public UserResponseDTO(int userId,  String ownerName, String userName, UserRole userRole, double balance) {
         this.userId = userId;
-        this.userName = userName;
         this.ownerName = ownerName;
+        this.userName = userName;
         this.userRole = userRole;
         this.balance = balance;
     }
-    public UserResponseDTO(User user){
-        this.userId = user.getUserId();
-        this.userName=user.getUserName();
-        this.ownerName=user.getOwnerName();
-        this.userRole=user.getUserRole();
-        this.balance=user.getBalance();
+
+    public UserResponseDTO(String ownerName, String userName, UserRole userRole) {
+        this.userName = userName;
+        this.ownerName = ownerName;
+        this.userRole = userRole;
+        this.balance = 0.0;
     }
-    public UserResponseDTO(){}
+
+    public UserResponseDTO() {}
 
     //Getter
     public int getUserId() {return userId;}

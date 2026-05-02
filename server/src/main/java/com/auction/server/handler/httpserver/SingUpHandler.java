@@ -29,7 +29,7 @@ public class SingUpHandler extends HttpBaseHandler {
             String role=jsonObject.get("role").getAsString();
 
 
-            userResponseDTO=new SignUpService().signUp(ownerName,userName,password,role);
+            userResponseDTO=new SignUpService().signUp(ownerName,userName,password,UserRole.valueOf(role));
             userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
             userResponseDTO.setMessage("register successfully");
         } catch (DatabaseException e) {

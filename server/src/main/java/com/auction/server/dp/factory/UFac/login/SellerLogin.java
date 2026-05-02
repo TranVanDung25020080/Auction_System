@@ -13,7 +13,6 @@ public class SellerLogin implements UserLogin {
                 rs.getInt("userId"),
                 rs.getString("ownerName"),
                 rs.getString("userName"),
-                rs.getString("shop_name"),
                 rs.getDouble("rating"),
                 rs.getDouble("balance"));
     }
