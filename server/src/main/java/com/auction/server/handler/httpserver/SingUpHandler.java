@@ -19,7 +19,7 @@ public class SingUpHandler extends HttpBaseHandler {
     public void handle(HttpExchange exchange) throws IOException {
         UserResponseDTO userResponseDTO=null;
         try{
-            String request=super.getResponse(exchange);
+            String request=super.getRequest(exchange);
 
             JsonObject jsonObject= JsonParser.parseString(request).getAsJsonObject();
 
