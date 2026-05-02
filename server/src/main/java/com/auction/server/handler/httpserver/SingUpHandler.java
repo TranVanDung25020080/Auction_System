@@ -17,9 +17,11 @@ import java.io.IOException;
 public class SingUpHandler extends HttpBaseHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        UserResponseDTO userResponseDTO=null;
+        UserResponseDTO userResponseDTO=new UserResponseDTO();
         try{
             String request=super.getResponse(exchange);
+
+            System.out.println(request);
 
             JsonObject jsonObject= JsonParser.parseString(request).getAsJsonObject();
 
