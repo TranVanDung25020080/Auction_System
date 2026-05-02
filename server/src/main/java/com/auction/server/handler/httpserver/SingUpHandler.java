@@ -32,6 +32,7 @@ public class SingUpHandler extends HttpBaseHandler {
 
 
             userResponseDTO=new SignUpService().signUp(ownerName,userName,password,role);
+
             userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
             userResponseDTO.setMessage("register successfully");
         } catch (DatabaseException e) {
@@ -39,6 +40,7 @@ public class SingUpHandler extends HttpBaseHandler {
             userResponseDTO.setMessage(e.getMessage());
         } catch (Exception e) {
             userResponseDTO.setAuthStatus(AuthStatus.SERVER_ERROR);
+            userResponseDTO.setMessage(e.getMessage());
         }
 
         this.response=new Gson().toJson(userResponseDTO);

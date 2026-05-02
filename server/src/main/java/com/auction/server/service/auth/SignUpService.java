@@ -22,7 +22,9 @@ public class SignUpService {
 
         if (new UserDAO().registerUser(user, password)) {
 
-            userResponseDTO = new UserResponseDTO(user);
+            new UserDAO().registerUser(user,password);
+
+
 
         }
 
