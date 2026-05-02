@@ -26,6 +26,7 @@ public class MainApplication extends Application {
         scene.getStylesheets().add(css);
 
         stage.setTitle("SÀN ĐẤU GIÁ TRỰC TUYẾN");
+        stage.setResizable(true);
         stage.setScene(scene);
         stage.show();
     }
