@@ -3,6 +3,7 @@ package com.auction.server.dao;
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.db.DatabaseConnection;
+import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 
 import java.sql.*;
@@ -13,8 +14,8 @@ public class AuctionDAO {
         String query = "INSERT INTO auction (auctionId, itemId, currentHighestPrice, winningBidderId, startTime, endTime, status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-//        try (Connection conn = MyDatabaseConfig.getConnection();
+/*        try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, auction.getAuctionId());
@@ -38,8 +39,8 @@ public class AuctionDAO {
     public void updateCurrentPrice(int auctionId, double newPrice, int bidderId) throws DatabaseException {
         String query = "UPDATE auction SET currentHighestPrice = ? , winningBidderId = ? WHERE auctionId = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-//        try (Connection conn = MyDatabaseConfig.getConnection();
+/*        try (Connection conn = DatabaseConnection.getConnection();*/
+          try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setDouble(1,newPrice);
@@ -55,9 +56,9 @@ public class AuctionDAO {
 
     public Auction getAuctionInfoById(int auctionId) throws DatabaseException {
         String query = "SELECT * FROM auction WHERE auctionId = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-//        try (Connection conn = MyDatabaseConfig.getConnection();
+/*
+        try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, auctionId);
