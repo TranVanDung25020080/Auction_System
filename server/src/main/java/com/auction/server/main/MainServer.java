@@ -1,5 +1,6 @@
 package com.auction.server.main;
 
+import com.auction.common.enums.UserRole;
 import com.auction.server.network.MyHttpServer;
 import com.auction.server.routes.RoutesConfig;
 
@@ -12,5 +13,6 @@ public class MainServer {
         MyHttpServer.start();
 
         System.out.println("http://localhost:8000/login");
+
     }
 }

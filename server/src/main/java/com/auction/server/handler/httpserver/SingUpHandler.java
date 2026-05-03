@@ -34,6 +34,7 @@ public class SingUpHandler extends HttpBaseHandler {
             userResponseDTO=new SignUpService().signUp(ownerName,userName,password,UserRole.valueOf(role));
             userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
             userResponseDTO.setMessage("register successfully");
+
         } catch (DatabaseException e) {
             userResponseDTO.setAuthStatus(AuthStatus.INVALID_CREDENTIALS);
             userResponseDTO.setMessage(e.getMessage());
