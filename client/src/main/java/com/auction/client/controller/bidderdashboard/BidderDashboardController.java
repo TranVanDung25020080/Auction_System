@@ -1,9 +1,16 @@
-package com.auction.client.controller;
+package com.auction.client.controller.bidderdashboard;
 
+import com.auction.client.controller.annoucement.Alert;
+import com.auction.client.controller.productcard.ProductCardController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class BidderDashboardController {
@@ -40,4 +47,5 @@ public class BidderDashboardController {
             e.printStackTrace();
         }
     }
-}    // Đảm bảo có đủ dấu đóng ngoặc ở đây
+    //Method for other classes to call
+}

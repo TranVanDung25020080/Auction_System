@@ -1,14 +1,18 @@
-package com.auction.client.controller; // Kiểm tra lại package này!
+package com.auction.client.controller.productcard; // Kiểm tra lại package này!
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.animation.Animation;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class ProductCardController {
     @FXML private ImageView imgProduct;
@@ -66,4 +70,6 @@ public class ProductCardController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+    //Method for other classes to call
+
 }
