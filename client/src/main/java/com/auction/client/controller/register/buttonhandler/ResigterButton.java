@@ -44,38 +44,8 @@ public class ResigterButton {
         // 3. Thông báo thành công
         Alert.showAlert("Thành công", "Tài khoản " + username + " đã được tạo thành công!");
 
-        /*// 4. QUAN TRỌNG: Gọi hàm chuyển cảnh ngay tại đây
-        switchToDashboard(event);*/
+        new SwitchToLoginButton().handle(event);
     }
 
-    private void switchToDashboard(ActionEvent event) {
-        try {
-            // Đảm bảo đường dẫn file FXML này là chính xác
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidder_dashboard.fxml"));
-            Parent root = loader.load();
 
-            // Lấy Stage từ event
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Tạo Scene mới
-            Scene scene = new Scene(root);
-
-            // Gắn CSS Dashboard (Đảm bảo file CSS tồn tại tại đường dẫn này)
-            try {
-                String css = getClass().getResource("/com/auction/client/css/dashboard-styles.css").toExternalForm();
-                scene.getStylesheets().add(css);
-            } catch (Exception e) {
-                System.out.println("Không tìm thấy file CSS dashboard-styles.css, bỏ qua gắn CSS.");
-            }
-
-            stage.setScene(scene);
-            stage.setTitle("AUCTION PRO - DASHBOARD");
-            stage.centerOnScreen();
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert.showAlert("Lỗi", "Không thể mở giao diện Dashboard! Kiểm tra lại đường dẫn file FXML.");
-        }
-    }
 }
