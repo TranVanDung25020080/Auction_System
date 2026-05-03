@@ -49,7 +49,7 @@ public class RegisterController {
             try {
                 new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, role.toString());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         });
 
