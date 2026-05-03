@@ -3,13 +3,11 @@ package com.auction.common.model.User;
 import com.auction.common.enums.UserRole;
 
 public class Seller extends User {
-    private String shopName;
     private double rating;
 
     //Constructor
-    public Seller(int userId, String ownerName, String userName, String shopName, double rating, double balance) {
+    public Seller(int userId, String ownerName, String userName, double rating, double balance) {
         super(userId, ownerName, userName, balance);
-        this.shopName = shopName;
         this.rating = rating;
         this.userRole= UserRole.SELLER;
     }
@@ -19,9 +17,6 @@ public class Seller extends User {
 
     //getter
 
-    public String getShopName() {
-        return shopName;
-    }
     public double getRating() {
         return rating;
     }
@@ -29,6 +24,6 @@ public class Seller extends User {
 
     @Override
     public void printInfo() {
-        System.out.println("[SELLER] Id: " + getUserId() + "Name: " + getOwnerName() + "ShopName " + shopName + "Rating: " + rating);
+        System.out.println("[SELLER] Id: " + getUserId() + "Name: " + getOwnerName() + "Rating: " + rating);
     }
 }

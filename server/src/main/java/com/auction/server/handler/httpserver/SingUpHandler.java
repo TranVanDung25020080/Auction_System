@@ -17,11 +17,9 @@ import java.io.IOException;
 public class SingUpHandler extends HttpBaseHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        UserResponseDTO userResponseDTO=new UserResponseDTO();
+        UserResponseDTO userResponseDTO=null;
         try{
-            String request=super.getResponse(exchange);
-
-            System.out.println(request);
+            String request=super.getRequest(exchange);
 
             JsonObject jsonObject= JsonParser.parseString(request).getAsJsonObject();
 
@@ -31,16 +29,11 @@ public class SingUpHandler extends HttpBaseHandler {
             String role=jsonObject.get("role").getAsString();
 
 
-            userResponseDTO=new SignUpService().signUp(ownerName,userName,password,role);
-
+            userResponseDTO=new SignUpService().signUp(ownerName,userName,password,UserRole.valueOf(role));
             userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
             userResponseDTO.setMessage("register successfully");
-
         } catch (DatabaseException e) {
             userResponseDTO.setAuthStatus(AuthStatus.INVALID_CREDENTIALS);
-            userResponseDTO.setMessage(e.getMessage());
-        } catch (Exception e) {
-            userResponseDTO.setAuthStatus(AuthStatus.SERVER_ERROR);
             userResponseDTO.setMessage(e.getMessage());
         }
 

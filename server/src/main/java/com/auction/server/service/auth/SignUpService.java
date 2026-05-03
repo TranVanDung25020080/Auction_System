@@ -2,34 +2,18 @@ package com.auction.server.service.auth;
 
 import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.UserRole;
-import com.auction.common.model.User.Bidder;
-import com.auction.common.model.User.Seller;
-import com.auction.common.model.User.User;
 import com.auction.server.dao.UserDAO;
 import com.auction.server.exception.DatabaseException;
 
 public class SignUpService {
-    public UserResponseDTO signUp(String ownerName, String userName, String password, String role) throws DatabaseException {
+    private final UserDAO userDAO = new UserDAO();
+
+    public UserResponseDTO signUp(String ownerName, String userName, String password, UserRole role) throws DatabaseException {
         UserResponseDTO userResponseDTO = null;
-        User user = null;
 
-        if (role.equalsIgnoreCase("BIDDER")) {
-            user = new Bidder(ownerName, userName, password);
-        } else if (role.equalsIgnoreCase("SELLER")){
-            user = new Seller(ownerName, userName, password);
+        if (userDAO.registerUser(ownerName, userName, password, role)) {
+            userResponseDTO = new UserResponseDTO(ownerName, userName, role);
         }
-
-
-        if (new UserDAO().registerUser(user, password)) {
-
-            userResponseDTO = new UserResponseDTO(user);
-
-
-        }
-
         return userResponseDTO;
-
-
     }
-
 }

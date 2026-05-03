@@ -13,6 +13,6 @@ public class AdminLogin implements UserLogin {
                 rs.getInt("userId"),
                 rs.getString("ownerName"),
                 rs.getString("userName"),
-                rs.getString("role_level"));
+                rs.getDouble("balance"));
     }
 }

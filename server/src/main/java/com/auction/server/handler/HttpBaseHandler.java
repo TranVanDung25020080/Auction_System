@@ -22,7 +22,7 @@ public abstract class HttpBaseHandler implements HttpHandler {
         outputStream.flush();
         outputStream.close();
     }
-    public String getResponse(HttpExchange exchange) throws IOException {
+    public String getRequest(HttpExchange exchange) throws IOException {
         InputStream inputStream=exchange.getRequestBody();
 
         StringBuilder response=new StringBuilder();

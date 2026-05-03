@@ -1,5 +1,6 @@
 package com.auction.server.dao;
 
+import com.auction.common.enums.UserRole;
 import com.auction.common.model.User.Admin;
 import com.auction.common.model.User.Bidder;
 import com.auction.common.model.User.Seller;
@@ -20,23 +21,23 @@ import java.util.Map;
 public class UserDAO {
     private static final Map<String, UserLogin> userCreators = new HashMap<>();
 
-    private static final Map<Class<? extends User>, UserRegister> registerParameter = new HashMap<>();
+    private static final Map<UserRole, UserRegister> registerParameter = new HashMap<>();
 
     static {
         userCreators.put("BIDDER", new BidderLogin());
         userCreators.put("SELLER", new SellerLogin());
         userCreators.put("ADMIN", new AdminLogin());
 
-        registerParameter.put(Admin.class, new AdminRegister());
-        registerParameter.put(Seller.class, new SellerRegister());
-        registerParameter.put(Bidder.class, new BidderRegister());
+        registerParameter.put(UserRole.ADMIN, new AdminRegister());
+        registerParameter.put(UserRole.SELLER, new SellerRegister());
+        registerParameter.put(UserRole.BIDDER, new BidderRegister());
     }
 
     public User login(String userName, String password) throws DatabaseException {
         String query = "select * from user where username= ? and password= ?";
 
-        /*try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
+//        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setString(1, userName);
@@ -61,23 +62,23 @@ public class UserDAO {
         return  null;
     }
 
-    public boolean registerUser(User user, String password) throws DatabaseException {
-        String query = "INSERT INTO user (userId, ownerName, userName, password, role, role_level, shop_name, rating, balance) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        /*try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(query)) {
-            pst.setInt(1, user.getId());
-            pst.setString(2, user.getOwnerName());
-            pst.setString(3, user.getUserName());
-            pst.setString(4,password);
+    public boolean registerUser(String ownerName, String userName, String password, UserRole role) throws DatabaseException {
 
-            UserRegister ur = registerParameter.get(user.getClass());
+        String query = "INSERT INTO user (ownerName, userName, password, role, role_level, rating, balance) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+//        try (Connection conn = MyDatabaseConfig.getConnection();
+             PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setString(1, ownerName);
+            pst.setString(2, userName);
+            pst.setString(3,password);
+
+            UserRegister ur = registerParameter.get(role);
 
             if (ur == null) {
                 throw new IllegalArgumentException("He thong chua ho tro dang ki cho loai User nay!!");
             }
-            ur.setParameter(pst, user);
+            ur.setParameter(pst);
 
             return pst.executeUpdate() > 0;
         }
@@ -90,8 +91,8 @@ public class UserDAO {
     public boolean updateBalance(int userId, double amount) throws Exception {
         String query = "UPDATE user SET balance = balance + ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
 
-        /*try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
+//        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setDouble(1, amount);
