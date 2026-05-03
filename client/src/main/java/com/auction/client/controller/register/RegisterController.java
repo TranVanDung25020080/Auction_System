@@ -3,6 +3,7 @@ package com.auction.client.controller.register;
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.register.buttonhandler.ResigterButton;
 import com.auction.client.controller.register.buttonhandler.SwitchToLoginButton;
+import com.auction.common.enums.UserRole;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -47,7 +48,7 @@ public class RegisterController {
             }
 
             try {
-                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, role.toString());
+                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, UserRole.valueOf(role.toString().toUpperCase()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -6,9 +6,9 @@ public class RegisterRequestDTO {
     private String userName;
     private String ownerName;
     private String password;
-    private String role;
+    private UserRole role;
 
-    public RegisterRequestDTO(String userName, String ownerName, String password, String role) {
+    public RegisterRequestDTO(String userName, String ownerName, String password, UserRole role) {
         this.userName = userName;
         this.ownerName = ownerName;
         this.password = password;
@@ -20,6 +20,6 @@ public class RegisterRequestDTO {
     public String getUsername() {return userName;}
     public String getEmail() {return ownerName;}
     public String getPassword() {return password;}
-    public String getRole() {return role;}
+    public UserRole getRole() {return role;}
     //endregion
 }
