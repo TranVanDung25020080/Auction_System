@@ -21,6 +21,8 @@ public class SingUpHandler extends HttpBaseHandler {
         try{
             String request=super.getRequest(exchange);
 
+            System.out.println(request);
+
             JsonObject jsonObject= JsonParser.parseString(request).getAsJsonObject();
 
             String ownerName=jsonObject.get("ownerName").getAsString();
