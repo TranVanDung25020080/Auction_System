@@ -13,7 +13,7 @@ public class GetElectronics implements GetItem {
     public Item getItem(ResultSet rs) throws SQLException {
         Seller seller_id = new Seller(
                 rs.getInt("seller_id"),
-                null,null,null,0.0,0.0);
+                null,null,0.0,0.0);
         return new Electronics(
                 rs.getInt("id"),
                 rs.getString("name"),
