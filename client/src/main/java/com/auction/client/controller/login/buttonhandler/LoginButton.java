@@ -5,6 +5,7 @@ import com.auction.client.controller.bidderdashboard.BidderDashboardController;
 import com.auction.client.service.http.LoginApi;
 import com.auction.common.dto.request.LoginRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
+import com.auction.common.enums.AuthStatus;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +35,15 @@ public class LoginButton {
 
             System.out.println(new Gson().toJson(userResponseDTO));
 
-            switchToDashboard(event);
+            AuthStatus authStatus=userResponseDTO.getAuthStatus();
+
+            if (authStatus.equals(AuthStatus.SUCCESS)){
+                switchToDashboard(event);
+            }
+            else {
+                Alert.showAlert("ERORR",userResponseDTO.getMessage()+" "+userResponseDTO.getAuthStatus());
+
+            }
 
         }
 

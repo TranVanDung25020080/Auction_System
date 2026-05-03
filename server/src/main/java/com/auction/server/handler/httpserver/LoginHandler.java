@@ -38,8 +38,10 @@ public class LoginHandler extends HttpBaseHandler {
             userResponseDTO.setMessage(e.getMessage());
 
         } catch (DatabaseException e) {
+            userResponseDTO.setAuthStatus(AuthStatus.SERVER_ERROR);
             userResponseDTO.setMessage(e.getMessage());
         } catch (Exception e) {
+            userResponseDTO.setAuthStatus(AuthStatus.SERVER_ERROR);
             userResponseDTO.setMessage(e.getMessage());
         }
 
