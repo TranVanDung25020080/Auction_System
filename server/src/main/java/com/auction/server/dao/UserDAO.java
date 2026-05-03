@@ -64,8 +64,8 @@ public class UserDAO {
 
     public boolean registerUser(String ownerName, String userName, String password, UserRole role) throws DatabaseException {
 
-        String query = "INSERT INTO user (ownerName, userName, password, role, role_level, rating, balance) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user (ownerName, userName, password) " +
+                        "VALUES (?, ?, ?)";
 /*        try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
