@@ -1,7 +1,6 @@
 package com.auction.client.service.http;
 
 import com.auction.common.dto.response.GetAuctionResponseDTO;
-import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.HttpMethod;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;

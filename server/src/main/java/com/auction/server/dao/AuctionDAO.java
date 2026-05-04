@@ -73,7 +73,8 @@ public class AuctionDAO {
                             rs.getInt("winningBidderId"),
                             rs.getTimestamp("startTime").toLocalDateTime(),
                             rs.getTimestamp("endTime").toLocalDateTime(),
-                            AuctionStatus.valueOf(rs.getString("status")));
+                            AuctionStatus.valueOf(rs.getString("status")),
+                            rs.getString("item_name"));
                 }
             }
         }
@@ -99,7 +100,8 @@ public class AuctionDAO {
                             resultSet.getInt("winningBidderId"),
                             resultSet.getTimestamp("startTime").toLocalDateTime(),
                             resultSet.getTimestamp("endTime").toLocalDateTime(),
-                            AuctionStatus.valueOf(resultSet.getString("status"))));
+                            AuctionStatus.valueOf(resultSet.getString("status")),
+                            resultSet.getString("item_name")));
                 }
 
             }

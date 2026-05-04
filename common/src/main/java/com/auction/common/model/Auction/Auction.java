@@ -3,6 +3,7 @@ package com.auction.common.model.Auction;
 import com.auction.common.enums.AuctionStatus;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Auction implements Serializable {
@@ -13,9 +14,10 @@ public class Auction implements Serializable {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private AuctionStatus status;
+    private String itemName;
 
     public Auction(int auctionId, int itemId, double currentHighestPrice, int winningBidderId,
-                   LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status) {
+                   LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status,String itemName) {
         this.auctionId = auctionId;
         this.itemId = itemId;
         this.currentHighestPrice = currentHighestPrice;
@@ -23,6 +25,7 @@ public class Auction implements Serializable {
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status ;
+        this.itemName=itemName;
     }
 
     //Getter
@@ -54,6 +57,15 @@ public class Auction implements Serializable {
     public AuctionStatus getStatus() {
         return status;
     }
+
+    public String getItemName(){
+        return this.itemName;
+    }
+    public int getDurationLeft(){
+        Duration duration=Duration.between(startTime,endTime);
+
+        return (int) duration.getSeconds();
+    }
     //endregion
 
     public String toString() {
@@ -65,6 +77,7 @@ public class Auction implements Serializable {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", status=" + status +
+                ", itemName= "+itemName+
                 '}';
     }
 
