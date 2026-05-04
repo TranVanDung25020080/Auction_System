@@ -140,4 +140,10 @@ public class ItemDAO {
         }
     }
 
+   /* //test
+    static void main(String[] args) throws DatabaseException {
+        Item item=new ItemDAO().getItemById(1);
+        item.printInfo();
+    }*/
+
 }

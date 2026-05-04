@@ -14,9 +14,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class BidderDashboardController {
-
+    //FXML fields
     @FXML
     private FlowPane productContainer;
+    //other fields
+    private int userId;
+
 
     @FXML
     public void initialize() {

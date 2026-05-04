@@ -14,7 +14,8 @@ public class Auction implements Serializable {
     private LocalDateTime endTime;
     private AuctionStatus status;
 
-    public Auction(int auctionId, int itemId, double currentHighestPrice, int winningBidderId, LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status) {
+    public Auction(int auctionId, int itemId, double currentHighestPrice, int winningBidderId,
+                   LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status) {
         this.auctionId = auctionId;
         this.itemId = itemId;
         this.currentHighestPrice = currentHighestPrice;
@@ -55,8 +56,16 @@ public class Auction implements Serializable {
     }
     //endregion
 
-    public String ToString() {
-        return "starttime: " + startTime;
+    public String toString() {
+        return "Auction{" +
+                "auctionId=" + auctionId +
+                ", itemId=" + itemId +
+                ", currentHighestPrice=" + currentHighestPrice +
+                ", winningBidderId=" + winningBidderId +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", status=" + status +
+                '}';
     }
 
 }

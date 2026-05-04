@@ -40,6 +40,26 @@ public class BaseApi {
         return jsonReponse.toString();
 
 
+    }
+    //Overload
+    public static String getJsonResponse(URL url, HttpMethod method) throws IOException {
+
+        HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+
+        connection.setRequestMethod(method.toString());
+
+        BufferedReader reader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        StringBuilder response=new StringBuilder();
+        String line;
+
+        while ((line=reader.readLine())!=null){
+            response.append(line);
+        }
+        reader.close();
+
+        return response.toString();
+
 
     }
 }

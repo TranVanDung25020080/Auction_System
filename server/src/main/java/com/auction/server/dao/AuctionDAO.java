@@ -7,6 +7,8 @@ import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuctionDAO {
 
@@ -81,5 +83,43 @@ public class AuctionDAO {
         }
         return null;
     }
+    public List<Auction> getAllAuction() throws SQLException {
+        List<Auction> auctionList=new ArrayList<>();
+
+        String sql="SELECT * FROM auction;";
+
+        try (Connection connection=MyDatabaseConfig.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+
+            try (ResultSet resultSet=preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    auctionList.add(new Auction(resultSet.getInt("auctionId"),
+                            resultSet.getInt("itemId"),
+                            resultSet.getDouble("currentHighestPrice"),
+                            resultSet.getInt("winningBidderId"),
+                            resultSet.getTimestamp("startTime").toLocalDateTime(),
+                            resultSet.getTimestamp("endTime").toLocalDateTime(),
+                            AuctionStatus.valueOf(resultSet.getString("status"))));
+                }
+
+            }
+        }
+        return auctionList;
+
+    }
+
+
+
+    /*//test
+    static void main(String[] args) throws DatabaseException, SQLException {
+        Auction auction=new AuctionDAO().getAuctionInfoById(4);
+        System.out.println(auction);
+
+        List<Auction> auctionList=new AuctionDAO().getAllAuction();
+        System.out.println("here:");
+        for (Auction auction1:auctionList){
+            System.out.println(auction1);
+        }
+    }*/
 
 }
