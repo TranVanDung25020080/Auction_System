@@ -16,7 +16,7 @@ import java.io.IOException;
 public class LoginHandler extends HttpBaseHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        UserResponseDTO userResponseDTO=null;
+        UserResponseDTO userResponseDTO=new UserResponseDTO();
         try {
 
             String request=super.getRequest(exchange);
@@ -38,8 +38,10 @@ public class LoginHandler extends HttpBaseHandler {
             userResponseDTO.setMessage(e.getMessage());
 
         } catch (DatabaseException e) {
+            userResponseDTO.setAuthStatus(AuthStatus.SERVER_ERROR);
             userResponseDTO.setMessage(e.getMessage());
         } catch (Exception e) {
+            userResponseDTO.setAuthStatus(AuthStatus.SERVER_ERROR);
             userResponseDTO.setMessage(e.getMessage());
         }
 

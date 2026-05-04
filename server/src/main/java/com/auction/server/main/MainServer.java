@@ -12,7 +12,7 @@ public class MainServer {
 
         MyHttpServer.start();
 
-        System.out.println("http://localhost:8000/login");
+        System.out.println("Server started");
 
     }
 }

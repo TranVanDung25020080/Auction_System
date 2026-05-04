@@ -37,6 +37,8 @@ public class UserResponseDTO {
     public String getOwnerName() {return ownerName;}
     public UserRole getUserRole() {return userRole;}
     public double getBalance() {return balance;}
+    public String getMessage(){return this.message;}
+    public AuthStatus getAuthStatus(){return this.authStatus;}
     //Setter
     public void setAuthStatus(AuthStatus authStatus){
         this.authStatus=authStatus;
