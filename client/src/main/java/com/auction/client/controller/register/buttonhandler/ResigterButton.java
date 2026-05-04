@@ -4,6 +4,8 @@ import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.service.http.SignUpApi;
 import com.auction.common.dto.request.RegisterRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
+import com.auction.common.enums.AuctionStatus;
+import com.auction.common.enums.AuthStatus;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -39,12 +41,21 @@ public class ResigterButton {
 
         System.out.println(new Gson().toJson(userResponseDTO));
 
+        //
+        AuthStatus authStatus=userResponseDTO.getAuthStatus();
 
+        if (authStatus== AuthStatus.SUCCESS){
 
-        // 3. Thông báo thành công
-        Alert.showAlert("Thành công", "Tài khoản " + username + " đã được tạo thành công!");
+            // 3. Thông báo thành công
+            Alert.showAlert("Thành công", "Tài khoản " + username + " đã được tạo thành công!");
 
-        new SwitchToLoginButton().handle(event);
+            new SwitchToLoginButton().handle(event);
+        }
+        else{
+
+            Alert.showAlert("ERROR",userResponseDTO.getMessage()+" "+authStatus);
+
+        }
     }
 
 
