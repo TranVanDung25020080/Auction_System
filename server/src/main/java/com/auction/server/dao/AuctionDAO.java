@@ -2,31 +2,38 @@ package com.auction.server.dao;
 
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.model.Auction.Auction;
+import com.auction.common.model.Item.Item;
 import com.auction.server.db.DatabaseConnection;
 import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AuctionDAO {
 
-    public boolean createAuction(Auction auction) throws DatabaseException {
-        String query = "INSERT INTO auction (auctionId, itemId, currentHighestPrice, winningBidderId, startTime, endTime, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private ItemDAO itemDAO = new ItemDAO();
+
+    public boolean createAuction(int auctionId, int itemId, LocalDateTime startTime, LocalDateTime endTime) throws DatabaseException {
+        String query = "INSERT INTO auction (auctionId, itemId, currentHighestPrice, winningBidderId, startTime, endTime, status, item_name) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        Item item = itemDAO.getItemById(itemId);
 
 /*        try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setInt(1, auction.getAuctionId());
-            pst.setInt(2, auction.getItemId());
-            pst.setDouble(3, auction.getCurrentHighestPrice());
-            pst.setInt(4, auction.getWinningBidderId());
-            pst.setTimestamp(5, Timestamp.valueOf(auction.getStartTime()));
-            pst.setTimestamp(6, Timestamp.valueOf(auction.getEndTime()));
-            pst.setString(7, auction.getStatus().toString());
+            pst.setInt(1, auctionId);
+            pst.setInt(2, itemId);
+            pst.setDouble(3, item.getInitialPrice());
+            pst.setNull(4,java.sql.Types.INTEGER);
+            pst.setTimestamp(5, Timestamp.valueOf(startTime));
+            pst.setTimestamp(6, Timestamp.valueOf(endTime));
+            pst.setString(7, "PENDING");
+            pst.setString(8, item.getName());
 
             int change = pst.executeUpdate();
             return (change > 0);
@@ -84,6 +91,7 @@ public class AuctionDAO {
         }
         return null;
     }
+
     public List<Auction> getAllAuction() throws SQLException {
         List<Auction> auctionList=new ArrayList<>();
 
@@ -109,8 +117,6 @@ public class AuctionDAO {
         return auctionList;
 
     }
-
-
 
     /*//test
     static void main(String[] args) throws DatabaseException, SQLException {
