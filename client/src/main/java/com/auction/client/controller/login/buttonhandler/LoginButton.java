@@ -19,6 +19,8 @@ import java.io.IOException;
 
 
 public class LoginButton {
+    private int userId;
+
     public void handle(ActionEvent event, TextField txtUsername, TextField txtPassword) throws IOException {
         String user = txtUsername.getText();
         String pass = txtPassword.getText();
@@ -30,8 +32,10 @@ public class LoginButton {
 
             //Xu li call api
             LoginRequestDTO loginRequestDTO=new LoginRequestDTO(user,pass);
-
             UserResponseDTO userResponseDTO=new LoginApi().login(loginRequestDTO);
+
+            //set userId
+            this.userId=userResponseDTO.getUserId();
 
             System.out.println(new Gson().toJson(userResponseDTO));
 
@@ -54,6 +58,10 @@ public class LoginButton {
             // Đảm bảo đường dẫn file FXML này là chính xác
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidder_dashboard.fxml"));
             Parent root = loader.load();
+
+            //truyen userId cho bidderdashboardcontroller
+            BidderDashboardController bidderDashboardController=loader.getController();
+            bidderDashboardController.setUserId(this.userId);
 
             // Lấy Stage từ event
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
