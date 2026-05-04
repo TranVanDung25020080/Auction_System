@@ -66,8 +66,8 @@ public class UserDAO {
 
         String query = "INSERT INTO user (ownerName, userName, password, role, role_level, rating, balance) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
-/*        try (Connection conn = DatabaseConnection.getConnection();*/
-        try (Connection conn = MyDatabaseConfig.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
+//        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
             pst.setString(1, ownerName);
             pst.setString(2, userName);
