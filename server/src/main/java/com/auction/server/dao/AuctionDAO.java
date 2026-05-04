@@ -118,6 +118,23 @@ public class AuctionDAO {
 
     }
 
+    public void updateAuctionStatus(AuctionStatus status, int auctionId) throws DatabaseException {
+        String query = "UPDATE auction SET status = ? WHERE auctionId = ?";
+
+        try (Connection conn = MyDatabaseConfig.getConnection();
+             PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setString(1,status.name());
+            pst.setInt(2,auctionId);
+
+        }
+        catch (SQLException e) {
+            System.err.println("Loi SQL o ham updateAuctionStatus: " + e.getMessage());
+            throw new DatabaseException("Loi he thong: khong the cap nhat trang thai dau gia ",e);
+        }
+
+    }
+
     /*//test
     static void main(String[] args) throws DatabaseException, SQLException {
         Auction auction=new AuctionDAO().getAuctionInfoById(4);
