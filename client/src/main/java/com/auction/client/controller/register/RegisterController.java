@@ -17,13 +17,11 @@ public class RegisterController {
     @FXML private PasswordField txtPassword;
     @FXML private Button registerButton, switchToLoginButton;
 
-    // Đảm bảo 2 fx:id này khớp 100% với Scene Builder
     @FXML private ToggleButton btnBidderRole;
     @FXML private ToggleButton btnOwnerRole;
 
     @FXML
     public void initialize() {
-        // Kiểm tra an toàn để xem nút có bị null không
         if (btnBidderRole == null || btnOwnerRole == null) {
             System.err.println("LỖI: Không tìm thấy btnBidderRole hoặc btnOwnerRole trong FXML!");
             return;
@@ -34,20 +32,22 @@ public class RegisterController {
         btnOwnerRole.setToggleGroup(roleGroup);
 
         registerButton.setOnAction(event -> {
-            StringBuilder role=new StringBuilder();
+            String role = ""; // Dùng String luôn cho gọn thay vì StringBuilder
 
             if (btnBidderRole.isSelected()){
-                role.append("BIDDER");
+                role = "BIDDER";
             }
             else if (btnOwnerRole.isSelected()){
-                role.append("SELLER");
+                role = "SELLER";
             }
-            else{
-                Alert.showAlert("Register Error!","Select your role first");
+            else {
+                Alert.showAlert("Lỗi Đăng Ký!", "Vui lòng chọn vai trò của bạn trước khi đăng ký!");
+                return; // QUAN TRỌNG: Lệnh return này sẽ CHẶN đứng việc chạy tiếp xuống dưới nếu chưa chọn Role
             }
 
             try {
-                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, role.toString());
+                // Truyền cục dữ liệu sang cho thằng ResigterButton xử lý
+                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, role);
             } catch (IOException e) {
                 e.printStackTrace();
             }

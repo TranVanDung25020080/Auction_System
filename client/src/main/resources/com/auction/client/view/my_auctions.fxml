@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.MyAuctionController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <Label text="⚖️ CÁC PHIÊN ĐẤU GIÁ ĐANG CHẠY" textFill="#2c3e50">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <TableView fx:id="auctionTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colName" prefWidth="250.0" text="Tên Sản Phẩm" />
+                <TableColumn fx:id="colPrice" prefWidth="150.0" text="Giá Hiện Tại" />
+                <TableColumn fx:id="colBids" prefWidth="100.0" text="Lượt Đấu" />
+                <TableColumn fx:id="colTime" prefWidth="200.0" text="Kết Thúc" />
+                <TableColumn fx:id="colStatus" prefWidth="150.0" text="Trạng Thái" />
+            </columns>
+        </TableView>
+    </children>
+</VBox>
