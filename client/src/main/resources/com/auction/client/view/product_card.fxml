@@ -19,7 +19,7 @@
          <children>
             <ImageView fx:id="imageProduct" fitHeight="150.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" />
 
-            <Label fx:id="ProductName" text="Tên sản phẩm" wrapText="true">
+            <Label fx:id="lblProductName" text="Tên sản phẩm" wrapText="true">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
