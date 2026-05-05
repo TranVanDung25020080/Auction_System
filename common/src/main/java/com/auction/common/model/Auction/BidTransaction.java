@@ -10,6 +10,8 @@ public class BidTransaction implements Serializable {
     private double bidAmount;
     private LocalDateTime bidTime;
 
+    public BidTransaction() {}
+
     public BidTransaction(int transactionId, int auctionId, int bidderId, double bidAmount, LocalDateTime bidTime) {
         this.transactionId = transactionId;
         this.auctionId = auctionId;
