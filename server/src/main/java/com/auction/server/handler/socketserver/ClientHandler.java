@@ -2,12 +2,18 @@ package com.auction.server.handler.socketserver;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class ClientHandler implements Runnable{
 
+    //FIELDS:
+    //Socket fields
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
+    //other fields:
+    private int userId;
+    private List<Integer> auctionRoomJoinId;
 
     //Constructor
     public ClientHandler(Socket socket) throws IOException {
@@ -18,7 +24,6 @@ public class ClientHandler implements Runnable{
     //Override
     @Override
     public void run() {
-
 
 
     }
