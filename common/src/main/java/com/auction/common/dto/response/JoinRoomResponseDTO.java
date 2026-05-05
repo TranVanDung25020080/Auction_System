@@ -4,10 +4,12 @@ import com.auction.common.enums.AuctionStatus;
 
 public class JoinRoomResponseDTO {
     private int userId;
+    private int auctionRoomId;
     private AuctionStatus auctionStatus;
     //Constructor
-    public JoinRoomResponseDTO(int userId){
+    public JoinRoomResponseDTO(int userId,int auctionRoomId){
         this.userId=userId;
+        this.auctionRoomId=auctionRoomId;
     }
 
     //getter

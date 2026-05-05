@@ -1,5 +1,10 @@
 package com.auction.server.handler.socketserver;
 
+import com.auction.common.dto.request.JoinRoomRequestDTO;
+import com.auction.common.dto.response.JoinRoomResponseDTO;
+import com.auction.server.service.auction.AuctionRoomService;
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -24,6 +29,30 @@ public class ClientHandler implements Runnable{
     //Override
     @Override
     public void run() {
+        Gson gson=new Gson();
+
+        try{
+            //Join Room:
+            String joinRoomRequestJson=bufferedReader.readLine();
+
+            JoinRoomRequestDTO joinRoomRequestDTO=gson.fromJson(joinRoomRequestJson, JoinRoomRequestDTO.class);
+
+            JoinRoomResponseDTO joinRoomResponseDTO=new AuctionRoomService().joinRoom(this,joinRoomRequestDTO);
+
+            bufferedWriter.write(gson.toJson(joinRoomResponseDTO));
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+            //Normal bidding:
+
+
+
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace(); // chua xu ly loi ky o day
+        }
 
 
     }
@@ -32,5 +61,9 @@ public class ClientHandler implements Runnable{
         bufferedWriter.write(message);
         bufferedWriter.newLine();
         bufferedWriter.flush();
+    }
+    //setter
+    public void setUserId(int userId){
+        this.userId=userId;
     }
 }

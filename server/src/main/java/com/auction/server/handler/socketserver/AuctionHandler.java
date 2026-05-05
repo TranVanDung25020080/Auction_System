@@ -6,7 +6,14 @@ import java.util.Map;
 public class AuctionHandler {
     private static Map<Integer,AuctionRoomHandler> auctionRoomHandlerMap=new HashMap<>();
 
-    public void getAuctionHanlderRoom(int auctionId){
+    public static AuctionRoomHandler getAuctionHanlderRoom(int auctionId){
+        AuctionRoomHandler auctionRoomHandler=auctionRoomHandlerMap.get(auctionId);
+
+        if (auctionRoomHandler!=null){
+            return auctionRoomHandler;
+        }
+
+        return null;
 
     }
 
