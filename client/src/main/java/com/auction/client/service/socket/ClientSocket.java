@@ -39,4 +39,17 @@ public class ClientSocket {
         return gson.fromJson(joinRoomReponseDTO, JoinRoomResponseDTO.class);
 
     }
+
+   /* //test
+    static void main(String[] args) throws IOException {
+        Socket socket1=new Socket("localhost",6969);
+
+        int userId=2;
+
+        ClientSocket clientSocket=new ClientSocket(socket1,userId);
+
+        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(9);
+
+        System.out.println(new Gson().toJson(joinRoomResponseDTO));
+    }*/
 }
