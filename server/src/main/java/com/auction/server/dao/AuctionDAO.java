@@ -55,6 +55,8 @@ public class AuctionDAO {
             pst.setDouble(1,newPrice);
             pst.setInt(2, bidderId);
             pst.setInt(3, auctionId);
+            
+            pst.executeUpdate();
 
         }
         catch (SQLException e) {
