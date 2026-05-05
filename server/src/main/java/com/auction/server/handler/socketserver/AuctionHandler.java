@@ -13,7 +13,12 @@ public class AuctionHandler {
             return auctionRoomHandler;
         }
 
-        return null;
+        else {
+            auctionRoomHandler=new AuctionRoomHandler();
+            auctionRoomHandlerMap.put(auctionId,auctionRoomHandler);
+
+            return auctionRoomHandler;
+        }
 
     }
 

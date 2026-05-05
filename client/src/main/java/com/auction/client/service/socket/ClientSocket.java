@@ -39,17 +39,40 @@ public class ClientSocket {
         return gson.fromJson(joinRoomReponseDTO, JoinRoomResponseDTO.class);
 
     }
+    public void listenAnouncement(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                /*try{
+                    String message;
+                    while ((message=bufferedReader.readLine())!=null){
+                        System.out.println(message);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }*/
+            }
+        }).start();
 
-   /* //test
+    }
+    public void listenBidUpdate(){
+
+    }
+
+
+    /*//test
     static void main(String[] args) throws IOException {
         Socket socket1=new Socket("localhost",6969);
 
-        int userId=2;
+        int userId=4;
 
         ClientSocket clientSocket=new ClientSocket(socket1,userId);
 
-        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(9);
+        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(3);
 
         System.out.println(new Gson().toJson(joinRoomResponseDTO));
+
+        clientSocket.listenAnouncement();
+
     }*/
 }
