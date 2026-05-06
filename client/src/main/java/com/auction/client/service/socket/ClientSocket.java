@@ -43,14 +43,14 @@ public class ClientSocket {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                /*try{
+                try{
                     String message;
                     while ((message=bufferedReader.readLine())!=null){
                         System.out.println(message);
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
-                }*/
+                }
             }
         }).start();
 
@@ -60,11 +60,11 @@ public class ClientSocket {
     }
 
 
-    /*//test
+    //test
     static void main(String[] args) throws IOException {
         Socket socket1=new Socket("localhost",6969);
 
-        int userId=4;
+        int userId=5;
 
         ClientSocket clientSocket=new ClientSocket(socket1,userId);
 
@@ -74,5 +74,5 @@ public class ClientSocket {
 
         clientSocket.listenAnouncement();
 
-    }*/
+    }
 }

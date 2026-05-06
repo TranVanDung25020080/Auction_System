@@ -39,14 +39,14 @@ public class ClientHandler implements Runnable{
 
             JoinRoomResponseDTO joinRoomResponseDTO=new AuctionRoomService().joinRoom(this,joinRoomRequestDTO);
 
-            /*bufferedWriter.write(gson.toJson(joinRoomResponseDTO));
+            bufferedWriter.write(gson.toJson(joinRoomResponseDTO));
             bufferedWriter.newLine();
-            bufferedWriter.flush();*/
+            bufferedWriter.flush();
 
             AuctionRoomHandler auctionRoomHandler=AuctionHandler.getAuctionRoomHandler(joinRoomRequestDTO.getAuctionId());
             auctionRoomHandler.addClientHandler(this);
-            /*auctionRoomHandler.broadcast("User "+joinRoomRequestDTO.getUserId()+" has joined room "+joinRoomRequestDTO.getAuctionId());*/
-            auctionRoomHandler.broadcast(gson.toJson(joinRoomResponseDTO));
+            auctionRoomHandler.broadcast("User "+joinRoomRequestDTO.getUserId()+" has joined room "+joinRoomRequestDTO.getAuctionId());
+
 
 
             //Normal bidding:
