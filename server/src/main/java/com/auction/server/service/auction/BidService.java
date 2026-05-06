@@ -24,7 +24,6 @@ public class BidService {
             bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
         }
 
-
         return bidUpdateResponseDTO;
 
     }
