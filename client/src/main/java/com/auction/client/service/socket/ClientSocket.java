@@ -61,7 +61,7 @@ public class ClientSocket {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Scanner scanner=new Scanner(System.in);
+                /*Scanner scanner=new Scanner(System.in);
                 try{
                     Gson gson=new Gson();
                     while (true){
@@ -73,7 +73,7 @@ public class ClientSocket {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
 
             }
         }).start();
