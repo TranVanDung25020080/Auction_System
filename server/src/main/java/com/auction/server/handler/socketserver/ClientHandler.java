@@ -1,8 +1,12 @@
 package com.auction.server.handler.socketserver;
 
+import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
+import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
+import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
+import com.auction.server.service.auction.BidService;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -48,10 +52,20 @@ public class ClientHandler implements Runnable{
             auctionRoomHandler.broadcast("User "+joinRoomRequestDTO.getUserId()+" has joined room "+joinRoomRequestDTO.getAuctionId());
 
 
-
+/*
             //Normal bidding:
 
+            while (socket.isConnected()){
+                String bidRequstDTOJson=bufferedReader.readLine();
 
+                System.out.println(bidRequstDTOJson);
+
+                BidRequestDTO bidRequestDTO=gson.fromJson(bidRequstDTOJson, BidRequestDTO.class);
+
+                BidUpdateResponseDTO bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO);
+
+                auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
+            }*/
 
 
 
@@ -61,7 +75,10 @@ public class ClientHandler implements Runnable{
 
         } catch (IOException e) {
             e.printStackTrace(); // chua xu ly loi ky o day
-        }
+        } /*catch (DatabaseException e) {
+            e.printStackTrace(); //chua xu ly loi ky o day
+
+        }*/
 
 
     }

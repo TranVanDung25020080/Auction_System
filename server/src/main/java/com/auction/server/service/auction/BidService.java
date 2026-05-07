@@ -20,7 +20,10 @@ public class BidService {
         }
         else {
             new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);
+
             bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,highCurrentPrice);
+            bidUpdateResponseDTO.setNewHighestPrice(bidAmmount);
+            bidUpdateResponseDTO.setAuctionId(auctionId);
             bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
         }
 

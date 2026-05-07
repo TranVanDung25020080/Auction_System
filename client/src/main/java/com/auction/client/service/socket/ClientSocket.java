@@ -1,11 +1,13 @@
 package com.auction.client.service.socket;
 
+import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientSocket {
     //Socket fields
@@ -55,24 +57,46 @@ public class ClientSocket {
         }).start();
 
     }
-    public void listenBidUpdate(){
+    public void listenBidUpdate(int userId,int auctionId,double currentPrice) throws IOException {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Scanner scanner=new Scanner(System.in);
+                try{
+                    Gson gson=new Gson();
+                    while (true){
+                        double bidAmount=scanner.nextDouble();
+                        BidRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionId,bidAmount,currentPrice);
+                        bufferedWriter.write(gson.toJson(bidRequestDTO));
+                        bufferedWriter.newLine();
+                        bufferedWriter.flush();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
 
     }
 
 
-    //test
+  /*  //test
     static void main(String[] args) throws IOException {
         Socket socket1=new Socket("localhost",6969);
 
-        int userId=5;
+        int userId=4;
 
         ClientSocket clientSocket=new ClientSocket(socket1,userId);
 
-        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(3);
+        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(5);
 
         System.out.println(new Gson().toJson(joinRoomResponseDTO));
 
         clientSocket.listenAnouncement();
 
-    }
+        clientSocket.listenBidUpdate(userId,5,100);
+
+
+    }*/
 }
