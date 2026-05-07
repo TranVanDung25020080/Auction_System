@@ -49,6 +49,8 @@ public class AuctionDAO {
             pst.setInt(2, bidderId);
             pst.setInt(3, auctionId);
 
+            pst.executeUpdate();
+
         }
         catch (SQLException e) {
             System.err.println("Loi SQL o ham updateCurrentPrice: " + e.getMessage());
@@ -112,16 +114,18 @@ public class AuctionDAO {
 
 
 
-    /*//test
+   /* //test
     static void main(String[] args) throws DatabaseException, SQLException {
-        Auction auction=new AuctionDAO().getAuctionInfoById(4);
+        *//*Auction auction=new AuctionDAO().getAuctionInfoById(4);
         System.out.println(auction);
 
         List<Auction> auctionList=new AuctionDAO().getAllAuction();
         System.out.println("here:");
         for (Auction auction1:auctionList){
             System.out.println(auction1);
-        }
+        }*//*
+        new AuctionDAO().updateCurrentPrice(9,101,2);
+        System.out.println("ok");
     }*/
 
 }
