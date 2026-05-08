@@ -57,4 +57,7 @@ public class BidderDashboardController {
         }
     }
     //Method for other classes to call
+    public void setUserId(int userId){
+        this.userId=userId;
+    }
 }

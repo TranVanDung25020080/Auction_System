@@ -3,48 +3,31 @@ package com.auction.server.service.auction;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
-import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
-import com.auction.server.dao.BidDAO;
 import com.auction.server.exception.DatabaseException;
 
 public class BidService {
-    private final AuctionDAO auctionDAO = new AuctionDAO();
-    private final BidDAO bidDAO = new BidDAO();
-
     public BidUpdateResponseDTO normalBid(BidRequestDTO bidRequestDTO) throws DatabaseException {
-        BidUpdateResponseDTO response = new BidUpdateResponseDTO();
+        BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
 
-        int bidderId = bidRequestDTO.getBidderId();
-        int auctionId = bidRequestDTO.getAuctionId();
-        double bidAmount = bidRequestDTO.getBidAmount();
+        int bidderId=bidRequestDTO.getBidderId();
+        int auctionId=bidRequestDTO.getAuctionId();
+        double bidAmmount=bidRequestDTO.getBidAmount();
+        double highCurrentPrice=bidRequestDTO.getHighCurrentPrice();
 
-        // 1. LẤY DỮ LIỆU THẬT TỪ DATABASE
-        Auction auction = auctionDAO.getAuctionInfoById(auctionId);
-
-        if (auction == null) {
-            response.setBidStatus(BidStatus.FAILED);
-            return response;
-        }
-
-        double realCurrentPrice = auction.getCurrentHighestPrice();
-
-        if (bidAmount <= realCurrentPrice) {
-            response.setBidStatus(BidStatus.FAILED);
+        if (bidAmmount<=highCurrentPrice){
+            bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
         }
         else {
-            boolean isTransactionSuccess = bidDAO.placeBid(auctionId, bidderId, bidAmount);
-
-            if (isTransactionSuccess) {
-                auctionDAO.updateCurrentPrice(auctionId, bidAmount, bidderId);
-
-                response = new BidUpdateResponseDTO(auctionId, bidderId, bidAmount);
-                response.setBidStatus(BidStatus.SUCCESS);
-            } else {
-                response.setBidStatus(BidStatus.FAILED);
-            }
+            new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);
+            bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,highCurrentPrice);
+            bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
         }
 
-        return response;
+
+        return bidUpdateResponseDTO;
+
     }
+
+
 }

@@ -36,4 +36,13 @@ public class BidUpdateResponseDTO {
     public void setBidStatus(BidStatus bidStatus){
         this.bidStatus=bidStatus;
     }
+    public void setNewHighestPrice(double newHighestPrice){
+        this.newHighestPrice=newHighestPrice;
+    }
+    public void setBidderId(int bidderId){
+        this.bidderId=bidderId;
+    }
+    public void setAuctionId(int auctionId){
+        this.auctionId=auctionId;
+    }
 }
