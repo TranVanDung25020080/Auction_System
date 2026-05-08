@@ -16,9 +16,9 @@ public class SignUpApi {
         String jsonRequest=gson.toJson(registerRequestDTO);
 
         //Nhan thong tin tu server
-        String jsonReponse=BaseApi.getJsonReponse(jsonRequest,url, HttpMethod.POST);
+        String jsonResponse=BaseApi.getJsonReponse(jsonRequest,url, HttpMethod.POST);
 
-        return gson.fromJson(jsonReponse, UserResponseDTO.class);
+        return gson.fromJson(jsonResponse, UserResponseDTO.class);
 
     }
 }

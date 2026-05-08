@@ -3,6 +3,7 @@ package com.auction.client.controller.register;
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.register.buttonhandler.ResigterButton;
 import com.auction.client.controller.register.buttonhandler.SwitchToLoginButton;
+import com.auction.common.enums.UserRole;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -17,11 +18,13 @@ public class RegisterController {
     @FXML private PasswordField txtPassword;
     @FXML private Button registerButton, switchToLoginButton;
 
+    // Đảm bảo 2 fx:id này khớp 100% với Scene Builder
     @FXML private ToggleButton btnBidderRole;
     @FXML private ToggleButton btnOwnerRole;
 
     @FXML
     public void initialize() {
+        // Kiểm tra an toàn để xem nút có bị null không
         if (btnBidderRole == null || btnOwnerRole == null) {
             System.err.println("LỖI: Không tìm thấy btnBidderRole hoặc btnOwnerRole trong FXML!");
             return;
@@ -32,22 +35,20 @@ public class RegisterController {
         btnOwnerRole.setToggleGroup(roleGroup);
 
         registerButton.setOnAction(event -> {
-            String role = ""; // Dùng String luôn cho gọn thay vì StringBuilder
+            StringBuilder role=new StringBuilder();
 
             if (btnBidderRole.isSelected()){
-                role = "BIDDER";
+                role.append("BIDDER");
             }
             else if (btnOwnerRole.isSelected()){
-                role = "SELLER";
+                role.append("SELLER");
             }
-            else {
-                Alert.showAlert("Lỗi Đăng Ký!", "Vui lòng chọn vai trò của bạn trước khi đăng ký!");
-                return; // QUAN TRỌNG: Lệnh return này sẽ CHẶN đứng việc chạy tiếp xuống dưới nếu chưa chọn Role
+            else{
+                Alert.showAlert("Register Error!","Select your role first");
             }
 
             try {
-                // Truyền cục dữ liệu sang cho thằng ResigterButton xử lý
-                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, role);
+                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, UserRole.valueOf(role.toString().toUpperCase()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package com.auction.server.dao;
 
+import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
 import com.auction.common.model.Item.Item;
@@ -35,18 +36,18 @@ public class ItemDAO {
     }
 
     public boolean addItem(Item item) throws Exception {
-        String query = "INSERT INTO item (id, name, description, initialPrice, item_type, seller_id, warranty, company, author) " +
+        String query = "INSERT INTO item (name, description, initialPrice, item_type, seller_id, warranty, company, author, item_status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 /*
         try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setInt(1, item.getId());
             pst.setString(2, item.getName());
             pst.setString(3, item.getDescription());
             pst.setDouble(4, item.getInitialPrice());
             pst.setInt(6, item.getSeller().getId());
+            pst.setString(10, ItemStatus.AVAILABLE.name());
 
             AddItem ai = adds.get(item.getClass());
 

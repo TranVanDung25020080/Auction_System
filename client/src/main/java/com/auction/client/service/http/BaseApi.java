@@ -21,7 +21,8 @@ public class BaseApi {
         connection.setRequestProperty("accept","application/json");
 
 
-        try (OutputStream outputStream=connection.getOutputStream()){
+        try (OutputStream outputStream=connection.getOutputStream()) {
+
             outputStream.write(jsonRequest.getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
         }

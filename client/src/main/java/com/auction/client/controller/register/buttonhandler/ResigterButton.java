@@ -4,6 +4,7 @@ import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.service.http.SignUpApi;
 import com.auction.common.dto.request.RegisterRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
+import com.auction.common.enums.UserRole;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import java.io.IOException;
 
 public class ResigterButton {
     public void handle(ActionEvent event, TextField txtDisplayName, TextField txtUsername,
-                       TextField txtPassword, String role) throws IOException {
+                       TextField txtPassword, UserRole role) throws IOException {
 
         String username = txtUsername.getText().trim();
         String password = txtPassword.getText().trim();
