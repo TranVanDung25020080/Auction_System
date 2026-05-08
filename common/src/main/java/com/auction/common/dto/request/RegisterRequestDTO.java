@@ -15,6 +15,13 @@ public class RegisterRequestDTO {
         this.role = role;
     }
 
+    public RegisterRequestDTO(String username, String displayName, String password, String role) {
+        this.userName = username;
+        this.ownerName = displayName;
+        this.password = password;
+        this.role = UserRole.valueOf(role);
+    }
+
     //Getter
     //region
     public String getUsername() {return userName;}

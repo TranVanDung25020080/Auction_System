@@ -48,7 +48,7 @@ public class RegisterController {
             }
 
             try {
-                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, UserRole.valueOf(role.toString().toUpperCase()));
+                new ResigterButton().handle(event, txtDisplayName, txtUsername, txtPassword, String.valueOf(UserRole.valueOf(role.toString().toUpperCase())));
             } catch (IOException e) {
                 e.printStackTrace();
             }

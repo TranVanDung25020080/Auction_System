@@ -61,6 +61,29 @@ public class Auction implements Serializable {
     public String getItemName(){
         return this.itemName;
     }
+
+    // Thêm các hàm này vào file Auction trong package common
+// (Ngay dưới hàm getItemName() của bạn)
+
+    public double getStartPrice() {
+        return this.currentHighestPrice; // Trả về giá khởi điểm
+    }
+
+    public double getCurrentPrice() {
+        return this.currentHighestPrice; // Trả về giá hiện tại
+    }
+
+    // Hàm này giúp fix lỗi ở ProductCardController (Ảnh image_295815.png)
+    public Auction getItem() {
+        return this;
+    }
+
+    public String getName() {
+        return this.itemName;
+    }
+
+
+
     public int getDurationLeft(){
         Duration duration=Duration.between(startTime,endTime);
 
@@ -80,5 +103,7 @@ public class Auction implements Serializable {
                 ", itemName= "+itemName+
                 '}';
     }
+
+
 
 }
