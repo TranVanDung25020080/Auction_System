@@ -62,6 +62,31 @@ public class UserDAO {
         return  null;
     }
 
+    public User getUserByUsername(String userName) throws DatabaseException {
+        String query = "SELECT * FROM user WHERE username = ?";
+
+        try (Connection conn = MyDatabaseConfig.getConnection();
+             PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setString(1, userName);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                String role = rs.getString("role");
+                UserLogin uc = userCreators.get(role.toUpperCase());
+
+                if (uc == null) {
+                    throw new IllegalArgumentException("Vai trò của User chưa xác định: " + role);
+                }
+                return uc.logUser(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("Loi SQL o ham getUserByUsername: " + e.getMessage());
+            throw new DatabaseException("Loi he thong: khong the truy van thong tin nguoi dung!", e);
+        }
+        return null;
+    }
+
     public boolean registerUser(String ownerName, String userName, String password, UserRole role) throws DatabaseException {
 
         String query = "INSERT INTO user (ownerName, userName, password, role, role_level, rating, balance) " +

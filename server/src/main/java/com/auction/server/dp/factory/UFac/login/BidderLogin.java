@@ -9,10 +9,10 @@ import java.sql.SQLException;
 public class BidderLogin implements UserLogin {
     @Override
     public User logUser(ResultSet rs) throws SQLException {
-        return new Bidder(
-                rs.getInt("userId"),
-                rs.getString("ownerName"),
-                rs.getString("userName"),
-                rs.getDouble("balance"));
+        String ownerName = rs.getString("ownerName");
+        String userName = rs.getString("username");
+        String password = rs.getString("password");
+
+        return new Bidder(ownerName, userName, password);
     }
 }

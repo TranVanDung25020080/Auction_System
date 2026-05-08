@@ -5,7 +5,7 @@ import com.auction.common.model.Entity;
 
 import java.io.Serializable;
 
-public abstract class User implements Entity, Serializable {
+public class User implements Entity, Serializable {
     protected int userId;
     protected String ownerName;
     protected String userName;
@@ -20,8 +20,7 @@ public abstract class User implements Entity, Serializable {
         this.userName = userName;
         this.balance=balance;
     }
-    public User(int userId, String ownerName, String userName){
-        this.userId = userId;
+    public User(String ownerName, String userName){
         this.ownerName = ownerName;
         this.userName = userName;
     }
@@ -34,6 +33,7 @@ public abstract class User implements Entity, Serializable {
 
     //Getter
     public int getUserId() { return userId; }
+    public String getPassword() { return password; }
     public String getOwnerName() { return ownerName; }
     public String getUserName() { return userName; }
     public UserRole getUserRole(){
@@ -41,6 +41,11 @@ public abstract class User implements Entity, Serializable {
     }
     public double getBalance(){
         return this.balance;
+    }
+
+
+    public boolean checkPassword(String inputPassword) {
+        return this.password.equals(inputPassword);
     }
 
 

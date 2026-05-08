@@ -13,6 +13,9 @@ public class Bidder extends User {
         super(ownerName,userName,password,UserRole.BIDDER);
     }
 
+    public double getBalance() { return balance; }
+    public void setBalance(double balance) { this.balance = balance; }
+
     @Override
     public void printInfo() {
         System.out.println("[BIDDER] Id: " + getUserId() + "Name: " + getOwnerName() + "Balance " +balance);
