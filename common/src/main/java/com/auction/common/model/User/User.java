@@ -10,7 +10,6 @@ public abstract class User implements Entity, Serializable {
     protected String ownerName;
     protected String userName;
     protected String password;
-    protected String email;
     protected UserRole userRole;
     protected double balance;
 
@@ -23,8 +22,8 @@ public abstract class User implements Entity, Serializable {
     }
     public User(int userId, String ownerName, String userName){
         this.userId = userId;
-        this.userName = ownerName;
-        this.email = userName;
+        this.ownerName = ownerName;
+        this.userName = userName;
     }
     public User(String ownerName,String userName,String password,UserRole userRole){
         this.ownerName=ownerName;

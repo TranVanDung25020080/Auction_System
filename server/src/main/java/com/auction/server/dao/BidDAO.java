@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BidDAO {
+
     public boolean placeBid(int auctionId, int bidderId, double bidAmount) throws DatabaseException {
         String insertBidQuery = "INSERT INTO bids (auction_id, bidder_id, bid_amount, bid_time) VALUES (?, ?, ?, NOW())";
         String updateUserQuery = "UPDATE users SET balance = balance - ? WHERE userId = ? AND balance >= ?";

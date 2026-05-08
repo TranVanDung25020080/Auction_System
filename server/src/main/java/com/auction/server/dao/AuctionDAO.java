@@ -1,6 +1,7 @@
 package com.auction.server.dao;
 
 import com.auction.common.enums.AuctionStatus;
+import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.common.model.Item.Item;
 import com.auction.server.db.DatabaseConnection;
@@ -19,12 +20,14 @@ public class AuctionDAO {
     public boolean createAuction(int auctionId, int itemId, LocalDateTime startTime, LocalDateTime endTime) throws DatabaseException {
         String query = "INSERT INTO auction (auctionId, itemId, currentHighestPrice, winningBidderId, startTime, endTime, status, item_name) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query1 = "UPDATE item SET item_status = ? WHERE item_id = ?";
 
         Item item = itemDAO.getItemById(itemId);
 
 /*        try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(query)) {
+             PreparedStatement pst = conn.prepareStatement(query);
+             PreparedStatement pst1 = conn.prepareStatement(query1)) {
 
             pst.setInt(1, auctionId);
             pst.setInt(2, itemId);
@@ -34,6 +37,9 @@ public class AuctionDAO {
             pst.setTimestamp(6, Timestamp.valueOf(endTime));
             pst.setString(7, "PENDING");
             pst.setString(8, item.getName());
+
+            pst1.setString(1, ItemStatus.AUCTION.name());
+            pst1.setInt(2, itemId);
 
             int change = pst.executeUpdate();
             return (change > 0);
@@ -136,6 +142,7 @@ public class AuctionDAO {
         }
 
     }
+
 
     /*//test
     static void main(String[] args) throws DatabaseException, SQLException {
