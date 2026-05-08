@@ -36,14 +36,13 @@ public class ItemDAO {
     }
 
     public boolean addItem(Item item) throws Exception {
-        String query = "INSERT INTO item (id, name, description, initialPrice, item_type, seller_id, warranty, company, author, item_status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO item (name, description, initialPrice, item_type, seller_id, warranty, company, author, item_status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 /*
         try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setInt(1, item.getId());
             pst.setString(2, item.getName());
             pst.setString(3, item.getDescription());
             pst.setDouble(4, item.getInitialPrice());

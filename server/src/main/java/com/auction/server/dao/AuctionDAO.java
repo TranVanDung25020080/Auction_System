@@ -4,7 +4,6 @@ import com.auction.common.enums.AuctionStatus;
 import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.common.model.Item.Item;
-import com.auction.server.db.DatabaseConnection;
 import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 
@@ -41,8 +40,8 @@ public class AuctionDAO {
             pst1.setString(1, ItemStatus.AUCTION.name());
             pst1.setInt(2, itemId);
 
-            int change = pst.executeUpdate();
-            return (change > 0);
+            int change = pst.executeUpdate() + pst1.executeUpdate();
+            return (change > 1);
 
         }
         catch (SQLException e) {
@@ -135,6 +134,8 @@ public class AuctionDAO {
             pst.setString(1,status.name());
             pst.setInt(2,auctionId);
 
+            pst.executeUpdate();
+
         }
         catch (SQLException e) {
             System.err.println("Loi SQL o ham updateAuctionStatus: " + e.getMessage());
@@ -143,17 +144,50 @@ public class AuctionDAO {
 
     }
 
+    public void endAuction(int auctionId) throws DatabaseException {
+        String query = "UPDATE auction SET status = ? WHERE auctionId = ?";
+        String query1 = "UPDATE user SET balance = balance - ? WHERE userId = ?";
+        String query2 = "UPDATE item SET item_status = ? WHERE id = ?";
 
-    /*//test
-    static void main(String[] args) throws DatabaseException, SQLException {
-        Auction auction=new AuctionDAO().getAuctionInfoById(4);
-        System.out.println(auction);
+        Auction auctionInfo = getAuctionInfoById(auctionId);
 
-        List<Auction> auctionList=new AuctionDAO().getAllAuction();
-        System.out.println("here:");
-        for (Auction auction1:auctionList){
-            System.out.println(auction1);
+        try (Connection conn = MyDatabaseConfig.getConnection()) {
+
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement pst = conn.prepareStatement(query);
+                 PreparedStatement pst1 = conn.prepareStatement(query1);
+                 PreparedStatement pst2 = conn.prepareStatement(query2)) {
+
+                pst.setString(1, AuctionStatus.FINISHED.name());
+                pst.setInt(2, auctionId);
+
+                pst1.setDouble(1, auctionInfo.getCurrentHighestPrice());
+                pst1.setInt(2, auctionInfo.getWinningBidderId());
+
+                pst2.setString(1, ItemStatus.SOLD.name());
+                pst2.setInt(2, auctionInfo.getItemId());
+
+                pst.executeUpdate();
+                pst1.executeUpdate();
+                pst2.executeUpdate();
+
+                conn.commit();
+                System.out.println("Cuoc dau gia co id " + auctionId + " da ket thuc thanh cong!");
+            }
+            catch (SQLException e) {
+                conn.rollback();
+                throw new DatabaseException("Loi he thong: khong the dong cuoc dau gia, tu dong rollback",e);
+            }
+        } catch (SQLException e) {
+            System.err.println("Loi SQL o ham updateAuctionStatus: " + e.getMessage());
         }
-    }*/
+    }
+
+    static void main(String[] args) throws DatabaseException, SQLException {
+        AuctionDAO auctionDAO = new AuctionDAO();
+        auctionDAO.endAuction(1);
+        System.out.println("SUCCESS");
+    }
 
 }

@@ -66,8 +66,8 @@ public class UserDAO {
 
         String query = "INSERT INTO user (ownerName, userName, password, role, role_level, rating, balance) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-//        try (Connection conn = MyDatabaseConfig.getConnection();
+//        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
             pst.setString(1, ownerName);
             pst.setString(2, userName);
@@ -88,21 +88,30 @@ public class UserDAO {
         }
     }
 
-    public boolean updateBalance(int userId, double amount) throws Exception {
-        String query = "UPDATE user SET balance = balance + ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
+    public void updateBalance(int userId, double amount) throws Exception {
+        String query = "UPDATE user SET balance = ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-//        try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(query)) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setDouble(1, amount);
-            pst.setInt(2, userId);
+                pst.setDouble(1, amount);
+                pst.setInt(2, userId);
 
-            return pst.executeUpdate() > 0;
-
-        } catch (SQLException e) {
+                int change = pst.executeUpdate();
+                if (change > 0) {
+                    conn.commit();
+                    System.out.println("Cap nhat so du thanh cong!");
+                }
+                System.out.println("Cap nhat so du that bai!");
+            }
+            catch (SQLException e) {
+                conn.rollback();
+                throw new DatabaseException("Loi he thong: khong the cap nhat so du, tu dong rollback",e);
+            }
+        }
+        catch (SQLException e) {
             System.err.println("Loi SQL o ham UpdateBalance: " + e.getMessage());
-            throw new DatabaseException("Loi he thong: khong the cap nhat so du!!",e);
         }
     }
 }
