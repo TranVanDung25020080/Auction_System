@@ -1,13 +1,16 @@
-package com.auction.client.service.socket;
+package com.auction.client.network.socket;
 
+import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
+import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
+import com.auction.common.enums.BidStatus;
 import com.google.gson.Gson;
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ClientSocket {
     //Socket fields
@@ -41,43 +44,68 @@ public class ClientSocket {
         return gson.fromJson(joinRoomReponseDTO, JoinRoomResponseDTO.class);
 
     }
-    public void listenAnouncement(){
+    /*public void listenAnouncement(BiddingPopupController biddingPopupController){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try{
                     String message;
                     while ((message=bufferedReader.readLine())!=null){
-                        System.out.println(message);
+                        String finalMessage=message;
+
+                        Platform.runLater(()-> biddingPopupController.setLblStatus(finalMessage));
                     }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace(); // chua xy ly loi duoc ky o day
                 }
             }
         }).start();
 
     }
-    public void listenBidUpdate(int userId,int auctionId,double currentPrice) throws IOException {
+    public void listenBidUpdate(BiddingPopupController biddingPopupController) throws IOException {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                /*Scanner scanner=new Scanner(System.in);
+                *//*Gson gson=new Gson();
                 try{
-                    Gson gson=new Gson();
-                    while (true){
-                        double bidAmount=scanner.nextDouble();
-                        BidRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionId,bidAmount,currentPrice);
-                        bufferedWriter.write(gson.toJson(bidRequestDTO));
-                        bufferedWriter.newLine();
-                        bufferedWriter.flush();
+                    String bidUpdateJson;
+                    while ((bidUpdateJson=bufferedReader.readLine())!=null){
+                        String finalMessage=bidUpdateJson;
+
+                        BidUpdateResponseDTO bidUpdateResponseDTO=gson.fromJson(finalMessage,BidUpdateResponseDTO.class);
+
+                        BidStatus bidStatus=bidUpdateResponseDTO.getBidStatus();
+
+
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
+                    e.printStackTrace(); // chua xu ly loi ky o day duoc
+                }*//*
 
             }
         }).start();
 
+    }*/
+    public void sendNormalBid(BidRequestDTO bidRequestDTO) throws IOException {
+        Gson gson=new Gson();
+        String bidRequestJson=gson.toJson(bidRequestDTO);
+
+        bufferedWriter.write(bidRequestJson);
+        bufferedWriter.newLine();
+        bufferedWriter.flush();
+
+    }
+    public BufferedReader getBufferedReader(){
+        return this.bufferedReader;
+    }
+    public BufferedWriter getBufferedWriter(){
+        return this.bufferedWriter;
+    }
+    public Socket getSocket(){
+        return this.socket;
+    }
+    public int getUserId(){
+        return this.userId;
     }
 
 

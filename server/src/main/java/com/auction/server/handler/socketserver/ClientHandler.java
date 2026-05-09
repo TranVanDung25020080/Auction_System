@@ -41,6 +41,8 @@ public class ClientHandler implements Runnable{
 
             JoinRoomRequestDTO joinRoomRequestDTO=gson.fromJson(joinRoomRequestJson, JoinRoomRequestDTO.class);
 
+            System.out.println(gson.toJson(joinRoomRequestJson));
+
             JoinRoomResponseDTO joinRoomResponseDTO=new AuctionRoomService().joinRoom(this,joinRoomRequestDTO);
 
             bufferedWriter.write(gson.toJson(joinRoomResponseDTO));
@@ -51,8 +53,6 @@ public class ClientHandler implements Runnable{
             auctionRoomHandler.addClientHandler(this);
             auctionRoomHandler.broadcast("User "+joinRoomRequestDTO.getUserId()+" has joined room "+joinRoomRequestDTO.getAuctionId());
 
-
-/*
             //Normal bidding:
 
             while (socket.isConnected()){
@@ -65,7 +65,8 @@ public class ClientHandler implements Runnable{
                 BidUpdateResponseDTO bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO);
 
                 auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
-            }*/
+            }
+
 
 
 
@@ -75,12 +76,24 @@ public class ClientHandler implements Runnable{
 
         } catch (IOException e) {
             e.printStackTrace(); // chua xu ly loi ky o day
-        } /*catch (DatabaseException e) {
+        } catch (DatabaseException e) {
             e.printStackTrace(); //chua xu ly loi ky o day
 
-        }*/
+        }
 
 
+    }
+
+    public void close() throws IOException {
+        if (this.socket!=null){
+            socket.close();
+        }
+        if (this.bufferedWriter!=null){
+            bufferedWriter.close();
+        }
+        if (this.bufferedReader!=null){
+            bufferedReader.close();
+        }
     }
     //Method for other classes to call
     public void send(String message) throws IOException {
@@ -92,4 +105,5 @@ public class ClientHandler implements Runnable{
     public void setUserId(int userId){
         this.userId=userId;
     }
+
 }

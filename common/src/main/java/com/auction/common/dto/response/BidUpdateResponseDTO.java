@@ -30,6 +30,9 @@ public class BidUpdateResponseDTO {
     public double getNewHighestPrice() { return newHighestPrice; }
     public String getHighestBidderName() { return highestBidderName; }
     public String getTimeStamp() { return timeStamp; }
+    public BidStatus getBidStatus(){
+        return this.bidStatus;
+    }
     //endregion
 
     //setter

@@ -49,6 +49,8 @@ public class AuctionDAO {
             pst.setInt(2, bidderId);
             pst.setInt(3, auctionId);
 
+            pst.executeUpdate();
+
         }
         catch (SQLException e) {
             System.err.println("Loi SQL o ham updateCurrentPrice: " + e.getMessage());

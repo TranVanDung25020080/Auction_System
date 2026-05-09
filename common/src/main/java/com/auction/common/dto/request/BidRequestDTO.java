@@ -12,6 +12,7 @@ public class BidRequestDTO {
         this.highCurrentPrice=highCurrentPrice;
         this.bidderId=bidderId;
     }
+    public BidRequestDTO(){}
 
     //Getter
     //region

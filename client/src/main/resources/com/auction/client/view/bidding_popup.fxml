@@ -55,6 +55,7 @@
         <Button fx:id="normalBidButton" prefWidth="150" style="-fx-background-color: #5bc0de; -fx-text-fill: white; -fx-font-weight: bold;" text="Gửi giá thầu">
             <VBox.margin><Insets left="120" /></VBox.margin>
         </Button>
+      <Label fx:id="lblAnnouncement" prefHeight="25.0" prefWidth="581.0" textFill="#e80000" />
 
         <Separator />
 

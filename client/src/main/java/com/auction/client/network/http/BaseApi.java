@@ -1,7 +1,6 @@
-package com.auction.client.service.http;
+package com.auction.client.network.http;
 
 import com.auction.common.enums.HttpMethod;
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -25,15 +25,17 @@ public class ProductCardController {
     private Auction auctionData;
     private int remainingSeconds;
     private Timeline timeline;
+    private int userId;
     //
     public void initialize(){
         this.joinRoomButton.setOnAction(event ->
-                new JoinRoomButton().handle(this.auctionData));
+                new JoinRoomButton().handle(this.auctionData,userId));
     }
 
     //Method for other classes to call:
-    public void setData(Auction auction, String imagePath) {
-        this.auctionData = auction; // LƯU LẠI ĐỐI TƯỢNG ĐỂ DÙNG KHI BID
+    public void setData(Auction auction, String imagePath,int userId) {
+        this.auctionData = auction;
+        this.userId=userId; // LƯU LẠI ĐỐI TƯỢNG ĐỂ DÙNG KHI BID
 
         // Lấy tên từ Item thay vì getItemName()
         if (lblProductName != null) lblProductName.setText(auction.getItemName());
@@ -75,6 +77,7 @@ public class ProductCardController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+
 
 
 }

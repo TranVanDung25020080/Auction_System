@@ -62,9 +62,6 @@ public class Auction implements Serializable {
         return this.itemName;
     }
 
-    // Thêm các hàm này vào file Auction trong package common
-// (Ngay dưới hàm getItemName() của bạn)
-
     public double getStartPrice() {
         return this.currentHighestPrice; // Trả về giá khởi điểm
     }
@@ -90,7 +87,14 @@ public class Auction implements Serializable {
         return (int) duration.getSeconds();
     }
     //endregion
+    //setter
+    public void setCurrentHighestPrice(double newPrice){
+        this.currentHighestPrice=newPrice;
+    }
 
+
+
+    //Override
     public String toString() {
         return "Auction{" +
                 "auctionId=" + auctionId +

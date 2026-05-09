@@ -1,4 +1,4 @@
-package com.auction.client.service.http;
+package com.auction.client.network.http;
 
 import com.auction.common.dto.response.GetAuctionResponseDTO;
 import com.auction.common.enums.HttpMethod;

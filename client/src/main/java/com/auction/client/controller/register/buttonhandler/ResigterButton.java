@@ -1,17 +1,12 @@
 package com.auction.client.controller.register.buttonhandler;
 
 import com.auction.client.controller.annoucement.Alert;
-import com.auction.client.service.http.SignUpApi;
+import com.auction.client.network.http.SignUpApi;
 import com.auction.common.dto.request.RegisterRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 

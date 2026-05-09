@@ -2,7 +2,7 @@ package com.auction.client.controller.bidderdashboard;
 
 import com.auction.client.controller.productcard.ProductCardController;
 import com.auction.common.model.Auction.Auction; // Đảm bảo import bản client
-import com.auction.client.service.http.GetAutionApi;
+import com.auction.client.network.http.GetAutionApi;
 import com.auction.common.model.User.Bidder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,11 +21,6 @@ public class BidderDashboardController {
     //Other fields:
     private Bidder bidder;
 
-    @FXML
-    public void initialize() {
-        renderProducts();
-    }
-
     //Method for other classes to call:
     private void renderProducts() {
         productContainer.getChildren().clear();
@@ -40,7 +35,7 @@ public class BidderDashboardController {
                 ProductCardController controller = loader.getController();
 
                 // Bây giờ auction đã là bản common, card sẽ nhận được dữ liệu
-                controller.setData(auction, "/com/auction/client/view/khanh.png");
+                controller.setData(auction, "/com/auction/client/view/khanh.png", bidder.getUserId());
                 productContainer.getChildren().add(card);
             }
         } catch (Exception e) {
@@ -50,6 +45,8 @@ public class BidderDashboardController {
 
     public void setBidder(int userId,String ownerName,String userName,double balance){
         this.bidder=new Bidder(userId,ownerName,userName,balance);
+
+        renderProducts();
     }
     //Cai nay la phan hien thi thong tin bidder thoi khanh chua lam dep duoc nhe:)))
     public void setBidderInfoTextField(){

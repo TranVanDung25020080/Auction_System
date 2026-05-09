@@ -3,6 +3,9 @@ package com.auction.client.controller.biddingpopup;
 import com.auction.client.controller.biddingpopup.buttonhandler.AutoBidButton;
 import com.auction.client.controller.biddingpopup.buttonhandler.ExitButton;
 import com.auction.client.controller.biddingpopup.buttonhandler.NormalBidButton;
+import com.auction.client.network.socket.ClientSocket;
+import com.auction.common.dto.request.BidRequestDTO;
+import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.model.Auction.Auction;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -17,7 +20,7 @@ import java.time.LocalDateTime;
 public class BiddingPopupController {
 
     //FXML Fields:
-    @FXML private Label lblId, lblName, lblBasePrice, lblCurrentPrice, lblCountdown, lblStatus;
+    @FXML private Label lblId, lblName, lblBasePrice, lblCurrentPrice, lblCountdown, lblStatus,lblAnnouncement;
     @FXML private TextField txtNormalBid;
     @FXML private TextField txtMaxBid;      // fx:id phải khớp trong FXML
     @FXML private TextField txtIncrement;   // fx:id phải khớp trong FXML
@@ -25,17 +28,23 @@ public class BiddingPopupController {
     //Other fields:
     private Auction currentAuction;
     private Timeline timeline;
+    private BidUpdateResponseDTO bidUpdateResponseDTO;
+    private ClientSocket clientSocket;
+    private int userId;
     //init method which is gonna be called automaticly:
     public void initialize(){
         //set on action for buttons:
         this.normalBidButton.setOnAction(event ->
-                new NormalBidButton().handle(this.txtNormalBid,this.currentAuction,this.lblStatus));
+                new NormalBidButton().handle(this.txtNormalBid,this.currentAuction,this.lblStatus,
+                        this));
 
         this.autoBidButton.setOnAction(event ->
                 new AutoBidButton().handle(this.txtMaxBid,this.txtIncrement,this.lblStatus));
 
         this.exitButton.setOnAction(event ->
                 new ExitButton().handle(this.timeline,this.lblId));
+        //Khoi tao doi tuong dto :
+        this.bidUpdateResponseDTO=new BidUpdateResponseDTO();
     }
 
 
@@ -75,6 +84,37 @@ public class BiddingPopupController {
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+    public void updateHighCurrentPrice(double newPrice){
+        this.currentAuction.setCurrentHighestPrice(newPrice);
+        this.bidUpdateResponseDTO.setNewHighestPrice(newPrice);
+    }
+    public void setLabelAnnoucement(String text){
+        this.lblAnnouncement.setText(text);
+    }
+    public void setLabelCurrentPrice(){
+        this.lblCurrentPrice.setText(String.valueOf(this.currentAuction.getCurrentHighestPrice()));
+    }
+    public void setLblStatus(String text){
+        this.lblStatus.setText(text);
+    }
+    public void setClientSocket(ClientSocket clientSocket){
+        this.clientSocket=clientSocket;
+    }
+    public ClientSocket getClientSocket(){
+        return this.clientSocket;
+    }
+    public Auction getCurrentAuction(){
+        return this.currentAuction;
+    }
+    public BidUpdateResponseDTO getBidUpdateResponseDTO(){
+        return this.bidUpdateResponseDTO;
+    }
+    public void setUserId(int userId){
+        this.userId=userId;
+    }
+    public int getUserId(){
+        return this.userId;
     }
 
 }

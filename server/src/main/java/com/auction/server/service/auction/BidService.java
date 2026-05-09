@@ -17,11 +17,13 @@ public class BidService {
 
         if (bidAmmount<=highCurrentPrice){
             bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
+            bidUpdateResponseDTO.setBidderId(bidderId);
         }
         else {
             new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);
             bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,highCurrentPrice);
             bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
+            bidUpdateResponseDTO.setNewHighestPrice(bidAmmount);
         }
 
 

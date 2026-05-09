@@ -2,7 +2,7 @@ package com.auction.client.controller.login.buttonhandler;
 
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.bidderdashboard.BidderDashboardController;
-import com.auction.client.service.http.LoginApi;
+import com.auction.client.network.http.LoginApi;
 import com.auction.common.dto.request.LoginRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.AuthStatus;
