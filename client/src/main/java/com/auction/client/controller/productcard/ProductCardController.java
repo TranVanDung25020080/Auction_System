@@ -44,7 +44,7 @@ public class ProductCardController {
         if (lblPrice != null) lblPrice.setText(auction.getCurrentHighestPrice() + " VNĐ");
 
         // Tạm thời fix cứng số giây hoặc bạn phải viết hàm tính khoảng cách từ (bây giờ) đến (endTime)
-        this.remainingSeconds = 3600;
+        this.remainingSeconds = auction.getDurationLeft();
         if (imgProduct != null && imagePath != null) {
             try {
                 Image image = new Image(getClass().getResourceAsStream(imagePath));

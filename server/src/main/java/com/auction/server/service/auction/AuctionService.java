@@ -3,6 +3,7 @@ package com.auction.server.service.auction;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
+import com.auction.server.exception.DatabaseException;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,6 +26,11 @@ public class AuctionService {
         }
 
         return auctionMap;
+    }
+    public Auction getAuction(int auctionRoomId) throws DatabaseException {
+        Auction auction=new AuctionDAO().getAuctionInfoById(auctionRoomId);
+
+        return auction;
     }
 
    /* //test

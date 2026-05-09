@@ -4,6 +4,7 @@ import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.client.network.socket.ClientSocket;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
+import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.dto.response.BaseResponse;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
@@ -64,6 +65,11 @@ public class AuctionRoomService {
                         }
                         else if (type==ReponseType.JOIN_ROOM){
                             response=gson.fromJson(finalJsonResponse, JoinRoomResponseDTO.class);
+                        }
+                        else if (type==ReponseType.AUCTION_RESULT){
+                            System.out.println(gson.toJson(response));
+
+                            response=gson.fromJson(finalJsonResponse, AuctionResultResponseDTO.class);
                         }
 
                         if (response != null) {

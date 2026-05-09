@@ -5,8 +5,10 @@ import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.BaseResponse;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
+import com.auction.common.model.Auction.Auction;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
+import com.auction.server.service.auction.AuctionService;
 import com.auction.server.service.auction.BidService;
 import com.google.gson.Gson;
 
@@ -53,6 +55,11 @@ public class ClientHandler implements Runnable{
             AuctionRoomHandler auctionRoomHandler=AuctionHandler.getAuctionRoomHandler(joinRoomRequestDTO.getAuctionId());
             auctionRoomHandler.addClientHandler(this);
             auctionRoomHandler.broadcast(gson.toJson(joinRoomResponseDTO));
+
+
+            //Start countdown:
+            Auction auction=new AuctionService().getAuction(joinRoomRequestDTO.getAuctionId());
+            auctionRoomHandler.startCountDown(auction);
 
             //Normal bidding:
 

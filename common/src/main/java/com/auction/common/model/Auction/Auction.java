@@ -82,7 +82,7 @@ public class Auction implements Serializable {
 
 
     public int getDurationLeft(){
-        Duration duration=Duration.between(startTime,endTime);
+        Duration duration=Duration.between(LocalDateTime.now(),endTime);
 
         return (int) duration.getSeconds();
     }
