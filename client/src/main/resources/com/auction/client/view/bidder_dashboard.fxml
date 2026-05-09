@@ -37,13 +37,14 @@
             <TextField fx:id="txtSearch" prefHeight="45.0" prefWidth="500.0" promptText="Tìm kiếm sản phẩm đấu giá..." styleClass="search-bar" />
             <Region HBox.hgrow="ALWAYS" />
             <Button styleClass="icon-button" text="🔔" />
-            <Button styleClass="icon-button" text="👤 Admin" />
+            <Button styleClass="icon-button" text="BIDDER" />
+            <TextField fx:id="bidderInfoTextField" />
          </children>
       </HBox>
    </top>
 
    <center>
-      <ScrollPane fitToWidth="true" fitToHeight="false" vbarPolicy="AS_NEEDED" style="-fx-background-color: #f8f9fa;">
+      <ScrollPane fitToHeight="false" fitToWidth="true" style="-fx-background-color: #f8f9fa;" vbarPolicy="AS_NEEDED">
          <content>
             <FlowPane fx:id="productContainer" hgap="25.0" vgap="25.0">
                <padding>

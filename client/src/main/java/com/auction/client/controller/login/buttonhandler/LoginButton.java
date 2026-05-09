@@ -20,6 +20,8 @@ import java.io.IOException;
 
 public class LoginButton {
     private int userId;
+    private String ownerName,userName;
+    private double balance;
 
     public void handle(ActionEvent event, TextField txtUsername, TextField txtPassword) throws IOException {
         String user = txtUsername.getText();
@@ -34,8 +36,11 @@ public class LoginButton {
             LoginRequestDTO loginRequestDTO=new LoginRequestDTO(user,pass);
             UserResponseDTO userResponseDTO=new LoginApi().login(loginRequestDTO);
 
-            //set userId
+            //set information for user:
             this.userId=userResponseDTO.getUserId();
+            this.ownerName=userResponseDTO.getOwnerName();
+            this.userName=userResponseDTO.getUserName();
+            this.balance=userResponseDTO.getBalance();
 
             System.out.println(new Gson().toJson(userResponseDTO));
 
@@ -58,10 +63,11 @@ public class LoginButton {
             // Đảm bảo đường dẫn file FXML này là chính xác
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidder_dashboard.fxml"));
             Parent root = loader.load();
-
-            //truyen userId cho bidderdashboardcontroller
             BidderDashboardController bidderDashboardController=loader.getController();
-            bidderDashboardController.setUserId(this.userId);
+            //Truyen thong tin cho bidderdashboard:
+
+            bidderDashboardController.setBidder(this.userId,this.ownerName,this.ownerName,this.balance);
+            bidderDashboardController.setBidderInfoTextField();
 
             // Lấy Stage từ event
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -84,7 +90,8 @@ public class LoginButton {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Alert.showAlert("Lỗi", "Không thể mở giao diện Dashboard! Kiểm tra lại đường dẫn file FXML.");
+            Alert.showAlert("ERROR",e.getMessage());
+            /*Alert.showAlert("Lỗi", "Không thể mở giao diện Dashboard! Kiểm tra lại đường dẫn file FXML.");*/
         }
     }
 

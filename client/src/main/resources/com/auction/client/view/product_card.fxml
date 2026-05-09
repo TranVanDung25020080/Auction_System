@@ -33,7 +33,7 @@
                </children>
             </HBox>
 
-            <Button fx:id="btnBid" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBid" prefHeight="40.0" styleClass="bid-button" text="ĐẤU GIÁ NGAY" />
+            <Button fx:id="joinRoomButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" styleClass="bid-button" text="ĐẤU GIÁ NGAY" />
          </children>
       </VBox>
    </children>
