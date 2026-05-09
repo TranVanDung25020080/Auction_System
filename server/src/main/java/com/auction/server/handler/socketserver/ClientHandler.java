@@ -2,6 +2,7 @@ package com.auction.server.handler.socketserver;
 
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
+import com.auction.common.dto.response.BaseResponse;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.server.exception.DatabaseException;
@@ -43,7 +44,7 @@ public class ClientHandler implements Runnable{
 
             System.out.println(gson.toJson(joinRoomRequestJson));
 
-            JoinRoomResponseDTO joinRoomResponseDTO=new AuctionRoomService().joinRoom(this,joinRoomRequestDTO);
+            BaseResponse joinRoomResponseDTO=new AuctionRoomService().joinRoom(this,joinRoomRequestDTO);
 
             bufferedWriter.write(gson.toJson(joinRoomResponseDTO));
             bufferedWriter.newLine();
@@ -51,7 +52,7 @@ public class ClientHandler implements Runnable{
 
             AuctionRoomHandler auctionRoomHandler=AuctionHandler.getAuctionRoomHandler(joinRoomRequestDTO.getAuctionId());
             auctionRoomHandler.addClientHandler(this);
-            auctionRoomHandler.broadcast("User "+joinRoomRequestDTO.getUserId()+" has joined room "+joinRoomRequestDTO.getAuctionId());
+            auctionRoomHandler.broadcast(gson.toJson(joinRoomResponseDTO));
 
             //Normal bidding:
 
@@ -62,11 +63,10 @@ public class ClientHandler implements Runnable{
 
                 BidRequestDTO bidRequestDTO=gson.fromJson(bidRequstDTOJson, BidRequestDTO.class);
 
-                BidUpdateResponseDTO bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO);
+                BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO);
 
                 auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
             }
-
 
 
 

@@ -1,8 +1,9 @@
 package com.auction.common.dto.response;
 
 import com.auction.common.enums.BidStatus;
+import com.auction.common.enums.ReponseType;
 
-public class BidUpdateResponseDTO {
+public class BidUpdateResponseDTO extends BaseResponse{
     private int auctionId,bidderId;
     private double newHighestPrice;
     private String highestBidderName;
@@ -15,13 +16,18 @@ public class BidUpdateResponseDTO {
         this.newHighestPrice = newHighestPrice;
         this.highestBidderName = highestBidderName;
         this.timeStamp = timeStamp;
+        this.responseType= ReponseType.BID_UPDATE;
+
     }
     public BidUpdateResponseDTO(int auctionId,int bidderId,double newHighestPrice){
         this.auctionId=auctionId;
         this.bidderId=bidderId;
         this.newHighestPrice=newHighestPrice;
+        this.responseType= ReponseType.BID_UPDATE;
     }
-    public BidUpdateResponseDTO(){}
+    public BidUpdateResponseDTO(){
+        this.responseType= ReponseType.BID_UPDATE;
+    }
 
     //Getter
     //region
@@ -47,5 +53,10 @@ public class BidUpdateResponseDTO {
     }
     public void setAuctionId(int auctionId){
         this.auctionId=auctionId;
+    }
+
+    @Override
+    public String displayMessage() {
+        return "User "+bidderId+" has bidded "+newHighestPrice;
     }
 }

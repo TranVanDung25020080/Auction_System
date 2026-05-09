@@ -4,8 +4,14 @@ import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.client.network.socket.ClientSocket;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
+import com.auction.common.dto.response.BaseResponse;
+import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.AuctionStatus;
+import com.auction.common.enums.ReponseType;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
@@ -21,21 +27,8 @@ public class AuctionRoomService {
         JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(auctionRoomId);
 
         if (joinRoomResponseDTO.getAuctionStatus()== AuctionStatus.PENDING || joinRoomResponseDTO.getAuctionStatus()==AuctionStatus.OPEN){
-/*            //Luon nghe thong tin tu server tra ve:
-            listenAnouncement(biddingPopupController,clientSocket);*/
-
-            try{
-                BufferedReader bufferedReader=clientSocket.getBufferedReader();
-
-                String message=bufferedReader.readLine();
-                if (message!=null){
-                    biddingPopupController.setLblStatus(message);
-                }
-
-
-            } catch (IOException e) {
-                e.printStackTrace(); // chua xy ly loi duoc ky o day
-            }
+            //Luon nghe thong tin tu server tra ve:
+            listenAnouncement(biddingPopupController,clientSocket);
         }
         else {
             Alert.showAlert("ERORR","This auction room has closed!");
@@ -51,16 +44,50 @@ public class AuctionRoomService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
-                    String message;
-                    while ((message=bufferedReader.readLine())!=null){
-                        String finalMessage=message;
+                Gson gson=new Gson();
 
-                        Platform.runLater(()-> biddingPopupController.setLabelAnnoucement(finalMessage));
+                String jsonReponse;
+
+                try{
+                    while ((jsonReponse=bufferedReader.readLine())!=null){
+                        String finalJsonResponse=jsonReponse;
+
+                        JsonObject jsonObject= JsonParser.parseString(finalJsonResponse).getAsJsonObject();
+
+                        String responseType=jsonObject.get("responseType").getAsString();
+                        ReponseType type=ReponseType.valueOf(responseType);
+
+                        BaseResponse response=null;
+
+                        if (type==ReponseType.BID_UPDATE){
+                            response=gson.fromJson(finalJsonResponse, BidUpdateResponseDTO.class);
+                        }
+                        else if (type==ReponseType.JOIN_ROOM){
+                            response=gson.fromJson(finalJsonResponse, JoinRoomResponseDTO.class);
+                        }
+
+                        if (response != null) {
+                            BaseResponse finalResponse = response;
+                            Platform.runLater(() -> {
+                                biddingPopupController.setLblStatus(finalResponse.displayMessage());
+
+                                if (finalResponse instanceof BidUpdateResponseDTO) {
+                                    BidUpdateResponseDTO bid = (BidUpdateResponseDTO) finalResponse;
+                                    biddingPopupController.updateHighCurrentPrice(bid.getNewHighestPrice());
+                                    biddingPopupController.setLabelCurrentPrice();
+                                }
+                            });
+                        }
+
+
+
+
                     }
                 } catch (IOException e) {
-                    e.printStackTrace(); // chua xy ly loi duoc ky o day
+                    Alert.showAlert("ERROR",e.getMessage());
                 }
+
+
             }
         }).start();
     }

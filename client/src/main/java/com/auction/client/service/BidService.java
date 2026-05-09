@@ -27,54 +27,6 @@ public class BidService {
         BidRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionRoomId,bidAmount,highestCurrentPrice);
 
         clientSocket.sendNormalBid(bidRequestDTO);
-        listenBidUpdate(biddingPopupController,clientSocket);
-
-    }
-
-    private void listenBidUpdate(BiddingPopupController biddingPopupController,ClientSocket clientSocket){
-        Socket socket=clientSocket.getSocket();
-        BufferedWriter bufferedWriter=clientSocket.getBufferedWriter();
-        BufferedReader bufferedReader=clientSocket.getBufferedReader();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Gson gson=new Gson();
-
-                while (socket.isConnected()){
-                    String bidUpdateJson;
-
-                    try {
-                        while ((bidUpdateJson=bufferedReader.readLine())!=null){
-                            String finalMessage=bidUpdateJson;
-
-                            BidUpdateResponseDTO bidUpdateResponseDTO=gson.fromJson(finalMessage, BidUpdateResponseDTO.class);
-
-                            BidStatus bidStatus=bidUpdateResponseDTO.getBidStatus();
-
-                            if (bidStatus==BidStatus.SUCCESS){
-                                //Thay doi highestcurrentPrice:
-                                biddingPopupController.updateHighCurrentPrice(bidUpdateResponseDTO.getNewHighestPrice());
-                                Platform.runLater(() -> {
-                                    biddingPopupController.setLabelCurrentPrice();
-                                    biddingPopupController.setLblStatus("User " + bidUpdateResponseDTO.getBidderId() +
-                                            " has bidded " + bidUpdateResponseDTO.getNewHighestPrice());
-                                });
-                            }
-                            else {
-                                Alert.showAlert("ERORR","FAILED TO BID");
-
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Alert.showAlert("ERORR",e.getMessage());//chua xu ly duoc loi ky o day
-                    }
-
-                }
-
-            }
-        }).start();
 
     }
 
