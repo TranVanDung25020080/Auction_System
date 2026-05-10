@@ -4,54 +4,43 @@ import com.auction.common.model.Auction.BidTransaction;
 import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BidDAO {
 
-    public boolean placeBid(int auctionId, int bidderId, double bidAmount) throws DatabaseException {
+    UserDAO userDAO = new UserDAO();
+    AuctionDAO auctionDAO = new AuctionDAO();
+
+    public void placeBid(int auctionId, int bidderId, double bidAmount) throws DatabaseException {
         String insertBidQuery = "INSERT INTO bids (auction_id, bidder_id, bid_amount, bid_time) VALUES (?, ?, ?, NOW())";
-        String updateUserQuery = "UPDATE users SET balance = balance - ? WHERE userId = ? AND balance >= ?";
 
-        Connection conn = null;
-        try {
-            conn = MyDatabaseConfig.getConnection();
-            conn.setAutoCommit(false);
+        double bidderBalance = userDAO.showBalance(bidderId);
 
-            try (PreparedStatement pstUser = conn.prepareStatement(updateUserQuery)) {
-                pstUser.setDouble(1, bidAmount);
-                pstUser.setInt(2, bidderId);
-                pstUser.setDouble(3, bidAmount);
+        try (Connection conn = MyDatabaseConfig.getConnection();
+            PreparedStatement pst = conn.prepareStatement(insertBidQuery)) {
+            if (bidderBalance >= bidAmount) {
+                pst.setInt(1, auctionId);
+                pst.setInt(2, bidderId);
+                pst.setDouble(3, bidAmount);
 
-                int affectedRows = pstUser.executeUpdate();
-                if (affectedRows == 0) {
-                    throw new SQLException("Thất bại: Người dùng không tồn tại hoặc không đủ số dư!");
+                int result = pst.executeUpdate();
+                if (result > 0) {
+                    auctionDAO.updateCurrentPrice(auctionId, bidAmount, bidderId);
                 }
             }
-
-            try (PreparedStatement pstBid = conn.prepareStatement(insertBidQuery)) {
-                pstBid.setInt(1, auctionId);
-                pstBid.setInt(2, bidderId);
-                pstBid.setDouble(3, bidAmount);
-                pstBid.executeUpdate();
+            else {
+                throw new DatabaseException("Khong du so du de dat gia");
             }
-
-            conn.commit();
-            return true;
-
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            System.err.println("Loi SQL tai BidDAO.placeBid: " + e.getMessage());
-            throw new DatabaseException("Lỗi hệ thống khi đặt giá thầu.", e);
-        } finally {
-            closeConnection(conn);
+        }
+        catch (SQLException e) {
+            System.err.println("Loi SQL o ham placeBid: " + e.getMessage());
+            throw new DatabaseException("Loi he thong: khong the dat gia", e);
         }
     }
 
