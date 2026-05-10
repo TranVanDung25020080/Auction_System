@@ -21,6 +21,7 @@ public class JoinRoomButton {
             BiddingPopupController popupController = loader.getController();
             popupController.initData(auctionData);
             popupController.setUserId(userId);
+            popupController.startAuction();
 
 
 

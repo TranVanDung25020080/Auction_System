@@ -3,6 +3,7 @@ package com.auction.server.handler.socketserver;
 import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.exception.DatabaseException;
+import com.auction.server.service.auction.AuctionRoomService;
 import com.auction.server.service.auction.AuctionService;
 import com.google.gson.Gson;
 
@@ -49,11 +50,12 @@ public class AuctionRoomHandler {
 
         executorService.schedule(()->{
             try{
-                Auction finalAuction=new AuctionService().getAuction(auction.getAuctionId());
+                /*Auction finalAuction=new AuctionService().getAuction(auction.getAuctionId());
 
                 int winnerId=finalAuction.getWinningBidderId();
 
-                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionResultResponseDTO(winnerId);
+                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionResultResponseDTO(winnerId);*/
+                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId());
 
                 this.broadcast(new Gson().toJson(auctionResultResponseDTO));
             }

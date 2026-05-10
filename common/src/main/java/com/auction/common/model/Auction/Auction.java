@@ -81,6 +81,8 @@ public class Auction implements Serializable {
 
 
 
+
+
     public int getDurationLeft(){
         Duration duration=Duration.between(LocalDateTime.now(),endTime);
 
@@ -90,6 +92,12 @@ public class Auction implements Serializable {
     //setter
     public void setCurrentHighestPrice(double newPrice){
         this.currentHighestPrice=newPrice;
+    }
+    public void endAuction(){
+        this.status=AuctionStatus.FINISHED;
+    }
+    public void startAuction(){
+        this.status=AuctionStatus.PENDING;
     }
 
 

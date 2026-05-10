@@ -1,6 +1,7 @@
 package com.auction.server.dao;
 
 import com.auction.common.enums.AuctionStatus;
+import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.db.DatabaseConnection;
 import com.auction.server.db.MyDatabaseConfig;
@@ -111,7 +112,52 @@ public class AuctionDAO {
         return auctionList;
 
     }
+    public void endAuction(int auctionId) throws DatabaseException {
+        String query = "UPDATE auction SET status = ? WHERE auctionId = ?";
+        String query1 = "UPDATE user SET balance = balance - ? WHERE userId = ?";
+        String query2 = "UPDATE item SET item_status = ? WHERE id = ?";
 
+        Auction auctionInfo = getAuctionInfoById(auctionId);
+
+        try (Connection conn = MyDatabaseConfig.getConnection()) {
+
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement pst = conn.prepareStatement(query);
+                 PreparedStatement pst1 = conn.prepareStatement(query1);
+                 PreparedStatement pst2 = conn.prepareStatement(query2)) {
+
+                pst.setString(1, AuctionStatus.FINISHED.name());
+                pst.setInt(2, auctionId);
+
+                pst1.setDouble(1, auctionInfo.getCurrentHighestPrice());
+                pst1.setInt(2, auctionInfo.getWinningBidderId());
+
+                pst2.setString(1, ItemStatus.SOLD.name());
+                pst2.setInt(2, auctionInfo.getItemId());
+
+                pst.executeUpdate();
+                pst1.executeUpdate();
+                pst2.executeUpdate();
+
+                conn.commit();
+                System.out.println("Cuoc dau gia co id " + auctionId + " da ket thuc thanh cong!");
+            }
+            catch (SQLException e) {
+                conn.rollback();
+                throw new DatabaseException("Loi he thong: khong the dong cuoc dau gia, tu dong rollback",e);
+            }
+        } catch (SQLException e) {
+            System.err.println("Loi SQL o ham updateAuctionStatus: " + e.getMessage());
+        }
+    }
+
+  /*  static void main(String[] args) throws DatabaseException {
+        AuctionDAO auctionDAO = new AuctionDAO();
+        auctionDAO.endAuction(9);
+        System.out.println("SUCCESS");
+    }
+*/
 
 
     /*//test

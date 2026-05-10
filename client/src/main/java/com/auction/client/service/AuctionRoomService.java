@@ -67,9 +67,10 @@ public class AuctionRoomService {
                             response=gson.fromJson(finalJsonResponse, JoinRoomResponseDTO.class);
                         }
                         else if (type==ReponseType.AUCTION_RESULT){
-                            System.out.println(gson.toJson(response));
 
                             response=gson.fromJson(finalJsonResponse, AuctionResultResponseDTO.class);
+
+
                         }
 
                         if (response != null) {
@@ -81,6 +82,20 @@ public class AuctionRoomService {
                                     BidUpdateResponseDTO bid = (BidUpdateResponseDTO) finalResponse;
                                     biddingPopupController.updateHighCurrentPrice(bid.getNewHighestPrice());
                                     biddingPopupController.setLabelCurrentPrice();
+                                }
+
+                                else if (finalResponse instanceof AuctionResultResponseDTO){
+
+                                    AuctionResultResponseDTO auctionResultResponseDTO= (AuctionResultResponseDTO) finalResponse;
+
+                                    AuctionStatus auctionStatus=auctionResultResponseDTO.getStatus();
+
+                                    if (auctionStatus==AuctionStatus.FINISHED){
+                                        biddingPopupController.endAuction();
+                                    }
+
+
+
                                 }
                             });
                         }

@@ -33,4 +33,8 @@ public class AuctionResultResponseDTO extends BaseResponse{
         return "User "+winnerId+" has won";
     }
     //endregion
+    //method for other classes to call:
+    public void setStatus(AuctionStatus auctionStatus){
+        this.status=auctionStatus;
+    }
 }
