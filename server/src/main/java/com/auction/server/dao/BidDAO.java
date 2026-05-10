@@ -44,9 +44,6 @@ public class BidDAO {
         }
     }
 
-    /**
-     * Lấy danh sách lịch sử đặt giá của một cuộc đấu giá
-     */
     public List<BidTransaction> getBidsByAuctionId(int auctionId) throws DatabaseException {
         List<BidTransaction> list = new ArrayList<>();
         String query = "SELECT * FROM bids WHERE auction_id = ? ORDER BY bid_amount DESC";
