@@ -14,8 +14,11 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class BidService {
+
     public void sendBid(BiddingPopupController biddingPopupController,double bidAmount) throws IOException {
         ClientSocket clientSocket=biddingPopupController.getClientSocket();
         Auction currentAuction=biddingPopupController.getCurrentAuction();
