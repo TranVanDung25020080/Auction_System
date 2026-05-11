@@ -82,7 +82,7 @@ public class BidService {
             else {
                 double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
 
-                if (highestCurrentPrice+increment<=maxBid){
+                if (highestCurrentPrice+increment>maxBid){
 
                     bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
                     bidUpdateResponseDTO.setBidderId(bidderId);
