@@ -4,6 +4,7 @@ import com.auction.common.dto.request.AutoBidRequestDTO;
 import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
+import com.auction.common.enums.BidStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
@@ -68,18 +69,41 @@ public class AuctionRoomHandler {
     public void handleAutoBidding() throws DatabaseException, IOException {
         Gson gson=new Gson();
 
-        for (ClientHandler clientHandler:this.participants){
+        for (ClientHandler clientHandler:this.getSortedAutoBidParticipants()){
+
             BaseRequestDTO autoBidRequestDTO=clientHandler.getAutoBidRequestDTO();
 
             if (autoBidRequestDTO!=null){
 
                 BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO);
 
-                this.broadcast(gson.toJson(bidUpdateResponseDTO));
+                if (bidUpdateResponseDTO.getBidStatus()== BidStatus.SUCCESS){
+                    this.broadcast(gson.toJson(bidUpdateResponseDTO));
+                }
+
             }
 
         }
 
+    }
+
+    //ham sap xep clienthandler tang dan theo maxbid:
+
+    private List<ClientHandler> getSortedAutoBidParticipants() {
+        List<ClientHandler> autoBidClients = new ArrayList<>();
+
+        for (ClientHandler client : participants) {
+            if (client.getAutoBidRequestDTO() != null) {
+                autoBidClients.add(client);
+            }
+        }
+        autoBidClients.sort((c1, c2) -> {
+            double maxBid1 = c1.getAutoBidRequestDTO().getMaxBid();
+            double maxBid2 = c2.getAutoBidRequestDTO().getMaxBid();
+            return Double.compare(maxBid1, maxBid2);
+        });
+
+        return autoBidClients;
     }
 
 }
