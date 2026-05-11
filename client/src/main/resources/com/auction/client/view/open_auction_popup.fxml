@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15.0" styleClass="form-container" stylesheets="@../css/seller-styles.css"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.auction.client.controller.OpenAuctionPopupController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <children>
+        <Label text="THIẾT LẬP PHIÊN ĐẤU GIÁ" styleClass="header-title" />
+
+        <GridPane hgap="10" vgap="15">
+        <Label text="Sản phẩm:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="lblItemName" text="..." style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Giá khởi điểm:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtStartPrice" promptText="VNĐ" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Bước giá tối thiểu:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtBidStep" promptText="Ví dụ: 50.000" text="10000" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Bắt đầu:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <HBox spacing="5" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <DatePicker fx:id="dpStartDate" prefWidth="120"/>
+            <TextField fx:id="txtStartTime" promptText="HH:mm" prefWidth="70" text="08:00"/>
+        </HBox>
+
+        <Label text="Kết thúc:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <HBox spacing="5" GridPane.rowIndex="4" GridPane.columnIndex="1">
+            <DatePicker fx:id="dpEndDate" prefWidth="120"/>
+            <TextField fx:id="txtEndTime" promptText="HH:mm" prefWidth="70" text="22:00"/>
+        </HBox>
+    </GridPane>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Button text="Hủy" onAction="#handleCancel" styleClass="btn-secondary"/>
+            <Button text="BẮT ĐẦU ĐẤU GIÁ" onAction="#handleConfirm" styleClass="btn-primary"/>
+        </HBox>
+    </children>
+</VBox>

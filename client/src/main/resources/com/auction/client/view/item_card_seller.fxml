@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="cardContainer" spacing="10" styleClass="card"
+      prefWidth="220" minWidth="220" maxWidth="220"
+      stylesheets="@../css/seller-styles.css"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.auction.client.controller.ItemCardSellerController">
+    <children>
+        <HBox alignment="TOP_RIGHT">
+            <Label fx:id="lblBadge" text="CATEGORY" styleClass="badge" />
+        </HBox>
+
+        <Label fx:id="lblItemName" text="Tên sản phẩm" styleClass="item-title" />
+        <Label fx:id="lblPrice" text="0 VNĐ" styleClass="price-text" />
+
+        <Label fx:id="lblExtraInfo" text="Thông tin chi tiết..." wrapText="true" styleClass="extra-info-label" />
+
+        <Separator />
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Mở Đấu Giá" onAction="#handleStartAuction" styleClass="btn-success" />
+            <Button text="Xóa" onAction="#handleDelete" styleClass="btn-danger" />
+        </HBox>
+    </children>
+</VBox>

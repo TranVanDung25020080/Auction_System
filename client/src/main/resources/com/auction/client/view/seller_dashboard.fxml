@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="700.0" prefWidth="1000.0"
+            stylesheets="@../css/seller-styles.css"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.auction.client.controller.SellerDashboardController">
+
+    <left>
+        <VBox prefWidth="230" styleClass="sidebar">
+            <children>
+                <Label text="AUCTION PRO" styleClass="sidebar-title" />
+
+                <Button maxWidth="Infinity" styleClass="menu-item" text="📦 Kho hàng của tôi" onAction="#showInventory" />
+                <Button maxWidth="Infinity" styleClass="menu-item" text="⚡ Đang đấu giá" onAction="#showLiveAuctions" />
+
+                <Separator styleClass="sidebar-separator" />
+
+                <Button onAction="#openAddItemPopup" maxWidth="Infinity" styleClass="btn-primary" text="+ THÊM SẢN PHẨM" />
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="20" styleClass="content-area">
+            <children>
+                <Label fx:id="lblHeader" text="KHO HÀNG CỦA TÔI" styleClass="header-title" />
+
+                <ScrollPane fitToWidth="true" styleClass="content-scroll-pane">
+                    <content>
+                        <FlowPane fx:id="flowPaneContent" hgap="25" vgap="25" styleClass="main-flow-pane" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
