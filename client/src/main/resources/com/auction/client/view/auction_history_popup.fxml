@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15.0" prefWidth="450.0" prefHeight="550.0"
+      styleClass="popup-container" stylesheets="@../css/seller-styles.css"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.auction.client.controller.AuctionHistoryController">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <children>
+        <Label text="LỊCH SỬ ĐẶT GIÁ" styleClass="header-title" />
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Sản phẩm:" styleClass="label-static" />
+            <Label fx:id="lblProductName" text="Tên sản phẩm đang đấu giá" styleClass="label-dynamic" />
+        </HBox>
+
+        <TableView fx:id="tableHistory" VBox.vgrow="ALWAYS" styleClass="history-table">
+            <columns>
+                <TableColumn fx:id="colTime" text="Thời gian" prefWidth="130" />
+                <TableColumn fx:id="colBidder" text="Người đặt (ID)" prefWidth="110" />
+                <TableColumn fx:id="colPrice" text="Mức giá (VNĐ)" prefWidth="150" />
+            </columns>
+        </TableView>
+
+        <HBox alignment="CENTER_RIGHT">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+            <Button text="Đóng cửa sổ" onAction="#handleClose" styleClass="btn-secondary" />
+        </HBox>
+    </children>
+</VBox>
