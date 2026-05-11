@@ -3,7 +3,6 @@ package com.auction.client.service;
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.client.network.socket.ClientSocket;
-import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.dto.response.BaseResponse;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
@@ -13,6 +12,7 @@ import com.auction.common.enums.ReponseType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
@@ -53,6 +53,8 @@ public class AuctionRoomService {
                     while ((jsonReponse=bufferedReader.readLine())!=null){
                         String finalJsonResponse=jsonReponse;
 
+                        System.out.println(finalJsonResponse);
+
                         JsonObject jsonObject= JsonParser.parseString(finalJsonResponse).getAsJsonObject();
 
                         String responseType=jsonObject.get("responseType").getAsString();
@@ -67,14 +69,13 @@ public class AuctionRoomService {
                             response=gson.fromJson(finalJsonResponse, JoinRoomResponseDTO.class);
                         }
                         else if (type==ReponseType.AUCTION_RESULT){
-
                             response=gson.fromJson(finalJsonResponse, AuctionResultResponseDTO.class);
-
 
                         }
 
                         if (response != null) {
                             BaseResponse finalResponse = response;
+
                             Platform.runLater(() -> {
                                 biddingPopupController.setLblStatus(finalResponse.displayMessage());
 
@@ -93,7 +94,6 @@ public class AuctionRoomService {
                                     if (auctionStatus==AuctionStatus.FINISHED){
                                         biddingPopupController.endAuction();
                                     }
-
 
 
                                 }

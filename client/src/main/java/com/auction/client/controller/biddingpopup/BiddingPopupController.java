@@ -39,7 +39,7 @@ public class BiddingPopupController {
                         this));
 
         this.autoBidButton.setOnAction(event ->
-                new AutoBidButton().handle(this.txtMaxBid,this.txtIncrement,this.lblStatus,this.currentAuction));
+                new AutoBidButton().handle(this.txtMaxBid,this.txtIncrement,this.lblStatus,this.currentAuction,this));
 
         this.exitButton.setOnAction(event ->
                 new ExitButton().handle(this.timeline,this.lblId));

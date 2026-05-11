@@ -3,6 +3,8 @@ package com.auction.client.service;
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.client.network.socket.ClientSocket;
+import com.auction.common.dto.request.AutoBidRequestDTO;
+import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
@@ -27,10 +29,25 @@ public class BidService {
         int auctionRoomId=currentAuction.getAuctionId();
         double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
 
-        BidRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionRoomId,bidAmount,highestCurrentPrice);
+        BaseRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionRoomId,bidAmount,highestCurrentPrice);
 
-        clientSocket.sendNormalBid(bidRequestDTO);
+        clientSocket.sendBiddingInfo(bidRequestDTO);
 
+    }
+
+    public void startAutoBidding(BiddingPopupController biddingPopupController,double maxBid,
+                                 double increment) throws IOException {
+        ClientSocket clientSocket=biddingPopupController.getClientSocket();
+        Auction currentAuction=biddingPopupController.getCurrentAuction();
+
+        int userId=biddingPopupController.getUserId();
+        int auctionRoomId=currentAuction.getAuctionId();
+        double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
+
+
+        BaseRequestDTO autoBidRequestDTO=new AutoBidRequestDTO(auctionRoomId,userId,maxBid,increment,highestCurrentPrice);
+
+        clientSocket.sendBiddingInfo(autoBidRequestDTO);
     }
 
 
