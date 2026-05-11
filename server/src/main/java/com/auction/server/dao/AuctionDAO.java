@@ -184,9 +184,27 @@ public class AuctionDAO {
         }
     }
 
+    public void extendEndTime(int auctionId, int time) throws DatabaseException {
+        String query = "UPDATE auction SET endTime = DATE_ADD(endTime, INTERVAL ? SECOND) WHERE auctionId = ?";
+
+        try (Connection conn = MyDatabaseConfig.getConnection();
+            PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setInt(1, time);
+            pst.setInt(2, auctionId);
+
+            pst.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            System.err.println("Loi SQL o ham extendEndTime: " + e.getMessage());
+            throw new DatabaseException("Loi he thong: khong the mo rong thoi gian dau gia", e);
+        }
+    }
+
 //    static void main(String[] args) throws DatabaseException, SQLException {
 //        AuctionDAO auctionDAO = new AuctionDAO();
-//        auctionDAO.endAuction(1);
+//        auctionDAO.extendEndTime(1,600);
 //        System.out.println("SUCCESS");
 //    }
 

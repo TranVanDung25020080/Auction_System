@@ -23,7 +23,7 @@ public class AutoBidButton {
 
                 if (maxBid>currentAuction.getCurrentHighestPrice()){
 
-                    lblStatus.setText("Đã kích hoạt Auto-Bid: Max " + maxBid);
+                    lblStatus.setText("Đã kích hoạt Auto-Bid: Max " + maxBid + "Muc tang: " + increment);
                     // TODO: Gửi yêu cầu Auto-bid lên Server ở đây
                     new BidService().startAutoBidding(biddingPopupController,maxBid,increment);
 
