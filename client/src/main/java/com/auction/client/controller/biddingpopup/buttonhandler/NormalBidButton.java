@@ -27,8 +27,6 @@ public class NormalBidButton {
 
                     new BidService().sendBid(biddingPopupController,amount);
 
-
-
                 } else {
                     lblStatus.setText("Giá thầu phải cao hơn giá hiện tại!");
                 }

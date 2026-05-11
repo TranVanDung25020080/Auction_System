@@ -1,10 +1,14 @@
 package com.auction.server.handler.socketserver;
 
+import com.auction.common.dto.request.AutoBidRequestDTO;
+import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.response.AuctionResultResponseDTO;
+import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
 import com.auction.server.service.auction.AuctionService;
+import com.auction.server.service.auction.BidService;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -17,14 +21,12 @@ import java.util.concurrent.TimeUnit;
 public class AuctionRoomHandler {
     private int auctionId;
     private List<ClientHandler> participants;
-    private List<Integer> successBidderId;
     private boolean isSchelude=false;
     private final ScheduledExecutorService executorService= Executors.newSingleThreadScheduledExecutor();
 
     //Constructor
     public AuctionRoomHandler(){
         this.participants=new ArrayList<>();
-        this.successBidderId=new ArrayList<>();
     }
     //getter
     public int getAuctionId(){
@@ -50,11 +52,6 @@ public class AuctionRoomHandler {
 
         executorService.schedule(()->{
             try{
-                /*Auction finalAuction=new AuctionService().getAuction(auction.getAuctionId());
-
-                int winnerId=finalAuction.getWinningBidderId();
-
-                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionResultResponseDTO(winnerId);*/
                 AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId());
 
                 this.broadcast(new Gson().toJson(auctionResultResponseDTO));
@@ -67,7 +64,21 @@ public class AuctionRoomHandler {
 
 
         },delay, TimeUnit.SECONDS);
+    }
+    public void handleAutoBidding() throws DatabaseException, IOException {
+        Gson gson=new Gson();
 
+        for (ClientHandler clientHandler:this.participants){
+            BaseRequestDTO autoBidRequestDTO=clientHandler.getAutoBidRequestDTO();
+
+            if (autoBidRequestDTO!=null){
+
+                BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO);
+
+                this.broadcast(gson.toJson(bidUpdateResponseDTO));
+            }
+
+        }
 
     }
 

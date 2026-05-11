@@ -1,6 +1,7 @@
 package com.auction.client.network.socket;
 
 import com.auction.client.controller.biddingpopup.BiddingPopupController;
+import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
@@ -44,9 +45,9 @@ public class ClientSocket {
         return gson.fromJson(joinRoomReponseDTO, JoinRoomResponseDTO.class);
 
     }
-    public void sendNormalBid(BidRequestDTO bidRequestDTO) throws IOException {
+    public void sendBiddingInfo(BaseRequestDTO baseRequestDTO) throws IOException {
         Gson gson=new Gson();
-        String bidRequestJson=gson.toJson(bidRequestDTO);
+        String bidRequestJson=gson.toJson(baseRequestDTO);
 
         bufferedWriter.write(bidRequestJson);
         bufferedWriter.newLine();

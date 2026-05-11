@@ -3,7 +3,6 @@ package com.auction.client.service;
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.client.network.socket.ClientSocket;
-import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.dto.response.BaseResponse;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
@@ -67,14 +66,13 @@ public class AuctionRoomService {
                             response=gson.fromJson(finalJsonResponse, JoinRoomResponseDTO.class);
                         }
                         else if (type==ReponseType.AUCTION_RESULT){
-
                             response=gson.fromJson(finalJsonResponse, AuctionResultResponseDTO.class);
-
 
                         }
 
                         if (response != null) {
                             BaseResponse finalResponse = response;
+
                             Platform.runLater(() -> {
                                 biddingPopupController.setLblStatus(finalResponse.displayMessage());
 
@@ -93,7 +91,6 @@ public class AuctionRoomService {
                                     if (auctionStatus==AuctionStatus.FINISHED){
                                         biddingPopupController.endAuction();
                                     }
-
 
 
                                 }
