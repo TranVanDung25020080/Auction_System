@@ -1,6 +1,10 @@
-package com.auction.client.controller;
+package com.auction.client.controller.itemcardseller;
 
-import com.auction.common.model.Item.*;
+import com.auction.client.controller.openauctionpopup.OpenAuctionPopupController;
+import com.auction.common.model.Item.Art;
+import com.auction.common.model.Item.Electronics;
+import com.auction.common.model.Item.Item;
+import com.auction.common.model.Item.Vehicle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +17,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.Optional;
 

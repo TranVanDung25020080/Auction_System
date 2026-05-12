@@ -1,13 +1,13 @@
-package com.auction.client.controller;
+package com.auction.client.controller.sellerdashboard;
 
-import com.auction.client.controller.ItemCardSellerController;
-import com.auction.client.controller.AuctionCardSellerController;
+import com.auction.client.controller.auctioncardseller.AuctionCardSellerController;
+import com.auction.client.controller.itemcardseller.ItemCardSellerController;
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.enums.ItemStatus;
+import com.auction.common.model.Auction.Auction;
 import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
 import com.auction.common.model.Item.Item;
-import com.auction.common.model.Auction.Auction;
 import com.auction.common.model.Item.Vehicle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +18,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

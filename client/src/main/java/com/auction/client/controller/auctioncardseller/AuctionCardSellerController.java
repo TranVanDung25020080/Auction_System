@@ -1,7 +1,7 @@
-package com.auction.client.controller;
+package com.auction.client.controller.auctioncardseller;
 
-import com.auction.common.model.Auction.Auction;
 import com.auction.common.enums.AuctionStatus; // NHỚ IMPORT CÁI NÀY
+import com.auction.common.model.Auction.Auction;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

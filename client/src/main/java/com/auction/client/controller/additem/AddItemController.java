@@ -1,7 +1,10 @@
-package com.auction.client.controller;
+package com.auction.client.controller.additem;
 
 import com.auction.common.enums.ItemStatus;
-import com.auction.common.model.Item.*;
+import com.auction.common.model.Item.Art;
+import com.auction.common.model.Item.Electronics;
+import com.auction.common.model.Item.Item;
+import com.auction.common.model.Item.Vehicle;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

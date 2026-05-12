@@ -6,7 +6,7 @@
       prefWidth="220" minWidth="220" maxWidth="220"
       stylesheets="@../css/seller-styles.css"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.auction.client.controller.ItemCardSellerController">
+      fx:controller="com.auction.client.controller.itemcardseller.ItemCardSellerController">
     <children>
         <HBox alignment="TOP_RIGHT">
             <Label fx:id="lblBadge" text="CATEGORY" styleClass="badge" />

@@ -1,4 +1,4 @@
-package com.auction.client.controller;
+package com.auction.client.controller.auctionhistory;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

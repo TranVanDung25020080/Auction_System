@@ -5,7 +5,7 @@
 <VBox fx:id="auctionCard" spacing="10" styleClass="card-auction" prefWidth="260"
       stylesheets="@../css/seller-styles.css"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.auction.client.controller.AuctionCardSellerController">
+      fx:controller="com.auction.client.controller.auctioncardseller.AuctionCardSellerController">
 
     <children>
         <HBox alignment="CENTER_LEFT">

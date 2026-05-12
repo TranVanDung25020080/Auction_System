@@ -1,9 +1,13 @@
-package com.auction.client.controller;
+package com.auction.client.controller.openauctionpopup;
 
 import com.auction.common.model.Item.Item;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

@@ -6,6 +6,7 @@ import com.auction.client.network.http.LoginApi;
 import com.auction.common.dto.request.LoginRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.AuthStatus;
+import com.auction.common.enums.UserRole;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +48,17 @@ public class LoginButton {
             AuthStatus authStatus=userResponseDTO.getAuthStatus();
 
             if (authStatus.equals(AuthStatus.SUCCESS)){
-                switchToDashboard(event);
+
+                //Chuyen toi bidderdashboard
+                if (userResponseDTO.getUserRole()== UserRole.BIDDER){
+                    switchToBidderDashboard(event);
+                }
+                //Chuyen toi seller dashboard
+                else if (userResponseDTO.getUserRole()==UserRole.SELLER) {
+                    switchToSellerDashboard(event);
+                }
+
+
             }
             else {
                 Alert.showAlert("ERORR",userResponseDTO.getMessage()+" "+userResponseDTO.getAuthStatus());
@@ -58,7 +69,7 @@ public class LoginButton {
 
     }
 
-    private void switchToDashboard(ActionEvent event) {
+    private void switchToBidderDashboard(ActionEvent event) {
         try {
             // Đảm bảo đường dẫn file FXML này là chính xác
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidder_dashboard.fxml"));
@@ -93,6 +104,29 @@ public class LoginButton {
             Alert.showAlert("ERROR",e.getMessage());
             /*Alert.showAlert("Lỗi", "Không thể mở giao diện Dashboard! Kiểm tra lại đường dẫn file FXML.");*/
         }
+    }
+
+    private void switchToSellerDashboard(ActionEvent event) {
+        try {
+            // Đảm bảo đường dẫn này khớp 100% với cấu trúc project của bạn
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/seller_dashboard.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage từ cái nút bấm
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Dashboard thường cần màn hình rộng (ví dụ 1100x750)
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("HỆ THỐNG QUẢN LÝ ĐẤU GIÁ - KÊNH CHỦ TÀI SẢN");
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert.showAlert("Lỗi Giao Diện", "Không tìm thấy file seller_dashboard.fxml!");
+        }
+
     }
 
 }

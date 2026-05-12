@@ -8,7 +8,7 @@
       stylesheets="@../css/seller-styles.css"
       xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.auction.client.controller.AddItemController">
+      fx:controller="com.auction.client.controller.additem.AddItemController">
 
     <padding>
         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />

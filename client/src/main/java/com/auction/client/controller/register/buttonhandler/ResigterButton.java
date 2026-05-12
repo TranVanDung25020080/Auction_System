@@ -33,20 +33,20 @@ public class ResigterButton {
         System.out.println("Đăng ký thành công cho: " + displayName);
 
         //call api:
-//        RegisterRequestDTO registerRequestDTO=new RegisterRequestDTO(username,displayName,password,role);
-//
-//        UserResponseDTO userResponseDTO=new SignUpApi().register(registerRequestDTO);
-//
-//        System.out.println(new Gson().toJson(userResponseDTO));
+        RegisterRequestDTO registerRequestDTO=new RegisterRequestDTO(username,displayName,password,role);
+
+        UserResponseDTO userResponseDTO=new SignUpApi().register(registerRequestDTO);
+
+        System.out.println(new Gson().toJson(userResponseDTO));
 
 
 
-//        // 3. Thông báo thành công
-//        Alert.showAlert("Thành công", "Tài khoản " + username + " đã được tạo thành công!");
-//
-//        new SwitchToLoginButton().handle(event);
+        // 3. Thông báo thành công
+        Alert.showAlert("Thành công", "Tài khoản " + username + " đã được tạo thành công!");
 
-        // 3. Logic chuyển cảnh thông minh
+        new SwitchToLoginButton().handle(event);
+
+/*        // 3. Logic chuyển cảnh thông minh
         if (role.equalsIgnoreCase("SELLER")) {
             // Nếu là Seller -> Chuyển thẳng vào Dashboard để test giao diện
             Alert.showAlert("Thành công", "Đăng ký Seller thành công! Đang vào Dashboard...");
@@ -55,10 +55,10 @@ public class ResigterButton {
             // Nếu là Bidder -> Quay về Login theo đúng logic cũ của bạn
             Alert.showAlert("Thành công", "Đăng ký Bidder thành công! Vui lòng đăng nhập lại.");
             new SwitchToLoginButton().handle(event);
-        }
+        }*/
     }
 
-    private void switchToSellerDashboard(ActionEvent event) {
+/*    private void switchToSellerDashboard(ActionEvent event) {
         try {
             // Đảm bảo đường dẫn này khớp 100% với cấu trúc project của bạn
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/seller_dashboard.fxml"));
@@ -79,7 +79,7 @@ public class ResigterButton {
             Alert.showAlert("Lỗi Giao Diện", "Không tìm thấy file seller_dashboard.fxml!");
         }
 
-    }
+    }*/
 
 
 }
