@@ -14,12 +14,10 @@ public class GetItemReponseDTO {
     private String message;
     //Constructor
     public GetItemReponseDTO(){}
-    public GetItemReponseDTO(int sellerId,List<Item> itemList,AuthStatus status,
-                             String message){
+    public GetItemReponseDTO(int sellerId,List<Item> itemList
+                         ){
         this.sellerId=sellerId;
         this.itemList=itemList;
-        this.status=status;
-        this.message=message;
     }
     //getter
     public int getSellerId(){
@@ -33,5 +31,18 @@ public class GetItemReponseDTO {
     }
     public List<Item> getItemList(){
         return this.itemList;
+    }
+    //setter
+    public void setSellerId(int sellerId){
+        this.sellerId=sellerId;
+    }
+    public void setMessage(String message){
+        this.message=message;
+    }
+    public void setItemList(List<Item> itemList){
+        this.itemList=itemList;
+    }
+    public void setStatus(AuthStatus status){
+        this.status=status;
     }
 }
