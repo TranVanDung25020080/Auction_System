@@ -6,7 +6,7 @@ import com.auction.common.model.User.Seller;
 
 import java.io.Serializable;
 
-public abstract class Item implements Entity, Serializable {
+public class Item implements Entity, Serializable {
     protected int id;
     protected String name;
     protected String description;

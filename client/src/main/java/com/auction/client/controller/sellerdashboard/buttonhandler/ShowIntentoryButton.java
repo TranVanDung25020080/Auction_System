@@ -1,7 +1,11 @@
 package com.auction.client.controller.sellerdashboard.buttonhandler;
 
+import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.itemcardseller.ItemCardSellerController;
 import com.auction.client.controller.sellerdashboard.SellerDashboardController;
+import com.auction.client.network.http.GetItemAPI;
+import com.auction.common.dto.request.GetItemRequestDTO;
+import com.auction.common.dto.response.GetItemReponseDTO;
 import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
@@ -27,33 +31,45 @@ public class ShowIntentoryButton {
         flowPaneContent.getChildren().clear();
 
         //Goi API Lay dach sach that :
+        GetItemReponseDTO getItemReponseDTO=new GetItemReponseDTO();
 
+        try{
+            int sellerId=sellerDashboardController.getSellerId();
+            GetItemRequestDTO getItemRequestDTO=new GetItemRequestDTO(sellerId);
 
-        List<Item> mockItems = new ArrayList<>();
+            getItemReponseDTO=new GetItemAPI().getItemBySellerId(getItemRequestDTO);
+        } catch (IOException e) {
+            Alert.showAlert("ERORR",e.getMessage());
+            e.printStackTrace();
+        }
 
-        // Fix lỗi Constructor: Truyền đúng thứ tự tham số theo ảnh bạn gửi
+        List<Item> mockItems = getItemReponseDTO.getItemList();
+
+       /* // Fix lỗi Constructor: Truyền đúng thứ tự tham số theo ảnh bạn gửi
         // (id, name, description, price, seller(null), status, specialParam)
         mockItems.add(new Art(1, "Tranh Sơn Dầu Phố Cổ", "Tranh vẽ tay 2023", 5000000.0, null, ItemStatus.AVAILABLE, "Họa sĩ Trần Văn A"));
         mockItems.add(new Vehicle(2, "VinFast VF8", "Xe lướt 2000km", 800000000.0, null, ItemStatus.AVAILABLE, "VinFast"));
         mockItems.add(new Electronics(3, "MacBook Pro M3", "Nguyên seal", 45000000.0, null, ItemStatus.AVAILABLE, 12));
-
+*/
         renderInventory(mockItems);
         System.out.println("Đã tải dữ liệu giả lập kho hàng.");
     }
 
     private void renderInventory(List<Item> itemList) {
         flowPaneContent.getChildren().clear();
-        for (Item item : itemList) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/item_card_seller.fxml"));
-                VBox card = loader.load();
+        if (itemList.size()!=0){
+            for (Item item : itemList) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/item_card_seller.fxml"));
+                    VBox card = loader.load();
 
-                ItemCardSellerController controller = loader.getController();
-                controller.setItemData(item);
+                    ItemCardSellerController controller = loader.getController();
+                    controller.setItemData(item);
 
-                flowPaneContent.getChildren().add(card);
-            } catch (IOException e) {
-                e.printStackTrace();
+                    flowPaneContent.getChildren().add(card);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

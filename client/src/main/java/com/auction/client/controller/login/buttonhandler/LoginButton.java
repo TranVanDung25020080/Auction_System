@@ -2,6 +2,7 @@ package com.auction.client.controller.login.buttonhandler;
 
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.bidderdashboard.BidderDashboardController;
+import com.auction.client.controller.sellerdashboard.SellerDashboardController;
 import com.auction.client.network.http.LoginApi;
 import com.auction.common.dto.request.LoginRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
@@ -111,6 +112,8 @@ public class LoginButton {
             // Đảm bảo đường dẫn này khớp 100% với cấu trúc project của bạn
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/seller_dashboard.fxml"));
             Parent root = loader.load();
+            SellerDashboardController sellerDashboardController=loader.getController();
+            sellerDashboardController.setSellerId(this.userId);
 
             // Lấy Stage từ cái nút bấm
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
