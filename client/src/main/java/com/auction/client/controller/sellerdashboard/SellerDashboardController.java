@@ -2,6 +2,9 @@ package com.auction.client.controller.sellerdashboard;
 
 import com.auction.client.controller.auctioncardseller.AuctionCardSellerController;
 import com.auction.client.controller.itemcardseller.ItemCardSellerController;
+import com.auction.client.controller.sellerdashboard.buttonhandler.OpenItemPopupButton;
+import com.auction.client.controller.sellerdashboard.buttonhandler.ShowIntentoryButton;
+import com.auction.client.controller.sellerdashboard.buttonhandler.ShowLiveAuctionsButton;
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Auction.Auction;
@@ -13,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -28,90 +32,31 @@ public class SellerDashboardController {
 
     @FXML private FlowPane flowPaneContent;
     @FXML private Label lblHeader;
+    @FXML private Button openItemPopupButton,showInventoryButton,showLiveAuctionsButton;
 
     @FXML
     public void initialize() {
-        // Tự động load kho hàng khi vừa vào dashboard
-        showInventory();
+       /* // Tự động load kho hàng khi vừa vào dashboard
+        showInventory();*/
+
+        //Set on action for buttons:
+        this.openItemPopupButton.setOnAction(event -> new OpenItemPopupButton().handle());
+
+        this.showInventoryButton.setOnAction(event ->
+                new ShowIntentoryButton().handle(this));
+
+        this.showLiveAuctionsButton.setOnAction(event -> new ShowLiveAuctionsButton().handle(this));
+
+
+
     }
 
-    // --- 1. CHỨC NĂNG HIỂN THỊ KHO HÀNG ---
-    @FXML
-    private void showInventory() {
-        lblHeader.setText("KHO HÀNG CỦA TÔI");
-        flowPaneContent.getChildren().clear();
-
-        List<Item> mockItems = new ArrayList<>();
-
-        // Fix lỗi Constructor: Truyền đúng thứ tự tham số theo ảnh bạn gửi
-        // (id, name, description, price, seller(null), status, specialParam)
-        mockItems.add(new Art(1, "Tranh Sơn Dầu Phố Cổ", "Tranh vẽ tay 2023", 5000000.0, null, ItemStatus.AVAILABLE, "Họa sĩ Trần Văn A"));
-        mockItems.add(new Vehicle(2, "VinFast VF8", "Xe lướt 2000km", 800000000.0, null, ItemStatus.AVAILABLE, "VinFast"));
-        mockItems.add(new Electronics(3, "MacBook Pro M3", "Nguyên seal", 45000000.0, null, ItemStatus.AVAILABLE, 12));
-
-        renderInventory(mockItems);
-        System.out.println("Đã tải dữ liệu giả lập kho hàng.");
+    //Method for other classes to call
+    public FlowPane getFlowPaneContent(){
+        return this.flowPaneContent;
     }
 
-    public void renderInventory(List<Item> itemList) {
-        flowPaneContent.getChildren().clear();
-        for (Item item : itemList) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/item_card_seller.fxml"));
-                VBox card = loader.load();
-
-                ItemCardSellerController controller = loader.getController();
-                controller.setItemData(item);
-
-                flowPaneContent.getChildren().add(card);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    // --- 2. CHỨC NĂNG XEM CÁC CUỘC ĐẤU GIÁ ĐANG DIỄN RA ---
-    @FXML
-    private void showLiveAuctions() {
-        lblHeader.setText("PHIÊN ĐẤU GIÁ ĐANG CHẠY");
-        flowPaneContent.getChildren().clear();
-
-        // Tạo 1 Auction giả để test đồng hồ và giá
-        Auction mockAuction = new Auction(
-                101, 1, 5500000.0, 12,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(5), // Kết thúc sau 5 phút
-                AuctionStatus.OPEN,
-                "Tranh Sơn Dầu Phố Cổ"
-        );
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/auction_card_seller.fxml"));
-            VBox card = loader.load();
-
-            // Lấy controller của Auction Card
-            AuctionCardSellerController controller = loader.getController();
-            controller.setAuctionData(mockAuction);
-
-            flowPaneContent.getChildren().add(card);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // --- 3. MỞ POPUP THÊM SẢN PHẨM MỚI ---
-    @FXML
-    private void openAddItemPopup() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/add_item_popup.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Thêm sản phẩm mới");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Lỗi mở popup: " + e.getMessage());
-        }
+    public Label getLblHeader() {
+        return this.lblHeader;
     }
 }

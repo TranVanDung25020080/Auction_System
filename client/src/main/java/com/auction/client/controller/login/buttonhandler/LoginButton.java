@@ -124,7 +124,7 @@ public class LoginButton {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Alert.showAlert("Lỗi Giao Diện", "Không tìm thấy file seller_dashboard.fxml!");
+            Alert.showAlert("Lỗi Giao Diện", e.getMessage());
         }
 
     }

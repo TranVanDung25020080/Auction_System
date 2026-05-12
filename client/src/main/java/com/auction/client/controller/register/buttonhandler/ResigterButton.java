@@ -46,40 +46,9 @@ public class ResigterButton {
 
         new SwitchToLoginButton().handle(event);
 
-/*        // 3. Logic chuyển cảnh thông minh
-        if (role.equalsIgnoreCase("SELLER")) {
-            // Nếu là Seller -> Chuyển thẳng vào Dashboard để test giao diện
-            Alert.showAlert("Thành công", "Đăng ký Seller thành công! Đang vào Dashboard...");
-            switchToSellerDashboard(event);
-        } else {
-            // Nếu là Bidder -> Quay về Login theo đúng logic cũ của bạn
-            Alert.showAlert("Thành công", "Đăng ký Bidder thành công! Vui lòng đăng nhập lại.");
-            new SwitchToLoginButton().handle(event);
-        }*/
     }
 
-/*    private void switchToSellerDashboard(ActionEvent event) {
-        try {
-            // Đảm bảo đường dẫn này khớp 100% với cấu trúc project của bạn
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/seller_dashboard.fxml"));
-            Parent root = loader.load();
 
-            // Lấy Stage từ cái nút bấm
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Dashboard thường cần màn hình rộng (ví dụ 1100x750)
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("HỆ THỐNG QUẢN LÝ ĐẤU GIÁ - KÊNH CHỦ TÀI SẢN");
-            stage.centerOnScreen();
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert.showAlert("Lỗi Giao Diện", "Không tìm thấy file seller_dashboard.fxml!");
-        }
-
-    }*/
 
 
 }
