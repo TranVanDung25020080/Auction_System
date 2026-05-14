@@ -22,7 +22,7 @@ public class ShowLiveAuctionsButton {
 
         // Tạo 1 Auction giả để test đồng hồ và giá
         Auction mockAuction = new Auction(
-                101, 1, 5500000.0, 12,
+                101, 1, 2, 1200000, 1,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(5), // Kết thúc sau 5 phút
                 AuctionStatus.OPEN,
