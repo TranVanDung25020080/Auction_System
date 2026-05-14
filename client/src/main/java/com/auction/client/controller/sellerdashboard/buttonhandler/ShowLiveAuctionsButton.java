@@ -28,6 +28,10 @@ public class ShowLiveAuctionsButton {
                 AuctionStatus.OPEN,
                 "Tranh Sơn Dầu Phố Cổ"
         );
+        //Goi auctionList tu server here:
+        
+
+
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/auction_card_seller.fxml"));
