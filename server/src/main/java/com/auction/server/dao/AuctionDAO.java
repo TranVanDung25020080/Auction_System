@@ -83,6 +83,7 @@ public class AuctionDAO {
                 if (rs.next()) {
                     return new Auction(rs.getInt("auctionId"),
                             rs.getInt("itemId"),
+                            rs.getInt("sellerid"),
                             rs.getDouble("currentHighestPrice"),
                             rs.getInt("winningBidderId"),
                             rs.getTimestamp("startTime").toLocalDateTime(),
@@ -99,6 +100,39 @@ public class AuctionDAO {
         return null;
     }
 
+    public List<Auction> getAuctionBySellerId(int sellerId) throws DatabaseException {
+        String query = "SELECT * FROM auction WHERE sellerId = ?";
+
+        try (Connection conn = MyDatabaseConfig.getConnection();
+            PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setInt(1, sellerId);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                List<Auction> auctionList = new ArrayList<>();
+                while (rs.next()) {
+                    auctionList.add(new Auction(
+                            rs.getInt("auctionId"),
+                            rs.getInt("itemId"),
+                            rs.getInt("sellerId"),
+                            rs.getDouble("currentHighestPrice"),
+                            rs.getInt("winningBidderId"),
+                            rs.getTimestamp("startTime").toLocalDateTime(),
+                            rs.getTimestamp("endTime").toLocalDateTime(),
+                            AuctionStatus.valueOf(rs.getString("status")),
+                            rs.getString("item_name")
+                    ));
+                }
+                return auctionList;
+            }
+
+        }
+        catch (SQLException e) {
+            System.err.println("Loi SQL o ham getAuctionBySellerId: " + e.getMessage());
+            throw new DatabaseException("Loi he thong: khong the lay cuoc dau gia theo id nguoi ban", e);
+        }
+    }
+
     public List<Auction> getAllAuction() throws SQLException {
         List<Auction> auctionList=new ArrayList<>();
 
@@ -111,6 +145,7 @@ public class AuctionDAO {
                 while (resultSet.next()){
                     auctionList.add(new Auction(resultSet.getInt("auctionId"),
                             resultSet.getInt("itemId"),
+                            resultSet.getInt("sellerId"),
                             resultSet.getDouble("currentHighestPrice"),
                             resultSet.getInt("winningBidderId"),
                             resultSet.getTimestamp("startTime").toLocalDateTime(),
@@ -202,10 +237,10 @@ public class AuctionDAO {
         }
     }
 
-//    static void main(String[] args) throws DatabaseException, SQLException {
-//        AuctionDAO auctionDAO = new AuctionDAO();
-//        auctionDAO.extendEndTime(1,600);
-//        System.out.println("SUCCESS");
-//    }
+    static void main(String[] args) throws DatabaseException, SQLException {
+        AuctionDAO auctionDAO = new AuctionDAO();
+        System.out.println(auctionDAO.getAuctionBySellerId(2));
+        System.out.println("SUCCESS");
+    }
 
 }
