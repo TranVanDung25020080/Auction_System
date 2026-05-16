@@ -236,11 +236,11 @@ public class AuctionDAO {
             throw new DatabaseException("Loi he thong: khong the mo rong thoi gian dau gia", e);
         }
     }
-/*
+
     static void main(String[] args) throws DatabaseException, SQLException {
         AuctionDAO auctionDAO = new AuctionDAO();
         System.out.println(auctionDAO.getAuctionBySellerId(2));
         System.out.println("SUCCESS");
-    }*/
+    }
 
 }
