@@ -102,7 +102,6 @@ public class AuctionRoomService {
 
 
 
-
                     }
                 } catch (IOException e) {
                     Alert.showAlert("ERROR",e.getMessage());
