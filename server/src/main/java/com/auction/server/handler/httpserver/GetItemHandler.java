@@ -17,6 +17,7 @@ public class GetItemHandler extends HttpBaseHandler {
         Gson gson=new Gson();
 
         String jsonRequest=super.getRequest(exchange);
+        System.out.println(jsonRequest);
         GetItemRequestDTO getItemRequestDTO=gson.fromJson(jsonRequest, GetItemRequestDTO.class);
 
         GetItemReponseDTO getItemReponseDTO=new GetItemReponseDTO();
@@ -28,7 +29,6 @@ public class GetItemHandler extends HttpBaseHandler {
             getItemReponseDTO.setStatus(AuthStatus.SERVER_ERROR);
             getItemReponseDTO.setMessage(e.getMessage());
         }
-
         this.response=gson.toJson(getItemReponseDTO);
         super.handle(exchange);
 

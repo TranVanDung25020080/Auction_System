@@ -33,6 +33,7 @@ public class AuctionService {
         return auction;
     }
 
+
    /* //test
     static void main(String[] args) throws SQLException {
         List<Auction> auctionList=new AuctionService().getAllAuctions();

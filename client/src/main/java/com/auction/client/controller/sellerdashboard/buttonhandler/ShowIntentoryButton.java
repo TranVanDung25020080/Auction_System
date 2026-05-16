@@ -11,6 +11,7 @@ import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
 import com.auction.common.model.Item.Item;
 import com.auction.common.model.Item.Vehicle;
+import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -36,8 +37,10 @@ public class ShowIntentoryButton {
         try{
             int sellerId=sellerDashboardController.getSellerId();
             GetItemRequestDTO getItemRequestDTO=new GetItemRequestDTO(sellerId);
+            System.out.println(new Gson().toJson(getItemRequestDTO));
 
             getItemReponseDTO=new GetItemAPI().getItemBySellerId(getItemRequestDTO);
+            System.out.println(new Gson().toJson(getItemReponseDTO));
         } catch (IOException e) {
             Alert.showAlert("ERORR",e.getMessage());
             e.printStackTrace();
@@ -52,7 +55,7 @@ public class ShowIntentoryButton {
         mockItems.add(new Electronics(3, "MacBook Pro M3", "Nguyên seal", 45000000.0, null, ItemStatus.AVAILABLE, 12));
 */
         renderInventory(mockItems);
-        System.out.println("Đã tải dữ liệu giả lập kho hàng.");
+/*        System.out.println("Đã tải dữ liệu giả lập kho hàng.");*/
     }
 
     private void renderInventory(List<Item> itemList) {
