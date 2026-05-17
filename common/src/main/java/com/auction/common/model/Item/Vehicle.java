@@ -7,8 +7,8 @@ public class Vehicle extends Item {
     private String company;
 
     //Constructor
-    public Vehicle(int id, String name, String description, double initialPrice, Seller seller, ItemStatus itemStatus, String company) {
-        super(id, name, description, initialPrice, seller,itemStatus);
+    public Vehicle(String name, String description, double initialPrice, Seller seller, ItemStatus itemStatus, String company) {
+        super(name, description, initialPrice, seller,itemStatus);
         this.company = company;
     }
 

@@ -20,10 +20,10 @@ public class SaveButton {
             }
 
             String name = addItemController.getTxtName().getText();
-            String desc = addItemController.getTxtDescription().getText();
+            String description = addItemController.getTxtDescription().getText();
             double price = Double.parseDouble(addItemController.getTxtPrice().getText());
 
-            Item newItem = null;
+/*            Item newItem = null;
 
             if (type.contains("Art")) {
                 newItem = new Art(0, name, desc, price, null, ItemStatus.AVAILABLE, addItemController.getTxtExtra().getText());
@@ -34,7 +34,9 @@ public class SaveButton {
                 newItem = new Vehicle(0, name, desc, price, null, ItemStatus.AVAILABLE, addItemController.getTxtExtra().getText());
             }
 
-            System.out.println("Đã tạo thành công: " + newItem.getName());
+            System.out.println("Đã tạo thành công: " + newItem.getName());*/
+
+
             closeButton.handle(addItemController);
 
         } catch (NumberFormatException e) {

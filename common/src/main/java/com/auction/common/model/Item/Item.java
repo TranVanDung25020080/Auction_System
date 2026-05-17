@@ -22,6 +22,13 @@ public class Item implements Entity, Serializable {
         this.seller = seller;
         this.item_status = item_status;
     }
+    public Item(String name, String description, double InitialPrice, Seller seller, ItemStatus item_status) {
+        this.name = name;
+        this.description = description;
+        this.initialPrice = InitialPrice;
+        this.seller = seller;
+        this.item_status = item_status;
+    }
     public Item(){};
     //
 

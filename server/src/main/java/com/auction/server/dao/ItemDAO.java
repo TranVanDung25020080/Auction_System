@@ -145,12 +145,9 @@ public class ItemDAO {
         }
     }
 
-/*    //test
+    //test
     static void main(String[] args) throws DatabaseException {
-        List<Item> itemList=new ItemDAO().getItemBySellerId(2);
-        for (Item item:itemList){
-            item.printInfo();
-        }
-    }*/
+        Item car=new Vehicle();
+    }
 
 }
