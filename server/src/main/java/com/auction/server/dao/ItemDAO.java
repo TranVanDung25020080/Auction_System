@@ -5,12 +5,16 @@ import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
 import com.auction.common.model.Item.Item;
 import com.auction.common.model.Item.Vehicle;
-import com.auction.common.model.User.Seller;
-import com.auction.server.db.DatabaseConnection;
 import com.auction.server.db.MyDatabaseConfig;
+import com.auction.server.dp.factory.IFac.add.AddArt;
+import com.auction.server.dp.factory.IFac.add.AddElectronics;
+import com.auction.server.dp.factory.IFac.add.AddItem;
+import com.auction.server.dp.factory.IFac.add.AddVehicle;
+import com.auction.server.dp.factory.IFac.get.GetArt;
+import com.auction.server.dp.factory.IFac.get.GetElectronics;
+import com.auction.server.dp.factory.IFac.get.GetItem;
+import com.auction.server.dp.factory.IFac.get.GetVehicle;
 import com.auction.server.exception.DatabaseException;
-import com.auction.server.dp.factory.IFac.add.*;
-import com.auction.server.dp.factory.IFac.get.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +39,7 @@ public class ItemDAO {
         adds.put(Vehicle.class, new AddVehicle());
     }
 
-    public boolean addItem(Item item) throws Exception {
+    public void addItem(Item item) throws Exception {
         String query = "INSERT INTO item (name, description, initialPrice, item_type, seller_id, warranty, company, author, item_status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 /*
@@ -43,11 +47,11 @@ public class ItemDAO {
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setString(2, item.getName());
-            pst.setString(3, item.getDescription());
-            pst.setDouble(4, item.getInitialPrice());
-            pst.setInt(6, item.getSeller().getId());
-            pst.setString(10, ItemStatus.AVAILABLE.name());
+            pst.setString(1, item.getName());
+            pst.setString(2, item.getDescription());
+            pst.setDouble(3, item.getInitialPrice());
+            pst.setInt(5, item.getSellerId());
+            pst.setString(9, ItemStatus.AVAILABLE.toString());
 
             AddItem ai = adds.get(item.getClass());
 
@@ -57,7 +61,7 @@ public class ItemDAO {
             ai.addToItem(pst, item);
 
 
-            return pst.executeUpdate() > 0;
+            pst.executeUpdate() ;
 
         } catch (SQLException e) {
             System.err.println("Loi SQL o ham addItem: " + e.getMessage());
@@ -141,10 +145,15 @@ public class ItemDAO {
         }
     }
 
-   /* //test
-    static void main(String[] args) throws DatabaseException {
-        Item item=new ItemDAO().getItemById(1);
-        item.printInfo();
+/*    //test
+    static void main(String[] args) throws Exception {
+        Item car=new Vehicle("Car2","nothing to describe ",100,3,ItemStatus.AVAILABLE);
+*//*        car.printInfo();*//*
+        new ItemDAO().addItem(car);
+        System.out.println("OK");
+        new ItemDAO().getItemById(2).printInfo();
+
+
     }*/
 
 }

@@ -1,6 +1,8 @@
 package com.auction.common.dto.request;
 
-public class BidRequestDTO {
+import com.auction.common.enums.RequestType;
+
+public class BidRequestDTO extends BaseRequestDTO{
     private int auctionId,bidderId;
     private double bidAmount;
     private double highCurrentPrice;
@@ -11,6 +13,10 @@ public class BidRequestDTO {
         this.bidAmount = bidAmount;
         this.highCurrentPrice=highCurrentPrice;
         this.bidderId=bidderId;
+        this.requestType= RequestType.NORMAL_BIDDING;
+    }
+    public BidRequestDTO(){
+        this.requestType= RequestType.NORMAL_BIDDING;
     }
 
     //Getter

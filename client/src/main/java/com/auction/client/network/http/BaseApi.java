@@ -1,7 +1,6 @@
-package com.auction.client.service.http;
+package com.auction.client.network.http;
 
 import com.auction.common.enums.HttpMethod;
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +11,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class BaseApi {
-    public static String getJsonReponse(String jsonRequest, URL url, HttpMethod httpMethod) throws IOException {
+    private static final String BASE_URL="http://localhost:8000";
+    public static String getJsonReponse(String jsonRequest, String route, HttpMethod httpMethod) throws IOException {
+        URL url=new URL(BASE_URL+route);
+
         HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod(httpMethod.toString());
@@ -32,7 +34,7 @@ public class BaseApi {
 
         BufferedReader reader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-        while ( (line=reader.readLine())!=null){
+        while ( (line=reader.readLine())!=null) {
             jsonReponse.append(line);
         }
 
@@ -43,7 +45,8 @@ public class BaseApi {
 
     }
     //Overload
-    public static String getJsonResponse(URL url, HttpMethod method) throws IOException {
+    public static String getJsonResponse(String route, HttpMethod method) throws IOException {
+        URL url=new URL(BASE_URL+route);
 
         HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 

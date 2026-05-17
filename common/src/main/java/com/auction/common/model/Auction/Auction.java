@@ -6,20 +6,22 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Auction implements Serializable {
+public class Auction  {
     private int auctionId;
     private int itemId;
-    private double currentHighestPrice;
+    private int sellerId;
+    private double currentHighestPrice,startPrice;
     private int winningBidderId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private AuctionStatus status;
     private String itemName;
 
-    public Auction(int auctionId, int itemId, double currentHighestPrice, int winningBidderId,
+    public Auction(int auctionId, int itemId, int sellerId, double currentHighestPrice, int winningBidderId,
                    LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status,String itemName) {
         this.auctionId = auctionId;
         this.itemId = itemId;
+        this.sellerId = sellerId;
         this.currentHighestPrice = currentHighestPrice;
         this.winningBidderId = winningBidderId;
         this.startTime = startTime;
@@ -27,6 +29,7 @@ public class Auction implements Serializable {
         this.status = status ;
         this.itemName=itemName;
     }
+    public Auction(){};
 
     //Getter
     //region
@@ -37,6 +40,8 @@ public class Auction implements Serializable {
     public int getAuctionId() {
         return auctionId;
     }
+
+    public int getSellerId() { return sellerId; }
 
     public double getCurrentHighestPrice() {
         return currentHighestPrice;
@@ -61,17 +66,53 @@ public class Auction implements Serializable {
     public String getItemName(){
         return this.itemName;
     }
+
+    public double getStartPrice() {
+        return this.startPrice; // Trả về giá khởi điểm
+    }
+
+    public double getCurrentPrice() {
+        return this.currentHighestPrice; // Trả về giá hiện tại
+    }
+
+    // Hàm này giúp fix lỗi ở ProductCardController (Ảnh image_295815.png)
+    public Auction getItem() {
+        return this;
+    }
+
+    public String getName() {
+        return this.itemName;
+    }
+
+
+
+
+
     public int getDurationLeft(){
-        Duration duration=Duration.between(startTime,endTime);
+        Duration duration=Duration.between(LocalDateTime.now(),endTime);
 
         return (int) duration.getSeconds();
     }
     //endregion
+    //setter
+    public void setCurrentHighestPrice(double newPrice){
+        this.currentHighestPrice=newPrice;
+    }
+    public void endAuction(){
+        this.status=AuctionStatus.FINISHED;
+    }
+    public void startAuction(){
+        this.status=AuctionStatus.PENDING;
+    }
 
+
+
+    //Override
     public String toString() {
         return "Auction{" +
                 "auctionId=" + auctionId +
                 ", itemId=" + itemId +
+                ", sellerId=" + sellerId +
                 ", currentHighestPrice=" + currentHighestPrice +
                 ", winningBidderId=" + winningBidderId +
                 ", startTime=" + startTime +

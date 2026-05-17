@@ -1,10 +1,9 @@
 package com.auction.client.controller.register.buttonhandler;
 
 import com.auction.client.controller.annoucement.Alert;
-import com.auction.client.service.http.SignUpApi;
+import com.auction.client.network.http.SignUpApi;
 import com.auction.common.dto.request.RegisterRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
-import com.auction.common.enums.UserRole;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
@@ -13,7 +12,7 @@ import java.io.IOException;
 
 public class RegisterButton {
     public void handle(ActionEvent event, TextField txtDisplayName, TextField txtUsername,
-                       TextField txtPassword, UserRole role) throws IOException {
+                       TextField txtPassword, String role) throws IOException {
 
         String username = txtUsername.getText().trim();
         String password = txtPassword.getText().trim();
@@ -41,7 +40,10 @@ public class RegisterButton {
         Alert.showAlert("Thành công", "Tài khoản " + username + " đã được tạo thành công!");
 
         new SwitchToLoginButton().handle(event);
+
     }
+
+
 
 
 }

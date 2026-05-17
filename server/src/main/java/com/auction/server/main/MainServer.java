@@ -2,6 +2,7 @@ package com.auction.server.main;
 
 import com.auction.common.enums.UserRole;
 import com.auction.server.network.MyHttpServer;
+import com.auction.server.network.MySocketServer;
 import com.auction.server.routes.RoutesConfig;
 
 import java.io.IOException;
@@ -13,6 +14,10 @@ public class MainServer {
         MyHttpServer.start();
 
         System.out.println("Server started");
+
+        MySocketServer.start();
+
+
 
     }
 }

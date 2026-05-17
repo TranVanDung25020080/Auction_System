@@ -1,16 +1,20 @@
 package com.auction.server.dao;
 
 import com.auction.common.enums.UserRole;
-import com.auction.common.model.User.Admin;
-import com.auction.common.model.User.Bidder;
-import com.auction.common.model.User.Seller;
 import com.auction.common.model.User.User;
 import com.auction.server.db.DatabaseConnection;
 import com.auction.server.db.MyDatabaseConfig;
+import com.auction.server.dp.factory.UFac.login.AdminLogin;
+import com.auction.server.dp.factory.UFac.login.BidderLogin;
+import com.auction.server.dp.factory.UFac.login.SellerLogin;
+import com.auction.server.dp.factory.UFac.login.UserLogin;
+import com.auction.server.dp.factory.UFac.register.AdminRegister;
+import com.auction.server.dp.factory.UFac.register.BidderRegister;
+import com.auction.server.dp.factory.UFac.register.SellerRegister;
+import com.auction.server.dp.factory.UFac.register.UserRegister;
 import com.auction.server.exception.DatabaseException;
-import com.auction.server.dp.factory.UFac.login.*;
-import com.auction.server.dp.factory.UFac.register.*;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -139,4 +143,28 @@ public class UserDAO {
             System.err.println("Loi SQL o ham UpdateBalance: " + e.getMessage());
         }
     }
+
+    public double showBalance(int userId) throws DatabaseException {
+        String query = "SELECT balance FROM user WHERE userId = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setInt(1, userId);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                System.out.println("So du cua nguoi dung " + userId + " la: " + rs.getBigDecimal("balance"));
+                return rs.getDouble("balance");
+            }
+            else {
+                throw new DatabaseException("Khong tim thay id nguoi dung nay");
+            }
+        }
+        catch (SQLException e) {
+            System.err.println("Loi SQL o ham showBalance: " + e.getMessage());
+            throw new DatabaseException("Loi he thong: khong the lay so du cua user nay", e);
+        }
+    }
+
 }

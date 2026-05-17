@@ -1,50 +1,119 @@
 package com.auction.server.service.auction;
 
+import com.auction.common.dto.request.AutoBidRequestDTO;
+import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
-import com.auction.server.dao.BidDAO;
 import com.auction.server.exception.DatabaseException;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 public class BidService {
-    private final AuctionDAO auctionDAO = new AuctionDAO();
-    private final BidDAO bidDAO = new BidDAO();
 
-    public BidUpdateResponseDTO normalBid(BidRequestDTO bidRequestDTO) throws DatabaseException {
-        BidUpdateResponseDTO response = new BidUpdateResponseDTO();
+    // Map<int,reeandlock> 1 auctionRoomId sẽ có 1 lock riêng
+    private final Map<Integer, ReentrantReadWriteLock> reentrantReadWriteLockMap=new ConcurrentHashMap<>();
 
-        int bidderId = bidRequestDTO.getBidderId();
-        int auctionId = bidRequestDTO.getAuctionId();
-        double bidAmount = bidRequestDTO.getBidAmount();
+    //Method for gettting reentrantlock:
+    private ReentrantReadWriteLock getReadWriteLock(int auctionId){
+        return  reentrantReadWriteLockMap.computeIfAbsent(auctionId,key->new ReentrantReadWriteLock());
+    }
+    //
+    public BidUpdateResponseDTO normalBid(BaseRequestDTO bidRequestDTO) throws DatabaseException {
+        BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
+        BidRequestDTO bid= (BidRequestDTO) bidRequestDTO;
 
-        // 1. LẤY DỮ LIỆU THẬT TỪ DATABASE
-        Auction auction = auctionDAO.getAuctionInfoById(auctionId);
+        int bidderId=bid.getBidderId();
+        int auctionId=bid.getAuctionId();
+        double bidAmmount=bid.getBidAmount();
+        double highCurrentPrice=bid.getHighCurrentPrice();
 
-        if (auction == null) {
-            response.setBidStatus(BidStatus.FAILED);
-            return response;
+        ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionId);
+        reentrantReadWriteLock.writeLock().lock();
+        try{
+            if (bidAmmount<=highCurrentPrice){
+                bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
+                bidUpdateResponseDTO.setBidderId(bidderId);
+            }
+            else {
+                new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);
+
+                bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,bidAmmount);
+                bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
+            }
+
+
+            return bidUpdateResponseDTO;
+        }
+        finally {
+            reentrantReadWriteLock.writeLock().unlock();
         }
 
-        double realCurrentPrice = auction.getCurrentHighestPrice();
+    }
 
-        if (bidAmount <= realCurrentPrice) {
-            response.setBidStatus(BidStatus.FAILED);
-        }
-        else {
-            boolean isTransactionSuccess = bidDAO.placeBid(auctionId, bidderId, bidAmount);
+    public BidUpdateResponseDTO autoBid(BaseRequestDTO autoBidRequestDTO) throws DatabaseException {
+        BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
+        AutoBidRequestDTO autoBid=(AutoBidRequestDTO) autoBidRequestDTO;
 
-            if (isTransactionSuccess) {
-                auctionDAO.updateCurrentPrice(auctionId, bidAmount, bidderId);
+        int auctionRoomId=autoBid.getAuctionId();
+        int bidderId=autoBid.getBidderId();
+        double maxBid=autoBid.getMaxBid();
+        double increment=autoBid.getIncrement();
 
-                response = new BidUpdateResponseDTO(auctionId, bidderId, bidAmount);
-                response.setBidStatus(BidStatus.SUCCESS);
-            } else {
-                response.setBidStatus(BidStatus.FAILED);
+        Auction currentAuction=new AuctionDAO().getAuctionInfoById(auctionRoomId);
+
+        ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionRoomId);
+        reentrantReadWriteLock.writeLock().lock();
+
+        try {
+            if (maxBid<=currentAuction.getCurrentHighestPrice()){
+                bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
+                bidUpdateResponseDTO.setBidderId(bidderId);
+                bidUpdateResponseDTO.setAuctionId(auctionRoomId);
+                bidUpdateResponseDTO.setNewHighestPrice(currentAuction.getCurrentHighestPrice());
+
+            }
+            else {
+                double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
+
+                if (highestCurrentPrice+increment>maxBid){
+
+                    bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
+                    bidUpdateResponseDTO.setBidderId(bidderId);
+                    bidUpdateResponseDTO.setAuctionId(auctionRoomId);
+                    bidUpdateResponseDTO.setNewHighestPrice(currentAuction.getCurrentHighestPrice());
+
+                }
+
+                else {
+                    double bidAmount=highestCurrentPrice+increment;
+
+                    new AuctionDAO().updateCurrentPrice(auctionRoomId,bidAmount,bidderId);
+
+                    bidUpdateResponseDTO = new BidUpdateResponseDTO(auctionRoomId,bidderId,bidAmount);
+                    bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
+
+                }
+
             }
         }
+        finally {
+            reentrantReadWriteLock.writeLock().unlock();
+        }
 
-        return response;
+        return bidUpdateResponseDTO;
+
+
+
+
     }
+
+
+
 }
