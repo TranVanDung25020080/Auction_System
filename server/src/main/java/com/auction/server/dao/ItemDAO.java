@@ -41,17 +41,17 @@ public class ItemDAO {
 
     public void addItem(Item item) throws Exception {
         String query = "INSERT INTO item (name, description, initialPrice, item_type, seller_id, warranty, company, author, item_status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
 /*
         try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setString(2, item.getName());
-            pst.setString(3, item.getDescription());
-            pst.setDouble(4, item.getInitialPrice());
-            pst.setInt(6, item.getSeller().getId());
-            pst.setString(10, ItemStatus.AVAILABLE.name());
+            pst.setString(1, item.getName());
+            pst.setString(2, item.getDescription());
+            pst.setDouble(3, item.getInitialPrice());
+            pst.setInt(5, item.getSellerId());
+            pst.setString(9, ItemStatus.AVAILABLE.toString());
 
             AddItem ai = adds.get(item.getClass());
 
@@ -145,9 +145,15 @@ public class ItemDAO {
         }
     }
 
-    //test
-    static void main(String[] args) throws DatabaseException {
-        Item car=new Vehicle();
-    }
+/*    //test
+    static void main(String[] args) throws Exception {
+        Item car=new Vehicle("Car2","nothing to describe ",100,3,ItemStatus.AVAILABLE);
+*//*        car.printInfo();*//*
+        new ItemDAO().addItem(car);
+        System.out.println("OK");
+        new ItemDAO().getItemById(2).printInfo();
+
+
+    }*/
 
 }

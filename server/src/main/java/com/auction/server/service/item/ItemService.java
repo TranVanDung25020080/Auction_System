@@ -17,4 +17,7 @@ public class ItemService {
 
         return new GetItemReponseDTO(sellerId,itemList);
     }
+    public void addItem(){
+
+    }
 }
