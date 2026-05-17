@@ -11,9 +11,9 @@ public class AddArt implements AddItem {
     @Override
     public void addToItem(PreparedStatement pst, Item item) throws SQLException {
         Art ar = (Art) item;
-        pst.setString(5, "ART");
-        pst.setNull(7, Types.INTEGER);
-        pst.setNull(8, Types.VARCHAR);
-        pst.setString(9, ar.getAuthor());
+        pst.setString(4, "ART");
+        pst.setNull(6, Types.INTEGER);
+        pst.setNull(7, Types.VARCHAR);
+        pst.setString(8, ar.getAuthor());
     }
 }

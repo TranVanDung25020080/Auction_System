@@ -50,6 +50,7 @@ public class Item implements Entity, Serializable {
     public Seller getSeller() { return seller; }
     public ItemStatus getItem_status() { return item_status; }
     public int getSellerId(){return this.sellerId;}
+    public ItemType getItemType(){return this.itemType;}
     //endregion
 
     //setter
