@@ -16,32 +16,36 @@ public class AuctionDAO {
 
     private ItemDAO itemDAO = new ItemDAO();
 
-    public boolean createAuction(int auctionId, int itemId, LocalDateTime startTime, LocalDateTime endTime) throws DatabaseException {
-        String query = "INSERT INTO auction (auctionId, itemId, currentHighestPrice, winningBidderId, startTime, endTime, status, item_name) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        String query1 = "UPDATE item SET item_status = ? WHERE item_id = ?";
+    public void createAuction(/*int auctionId,*/ int itemId,String itemName,double initialPrice,int sellerId, LocalDateTime startTime, LocalDateTime endTime) throws DatabaseException {
+        String query = "INSERT INTO auction (/*auctionId,*/ itemId, currentHighestPrice, winningBidderId, startTime, endTime, status, item_name,sellerId) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+/*        String query1 = "UPDATE item SET item_status = ? WHERE item_id = ?";*/
 
-        Item item = itemDAO.getItemById(itemId);
+/*        Item item = itemDAO.getItemById(itemId);*/
 
 /*        try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(query);
-             PreparedStatement pst1 = conn.prepareStatement(query1)) {
+             PreparedStatement pst = conn.prepareStatement(query);)
+  /*           PreparedStatement pst1 = conn.prepareStatement(query1)) */{
+/*
+            pst.setInt(1, auctionId);*/
+            pst.setInt(1, itemId);
+            pst.setDouble(2, initialPrice);
+            pst.setNull(3, Types.INTEGER);
+            pst.setTimestamp(4, Timestamp.valueOf(startTime));
+            pst.setTimestamp(5, Timestamp.valueOf(endTime));
+            pst.setString(6, "PENDING");
+            pst.setString(7, itemName);
+            pst.setInt(8, sellerId);
 
-            pst.setInt(1, auctionId);
-            pst.setInt(2, itemId);
-            pst.setDouble(3, item.getInitialPrice());
-            pst.setNull(4, Types.INTEGER);
-            pst.setTimestamp(5, Timestamp.valueOf(startTime));
-            pst.setTimestamp(6, Timestamp.valueOf(endTime));
-            pst.setString(7, "PENDING");
-            pst.setString(8, item.getName());
-
-            pst1.setString(1, ItemStatus.AUCTION.name());
+/*
+            pst1.setString(1, ItemStatus.AUCTION.toString());
             pst1.setInt(2, itemId);
 
             int change = pst.executeUpdate() + pst1.executeUpdate();
             return (change > 1);
+*/
+            pst.executeUpdate();
 
         }
         catch (SQLException e) {
@@ -237,12 +241,15 @@ public class AuctionDAO {
         }
     }
 
-/*
-    static void main(String[] args) throws DatabaseException, SQLException {
+/*    static void main(String[] args) throws DatabaseException, SQLException {
         AuctionDAO auctionDAO = new AuctionDAO();
-        System.out.println(auctionDAO.getAuctionBySellerId(2));
-        System.out.println("SUCCESS");
-    }
-*/
+        LocalDateTime start=LocalDateTime.now();
+        LocalDateTime end=LocalDateTime.of(2026,5,20,10,5);
+
+        auctionDAO.createAuction(12,"Bike",1234,2,start,end);
+        System.out.println("OK");
+
+
+    }*/
 
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class OpenAuctionPopupController {
-
+    //FXML fields:
     @FXML private Label lblItemName;
     @FXML private TextField txtStartPrice; // Thêm bid step ở đây
     @FXML private DatePicker dpEndDate;
@@ -42,12 +42,13 @@ public class OpenAuctionPopupController {
 
             // Lấy dữ liệu thời gian
             //LocalDateTime start = LocalDateTime.of(dpStartDate.getValue(), LocalTime.parse(txtStartTime.getText()));
+            LocalDateTime start=LocalDateTime.now();
             LocalDateTime end = LocalDateTime.of(dpEndDate.getValue(), LocalTime.parse(txtEndTime.getText()));
 
-/*            if (end.isBefore(start)) {
+            if (end.isBefore(start)) {
                 showAlert("Lỗi", "Thời gian kết thúc phải sau khi bắt đầu!");
                 return;
-            }*/
+            }
 /*
             // In ra log để check
             System.out.println("--- THÔNG TIN PHIÊN ĐẤU GIÁ MỚI ---");

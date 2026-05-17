@@ -21,8 +21,6 @@ public class SellerDashboardController {
 
     //Method which is gonna be called automaticly:
     public void initialize() {
-       /* // Tự động load kho hàng khi vừa vào dashboard
-        showInventory();*/
 
         //Set on action for buttons:
         this.openItemPopupButton.setOnAction(event -> new OpenItemPopupButton().handle(this));

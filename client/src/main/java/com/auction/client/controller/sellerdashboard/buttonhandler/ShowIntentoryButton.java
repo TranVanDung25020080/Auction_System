@@ -37,10 +37,10 @@ public class ShowIntentoryButton {
         try{
             int sellerId=sellerDashboardController.getSellerId();
             GetItemRequestDTO getItemRequestDTO=new GetItemRequestDTO(sellerId);
-            System.out.println(new Gson().toJson(getItemRequestDTO));
+
 
             getItemReponseDTO=new GetItemAPI().getItemBySellerId(getItemRequestDTO);
-            System.out.println(new Gson().toJson(getItemReponseDTO));
+
         } catch (IOException e) {
             Alert.showAlert("ERORR",e.getMessage());
             e.printStackTrace();
@@ -48,14 +48,9 @@ public class ShowIntentoryButton {
 
         List<Item> mockItems = getItemReponseDTO.getItemList();
 
-       /* // Fix lỗi Constructor: Truyền đúng thứ tự tham số theo ảnh bạn gửi
-        // (id, name, description, price, seller(null), status, specialParam)
-        mockItems.add(new Art(1, "Tranh Sơn Dầu Phố Cổ", "Tranh vẽ tay 2023", 5000000.0, null, ItemStatus.AVAILABLE, "Họa sĩ Trần Văn A"));
-        mockItems.add(new Vehicle(2, "VinFast VF8", "Xe lướt 2000km", 800000000.0, null, ItemStatus.AVAILABLE, "VinFast"));
-        mockItems.add(new Electronics(3, "MacBook Pro M3", "Nguyên seal", 45000000.0, null, ItemStatus.AVAILABLE, 12));
-*/
+
         renderInventory(mockItems);
-/*        System.out.println("Đã tải dữ liệu giả lập kho hàng.");*/
+
     }
 
     private void renderInventory(List<Item> itemList) {
