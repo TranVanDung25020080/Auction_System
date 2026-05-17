@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Auction implements Serializable {
+public class Auction  {
     private int auctionId;
     private int itemId;
     private int sellerId;
-    private double currentHighestPrice;
+    private double currentHighestPrice,startPrice;
     private int winningBidderId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -68,7 +68,7 @@ public class Auction implements Serializable {
     }
 
     public double getStartPrice() {
-        return this.currentHighestPrice; // Trả về giá khởi điểm
+        return this.startPrice; // Trả về giá khởi điểm
     }
 
     public double getCurrentPrice() {

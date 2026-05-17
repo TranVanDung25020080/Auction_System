@@ -31,7 +31,7 @@ public class CreateAuctionHandler extends HttpBaseHandler {
             createAuctionResponseDTO.setMessage(e.getMessage());
         }
 
-        this.response=new Gson().toJson(createAuctionResponseDTO);
+        this.response=gson.toJson(createAuctionResponseDTO);
         super.handle(exchange);
 
 
