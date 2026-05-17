@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<VBox fx:id="cardContainer" spacing="10" styleClass="card"
-      prefWidth="220" minWidth="220" maxWidth="220"
-      stylesheets="@../css/seller-styles.css"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.auction.client.controller.itemcardseller.ItemCardSellerController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="cardContainer" maxWidth="220" minWidth="220" prefWidth="220" spacing="10" styleClass="card" stylesheets="@../css/seller-styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.auction.client.controller.itemcardseller.ItemCardSellerController">
     <children>
         <HBox alignment="TOP_RIGHT">
-            <Label fx:id="lblBadge" text="CATEGORY" styleClass="badge" />
+            <Label fx:id="lblBadge" styleClass="badge" text="CATEGORY" />
         </HBox>
 
-        <Label fx:id="lblItemName" text="Tên sản phẩm" styleClass="item-title" />
-        <Label fx:id="lblPrice" text="0 VNĐ" styleClass="price-text" />
+        <Label fx:id="lblItemName" styleClass="item-title" text="Tên sản phẩm" />
+        <Label fx:id="lblPrice" styleClass="price-text" text="0 VNĐ" />
 
-        <Label fx:id="lblExtraInfo" text="Thông tin chi tiết..." wrapText="true" styleClass="extra-info-label" />
+        <Label fx:id="lblExtraInfo" styleClass="extra-info-label" text="Thông tin chi tiết..." wrapText="true" />
 
         <Separator />
 
-        <HBox spacing="10" alignment="CENTER">
-            <Button text="Mở Đấu Giá" onAction="#handleStartAuction" styleClass="btn-success" />
-            <Button text="Xóa" onAction="#handleDelete" styleClass="btn-danger" />
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="startAuctionButton" onAction="#handleStartAuction" styleClass="btn-success" text="Mở Đấu Giá" />
+            <Button fx:id="deleteItemButton" onAction="#handleDelete" styleClass="btn-danger" text="Xóa" />
         </HBox>
     </children>
 </VBox>

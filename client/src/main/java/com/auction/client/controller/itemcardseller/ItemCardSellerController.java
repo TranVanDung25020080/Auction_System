@@ -28,7 +28,7 @@ public class ItemCardSellerController {
     @FXML private Label lblItemName;
     @FXML private Label lblPrice;
     @FXML private Label lblExtraInfo;
-    @FXML private Button btnStart;
+    @FXML private Button startAuctionButton,deleteItemButton;
     //Other fields:
     private Item item;
     private int sellerId;
@@ -130,5 +130,12 @@ public class ItemCardSellerController {
         if (parent != null) {
             parent.getChildren().remove(cardContainer);
         }
+    }
+    //method for other classes to call:
+    public Item getItem(){
+        return this.item;
+    }
+    public int getSellerId(){
+        return this.sellerId;
     }
 }
