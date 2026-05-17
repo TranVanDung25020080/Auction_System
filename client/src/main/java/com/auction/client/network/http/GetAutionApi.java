@@ -23,6 +23,7 @@ public class GetAutionApi {
         return gson.fromJson(response, GetAuctionResponseDTO.class);
 
     }
+
     /*//test
     static void main(String[] args) throws IOException {
         GetAuctionResponseDTO getAuctionResponseDTO= new GetAutionApi().getAllAuction();

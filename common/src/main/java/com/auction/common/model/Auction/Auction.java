@@ -29,6 +29,7 @@ public class Auction implements Serializable {
         this.status = status ;
         this.itemName=itemName;
     }
+    public Auction(){};
 
     //Getter
     //region
