@@ -11,11 +11,12 @@ import java.net.URL;
 
 public class GetAutionApi {
     public GetAuctionResponseDTO getAllAuction() throws IOException {
-        URL url=new URL("http://localhost:8000/getallauction");
+  /*      URL url=new URL("http://localhost:8000/getallauction");*/
+        String route="/getallauction";
 
         HttpMethod httpMethod=HttpMethod.GET;
 
-        String response=BaseApi.getJsonResponse(url,httpMethod);
+        String response=BaseApi.getJsonResponse(route,httpMethod);
 
         Gson gson = Converters.registerAll(new GsonBuilder()).create();
 

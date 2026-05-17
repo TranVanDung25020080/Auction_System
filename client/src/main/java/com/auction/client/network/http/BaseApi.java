@@ -11,7 +11,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class BaseApi {
-    public static String getJsonReponse(String jsonRequest, URL url, HttpMethod httpMethod) throws IOException {
+    private static final String BASE_URL="http://localhost:8000";
+    public static String getJsonReponse(String jsonRequest, String route, HttpMethod httpMethod) throws IOException {
+        URL url=new URL(BASE_URL+route);
+
         HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod(httpMethod.toString());
@@ -42,7 +45,8 @@ public class BaseApi {
 
     }
     //Overload
-    public static String getJsonResponse(URL url, HttpMethod method) throws IOException {
+    public static String getJsonResponse(String route, HttpMethod method) throws IOException {
+        URL url=new URL(BASE_URL+route);
 
         HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 

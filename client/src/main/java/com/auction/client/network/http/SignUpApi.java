@@ -10,13 +10,14 @@ import java.net.URL;
 
 public class SignUpApi {
     public UserResponseDTO register(RegisterRequestDTO registerRequestDTO) throws IOException {
-        URL url=new URL("http://localhost:8000/signup");
+    /*    URL url=new URL("http://localhost:8000/signup");*/
+        String route="/signup";
         Gson gson=new Gson();
 
         String jsonRequest=gson.toJson(registerRequestDTO);
 
         //Nhan thong tin tu server
-        String jsonResponse=BaseApi.getJsonReponse(jsonRequest,url, HttpMethod.POST);
+        String jsonResponse=BaseApi.getJsonReponse(jsonRequest,route, HttpMethod.POST);
 
         return gson.fromJson(jsonResponse, UserResponseDTO.class);
 

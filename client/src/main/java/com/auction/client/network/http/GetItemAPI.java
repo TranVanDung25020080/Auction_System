@@ -15,10 +15,11 @@ public class GetItemAPI {
         Gson gson=new Gson();
         String jsonRequest=gson.toJson(getItemRequestDTO);
 
-        URL url=new URL("http://localhost:8000/getitem/sellerid");
+/*        URL url=new URL("http://localhost:8000/getitem/sellerid");*/
+        String route="/getitem/sellerid";
         HttpMethod method=HttpMethod.POST;
 
-        String jsonReponse=BaseApi.getJsonReponse(jsonRequest,url,method);
+        String jsonReponse=BaseApi.getJsonReponse(jsonRequest,route,method);
 
         return gson.fromJson(jsonReponse, GetItemReponseDTO.class);
 

@@ -10,10 +10,11 @@ import java.net.URL;
 public class LoginApi {
     public UserResponseDTO login(LoginRequestDTO loginRequestDTO) throws IOException {
         String jsonRequest=new Gson().toJson(loginRequestDTO);
-        URL url=new URL("http://localhost:8000/login");
+/*        URL url=new URL("http://localhost:8000/login");*/
 
 
-        String jsonReponse=BaseApi.getJsonReponse(jsonRequest,url, HttpMethod.POST);
+        String route="/login";
+        String jsonReponse=BaseApi.getJsonReponse(jsonRequest,route, HttpMethod.POST);
 
         return new Gson().fromJson(jsonReponse.toString(),UserResponseDTO.class);
 
