@@ -1,6 +1,7 @@
 package com.auction.server.service.item;
 
 import com.auction.common.dto.request.GetItemRequestDTO;
+import com.auction.common.dto.response.AddItemResponseDTO;
 import com.auction.common.dto.response.GetItemReponseDTO;
 import com.auction.common.model.Item.Item;
 import com.auction.server.dao.ItemDAO;
@@ -17,7 +18,14 @@ public class ItemService {
 
         return new GetItemReponseDTO(sellerId,itemList);
     }
-    public void addItem(){
+    public AddItemResponseDTO addItem(Item item) throws Exception {
+        AddItemResponseDTO addItemResponseDTO=new AddItemResponseDTO();
+
+        new ItemDAO().addItem(item);
+
+        addItemResponseDTO.setItem(item);
+
+        return addItemResponseDTO;
 
     }
 }
