@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15.0" styleClass="form-container" stylesheets="@../css/seller-styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.openauctionpopup.OpenAuctionPopupController">
+<VBox spacing="15.0" styleClass="form-container" stylesheets="@../css/seller-styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.openauctionpopup.OpenAuctionPopupController">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
@@ -46,8 +46,8 @@
     </GridPane>
 
         <HBox alignment="CENTER_RIGHT" spacing="10">
-            <Button onAction="#handleCancel" styleClass="btn-secondary" text="Hủy" />
-            <Button onAction="#handleConfirm" styleClass="btn-primary" text="BẮT ĐẦU ĐẤU GIÁ" />
+            <Button fx:id="cancelButton" styleClass="btn-secondary" text="Hủy" />
+            <Button fx:id="confirmButton" styleClass="btn-primary" text="BẮT ĐẦU ĐẤU GIÁ" />
         </HBox>
     </children>
 </VBox>

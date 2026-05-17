@@ -6,7 +6,6 @@ import com.auction.client.controller.additem.buttonhandler.TypeChangeButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class AddItemController {
     //FXML fields:

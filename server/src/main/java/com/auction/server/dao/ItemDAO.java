@@ -41,7 +41,7 @@ public class ItemDAO {
 
     public void addItem(Item item) throws Exception {
         String query = "INSERT INTO item (name, description, initialPrice, item_type, seller_id, warranty, company, author, item_status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 /*
         try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="cardContainer" maxWidth="220" minWidth="220" prefWidth="220" spacing="10" styleClass="card" stylesheets="@../css/seller-styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.auction.client.controller.itemcardseller.ItemCardSellerController">
+<VBox fx:id="cardContainer" maxWidth="220" minWidth="220" prefWidth="220" spacing="10" styleClass="card" stylesheets="@../css/seller-styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.itemcardseller.ItemCardSellerController">
     <children>
         <HBox alignment="TOP_RIGHT">
             <Label fx:id="lblBadge" styleClass="badge" text="CATEGORY" />
@@ -20,8 +20,8 @@
         <Separator />
 
         <HBox alignment="CENTER" spacing="10">
-            <Button fx:id="startAuctionButton" onAction="#handleStartAuction" styleClass="btn-success" text="Mở Đấu Giá" />
-            <Button fx:id="deleteItemButton" onAction="#handleDelete" styleClass="btn-danger" text="Xóa" />
+            <Button fx:id="openAuctionButton" styleClass="btn-success" text="Mở Đấu Giá" />
+            <Button fx:id="removeItemButton" styleClass="btn-danger" text="Xóa" />
         </HBox>
     </children>
 </VBox>

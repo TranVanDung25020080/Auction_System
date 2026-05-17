@@ -1,11 +1,12 @@
 package com.auction.client.controller.openauctionpopup;
 
+import com.auction.client.controller.additem.buttonhandler.CloseButton;
+import com.auction.client.controller.additem.buttonhandler.SaveButton;
+import com.auction.client.controller.openauctionpopup.buttonhandler.CancelButton;
+import com.auction.client.controller.openauctionpopup.buttonhandler.ConfirmButton;
 import com.auction.common.model.Item.Item;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class OpenAuctionPopupController {
     @FXML private TextField txtStartPrice; // Thêm bid step ở đây
     @FXML private DatePicker dpEndDate;
     @FXML private TextField  txtEndTime;
+    @FXML private Button confirmButton, cancelButton;
     //Other fields:
     private Item item;
     private int sellerId;
@@ -26,6 +28,10 @@ public class OpenAuctionPopupController {
     @FXML
     public void initialize() {
         dpEndDate.setValue(LocalDate.now().plusDays(1));
+
+        this.confirmButton.setOnAction(event -> new ConfirmButton().handle(this));
+
+        this.cancelButton.setOnAction(event -> new CancelButton().handle(this));
     }
 
     public void setItemData(Item item,int sellerId) {
@@ -36,46 +42,11 @@ public class OpenAuctionPopupController {
         txtStartPrice.setText(String.valueOf(item.getInitialPrice()));
     }
 
-    @FXML
-    private void handleConfirm() {
-        try {
-            // Lấy dữ liệu giá và bước giá
-            double startPrice = Double.parseDouble(txtStartPrice.getText());
-/*            double bidStep = Double.parseDouble(txtBidStep.getText());*/
-
-            // Lấy dữ liệu thời gian
-            //LocalDateTime start = LocalDateTime.of(dpStartDate.getValue(), LocalTime.parse(txtStartTime.getText()));
-            LocalDateTime start=LocalDateTime.now();
-            LocalDateTime end = LocalDateTime.of(dpEndDate.getValue(), LocalTime.parse(txtEndTime.getText()));
-
-            if (end.isBefore(start)) {
-                showAlert("Lỗi", "Thời gian kết thúc phải sau khi bắt đầu!");
-                return;
-            }
-/*
-            // In ra log để check
-            System.out.println("--- THÔNG TIN PHIÊN ĐẤU GIÁ MỚI ---");
-            System.out.println("Sản phẩm: " + item.getName());
-            System.out.println("Giá sàn: " + startPrice + " | Bước giá: " + bidStep);
-            System.out.println("Thời gian: " + start + " đến " + end);*/
-
-            confirmed = true;
-            closeStage();
-
-        } catch (Exception e) {
-            showAlert("ERROR",e.getMessage());
-        }
-    }
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    @FXML private void handleCancel() { confirmed = false; closeStage(); }
-    private void closeStage() { ((Stage) lblItemName.getScene().getWindow()).close(); }
     public boolean isConfirmed() { return confirmed; }
+    public Label getLblItemName() { return lblItemName; }
+    public TextField getTxtStartPrice() { return txtStartPrice; }
+    public DatePicker getDpEndDate() { return dpEndDate; }
+    public TextField getTxtEndTime() { return txtEndTime; }
+    public void setConfirmed(boolean confirmed) { this.confirmed = confirmed; }
+
 }

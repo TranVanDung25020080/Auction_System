@@ -34,7 +34,7 @@ public class BaseApi {
 
         BufferedReader reader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-        while ( (line=reader.readLine())!=null){
+        while ( (line=reader.readLine())!=null) {
             jsonReponse.append(line);
         }
 
