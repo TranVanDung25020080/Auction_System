@@ -39,7 +39,7 @@ public class ItemDAO {
         adds.put(Vehicle.class, new AddVehicle());
     }
 
-    public boolean addItem(Item item) throws Exception {
+    public void addItem(Item item) throws Exception {
         String query = "INSERT INTO item (name, description, initialPrice, item_type, seller_id, warranty, company, author, item_status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 /*
@@ -61,7 +61,7 @@ public class ItemDAO {
             ai.addToItem(pst, item);
 
 
-            return pst.executeUpdate() > 0;
+            pst.executeUpdate() ;
 
         } catch (SQLException e) {
             System.err.println("Loi SQL o ham addItem: " + e.getMessage());
