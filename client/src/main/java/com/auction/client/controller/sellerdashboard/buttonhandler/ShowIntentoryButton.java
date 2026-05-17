@@ -23,6 +23,7 @@ import java.util.List;
 
 public class ShowIntentoryButton {
     private FlowPane flowPaneContent;
+    private int sellerId;
 
     public void handle(SellerDashboardController sellerDashboardController){
         Label lblHeader=sellerDashboardController.getLblHeader();
@@ -35,7 +36,7 @@ public class ShowIntentoryButton {
         GetItemReponseDTO getItemReponseDTO=new GetItemReponseDTO();
 
         try{
-            int sellerId=sellerDashboardController.getSellerId();
+            this.sellerId=sellerDashboardController.getSellerId();
             GetItemRequestDTO getItemRequestDTO=new GetItemRequestDTO(sellerId);
 
 
@@ -48,8 +49,8 @@ public class ShowIntentoryButton {
 
         List<Item> mockItems = getItemReponseDTO.getItemList();
 
-
         renderInventory(mockItems);
+        //
 
     }
 
@@ -62,7 +63,7 @@ public class ShowIntentoryButton {
                     VBox card = loader.load();
 
                     ItemCardSellerController controller = loader.getController();
-                    controller.setItemData(item);
+                    controller.setItemData(item,this.sellerId);
 
                     flowPaneContent.getChildren().add(card);
                 } catch (IOException e) {

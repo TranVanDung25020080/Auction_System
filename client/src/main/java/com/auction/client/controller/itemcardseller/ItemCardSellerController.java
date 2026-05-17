@@ -22,20 +22,23 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class ItemCardSellerController {
+    //FXML fields:
     @FXML private VBox cardContainer;
     @FXML private Label lblBadge;
     @FXML private Label lblItemName;
     @FXML private Label lblPrice;
     @FXML private Label lblExtraInfo;
     @FXML private Button btnStart;
-
+    //Other fields:
     private Item item;
+    private int sellerId;
 
     /**
      * Đổ dữ liệu từ Item model vào Card UI
      */
-    public void setItemData(Item item) {
+    public void setItemData(Item item,int sellerId) {
         this.item = item;
+        this.sellerId=sellerId;
 
         lblItemName.setText(item.getName());
         lblPrice.setText(String.format("%,.0f VNĐ", item.getInitialPrice()));
@@ -77,7 +80,7 @@ public class ItemCardSellerController {
 
             // 2. Truyền dữ liệu Item sang Popup Controller
             OpenAuctionPopupController controller = loader.getController();
-            controller.setItemData(this.item);
+            controller.setItemData(this.item,this.sellerId);
 
             // 3. Hiển thị cửa sổ dạng Modal (bắt buộc xử lý xong mới quay lại được)
             Stage stage = new Stage();

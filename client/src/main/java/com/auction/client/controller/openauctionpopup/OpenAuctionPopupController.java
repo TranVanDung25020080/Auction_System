@@ -18,8 +18,9 @@ public class OpenAuctionPopupController {
     @FXML private TextField txtStartPrice; // Thêm bid step ở đây
     @FXML private DatePicker dpEndDate;
     @FXML private TextField  txtEndTime;
-
+    //Other fields:
     private Item item;
+    private int sellerId;
     private boolean confirmed = false;
 
     @FXML
@@ -27,8 +28,10 @@ public class OpenAuctionPopupController {
         dpEndDate.setValue(LocalDate.now().plusDays(1));
     }
 
-    public void setItemData(Item item) {
+    public void setItemData(Item item,int sellerId) {
         this.item = item;
+        this.sellerId=sellerId;
+
         lblItemName.setText(item.getName());
         txtStartPrice.setText(String.valueOf(item.getInitialPrice()));
     }
