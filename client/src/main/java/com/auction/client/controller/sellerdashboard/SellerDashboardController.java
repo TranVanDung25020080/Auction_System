@@ -25,7 +25,7 @@ public class SellerDashboardController {
         showInventory();*/
 
         //Set on action for buttons:
-        this.openItemPopupButton.setOnAction(event -> new OpenItemPopupButton().handle());
+        this.openItemPopupButton.setOnAction(event -> new OpenItemPopupButton().handle(this));
 
         this.showInventoryButton.setOnAction(event ->
                 new ShowIntentoryButton().handle(this));

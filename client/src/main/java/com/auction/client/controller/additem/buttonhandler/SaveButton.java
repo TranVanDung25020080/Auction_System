@@ -2,6 +2,8 @@ package com.auction.client.controller.additem.buttonhandler;
 
 import com.auction.client.controller.additem.AddItemController;
 import com.auction.client.controller.annoucement.Alert;
+import com.auction.client.network.http.AddItemAPI;
+import com.auction.common.dto.response.AddItemResponseDTO;
 import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
@@ -14,28 +16,35 @@ public class SaveButton {
     public void handle(AddItemController addItemController, CloseButton closeButton) {
         try {
             String type = addItemController.getCbItemType().getValue();
+
             if (type == null) {
                 Alert.showAlert("Lỗi", "Vui lòng chọn loại mặt hàng!");
                 return;
             }
 
             String name = addItemController.getTxtName().getText();
-            String description = addItemController.getTxtDescription().getText();
+            String desc = addItemController.getTxtDescription().getText();
             double price = Double.parseDouble(addItemController.getTxtPrice().getText());
 
-/*            Item newItem = null;
+            Item newItem = new Item();
 
             if (type.contains("Art")) {
+
                 newItem = new Art(0, name, desc, price, null, ItemStatus.AVAILABLE, addItemController.getTxtExtra().getText());
             } else if (type.contains("Electronics")) {
+
                 int warranty = Integer.parseInt(addItemController.getTxtExtra().getText());
+
                 newItem = new Electronics(0, name, desc, price, null, ItemStatus.AVAILABLE, warranty);
             } else if (type.contains("Vehicle")) {
                 newItem = new Vehicle(0, name, desc, price, null, ItemStatus.AVAILABLE, addItemController.getTxtExtra().getText());
             }
+            newItem.setSellerId(addItemController.getSellerId());
 
-            System.out.println("Đã tạo thành công: " + newItem.getName());*/
 
+            AddItemResponseDTO addItemResponseDTO=new AddItemAPI().addItem(newItem);
+
+            Alert.showAlert("Announcement",addItemResponseDTO.getMessage());
 
             closeButton.handle(addItemController);
 

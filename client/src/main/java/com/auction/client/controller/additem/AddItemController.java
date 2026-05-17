@@ -9,12 +9,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AddItemController {
+    //FXML fields:
     @FXML private ComboBox<String> cbItemType;
     @FXML private TextField txtName, txtPrice;
     @FXML private TextArea txtDescription;
     @FXML private VBox vboxDynamicFields;
     @FXML private Button closeButton, saveButton;
     private TextField txtExtra;
+    //other fields
+    private int sellerId;
 
     @FXML
     public void initialize() {
@@ -31,7 +34,7 @@ public class AddItemController {
     }
 
 
-    // method cho class khac goi
+    // method for other classes to call
     public ComboBox<String> getCbItemType() {return cbItemType;}
     public TextField getTxtName() {return txtName;}
     public TextArea getTxtDescription() {return txtDescription;}
@@ -39,4 +42,11 @@ public class AddItemController {
     public TextField getTxtPrice() {return txtPrice;}
     public TextField getTxtExtra() {return txtExtra;}
     public void setTxtExtra(TextField txtExtra) {this.txtExtra = txtExtra;}
+    public void setSellerId(int sellerId){
+        this.sellerId=sellerId;
+    }
+
+    public int getSellerId(){
+        return this.sellerId;
+    }
 }

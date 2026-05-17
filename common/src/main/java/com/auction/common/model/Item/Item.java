@@ -57,6 +57,9 @@ public class Item implements Entity, Serializable {
     public void setItem_status(ItemStatus itemStatus){
         this.item_status=itemStatus;
     }
+    public void setSellerId(int sellerId){
+        this.sellerId=sellerId;
+    }
 
     @Override
     public int getId() { return id; }
