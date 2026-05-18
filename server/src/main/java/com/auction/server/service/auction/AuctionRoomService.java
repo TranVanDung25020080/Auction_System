@@ -6,14 +6,17 @@ import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.CreateAuctionResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.AuctionStatus;
+import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
+import com.auction.server.dao.ItemDAO;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.handler.socketserver.AuctionHandler;
 import com.auction.server.handler.socketserver.AuctionRoomHandler;
 import com.auction.server.handler.socketserver.ClientHandler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class AuctionRoomService {
@@ -49,7 +52,7 @@ public class AuctionRoomService {
         return auctionResultResponseDTO;
 
     }
-    public CreateAuctionResponseDTO createAuction(Auction auction) throws DatabaseException {
+    public CreateAuctionResponseDTO createAuction(Auction auction) throws DatabaseException, SQLException {
         CreateAuctionResponseDTO createAuctionResponseDTO=new CreateAuctionResponseDTO();
 
         int sellerId=auction.getSellerId();
@@ -59,8 +62,8 @@ public class AuctionRoomService {
         LocalDateTime startTime=auction.getStartTime();
         LocalDateTime endTime=auction.getEndTime();
 
-
         new AuctionDAO().createAuction(itemId,itemName,startPrice,sellerId,startTime,endTime);
+        new ItemDAO().updateItemStatus(itemId, ItemStatus.AUCTION);
 
         createAuctionResponseDTO.setAuction(auction);
 

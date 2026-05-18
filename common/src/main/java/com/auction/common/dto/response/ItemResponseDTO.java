@@ -2,12 +2,12 @@ package com.auction.common.dto.response;
 
 import com.auction.common.model.Item.Item;
 
-public class AddItemResponseDTO {
+public class ItemResponseDTO {
     private Item item;
     private String message;
     //
-    public AddItemResponseDTO(){}
-    public AddItemResponseDTO(Item item,String message){
+    public ItemResponseDTO(){}
+    public ItemResponseDTO(Item item, String message){
         this.item=item;
         this.message=message;
     }
