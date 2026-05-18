@@ -74,4 +74,7 @@ public class ItemCardSellerController {
     public VBox getCardContainer() { return cardContainer; }
     public Item getItem() { return item; }
     public int getSellerId() { return sellerId; }
+    public String getItemName(){
+        return this.lblItemName.getText();
+    }
 }

@@ -1,15 +1,16 @@
 package com.auction.client.network.http;
 
+import com.auction.common.dto.response.CreateAuctionResponseDTO;
 import com.auction.common.dto.response.GetAuctionResponseDTO;
 import com.auction.common.enums.HttpMethod;
+import com.auction.common.model.Auction.Auction;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.net.URL;
 
-public class GetAutionApi {
+public class AuctionApi {
     public GetAuctionResponseDTO getAllAuction() throws IOException {
   /*      URL url=new URL("http://localhost:8000/getallauction");*/
         String route="/getallauction";
@@ -24,10 +25,16 @@ public class GetAutionApi {
 
     }
 
-    /*//test
-    static void main(String[] args) throws IOException {
-        GetAuctionResponseDTO getAuctionResponseDTO= new GetAutionApi().getAllAuction();
+    public CreateAuctionResponseDTO createAuction(Auction auction) throws IOException {
+        String route="/createauction";
 
-        System.out.println(getAuctionResponseDTO.getAuctionList());
-    }*/
+        Gson gson=Converters.registerAll(new GsonBuilder()).create();
+
+        String jsonRequest=gson.toJson(auction);
+
+        String jsonResponse=BaseApi.getJsonReponse(jsonRequest,route,HttpMethod.POST);
+
+        return gson.fromJson(jsonResponse, CreateAuctionResponseDTO.class);
+
+    }
 }

@@ -2,7 +2,7 @@ package com.auction.client.controller.additem.buttonhandler;
 
 import com.auction.client.controller.additem.AddItemController;
 import com.auction.client.controller.annoucement.Alert;
-import com.auction.client.network.http.AddItemAPI;
+import com.auction.client.network.http.ItemAPI;
 import com.auction.common.dto.response.AddItemResponseDTO;
 import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Item.Art;
@@ -42,7 +42,7 @@ public class SaveButton {
             newItem.setSellerId(addItemController.getSellerId());
 
 
-            AddItemResponseDTO addItemResponseDTO=new AddItemAPI().addItem(newItem);
+            AddItemResponseDTO addItemResponseDTO=new ItemAPI().addItem(newItem);
 
             Alert.showAlert("Announcement",addItemResponseDTO.getMessage());
 

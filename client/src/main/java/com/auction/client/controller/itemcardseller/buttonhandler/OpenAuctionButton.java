@@ -27,6 +27,7 @@ public class OpenAuctionButton {
             // 2. Truyền dữ liệu Item sang Popup Controller
             OpenAuctionPopupController controller = loader.getController();
             controller.setItemData(item, sellerId);
+            controller.setItemName(itemCardSellerController.getItemName());
 
             // 3. Hiển thị cửa sổ dạng Modal (bắt buộc xử lý xong mới quay lại được)
             Stage stage = new Stage();
@@ -46,4 +47,5 @@ public class OpenAuctionButton {
             e.printStackTrace();
         }
     }
+
 }

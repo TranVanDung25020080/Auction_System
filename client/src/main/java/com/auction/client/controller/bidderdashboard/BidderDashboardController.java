@@ -2,7 +2,7 @@ package com.auction.client.controller.bidderdashboard;
 
 import com.auction.client.controller.productcard.ProductCardController;
 import com.auction.common.model.Auction.Auction; // Đảm bảo import bản client
-import com.auction.client.network.http.GetAutionApi;
+import com.auction.client.network.http.AuctionApi;
 import com.auction.common.model.User.Bidder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +25,7 @@ public class BidderDashboardController {
     private void renderProducts() {
         productContainer.getChildren().clear();
         try {
-            var response = new GetAutionApi().getAllAuction();
+            var response = new AuctionApi().getAllAuction();
             // Sau khi đổi import, dòng này sẽ chạy mượt mà:
             List<Auction> auctionList = (List<Auction>) (Object) response.getAuctionList();
 
