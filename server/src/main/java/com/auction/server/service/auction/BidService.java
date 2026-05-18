@@ -7,6 +7,7 @@ import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
+import com.auction.server.dao.BidDAO;
 import com.auction.server.exception.DatabaseException;
 
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class BidService {
             }
             else {
                 new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);
+                new BidDAO().placeBid(auctionId,bidderId,bidAmmount);
 
                 bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,bidAmmount);
                 bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
@@ -95,6 +97,7 @@ public class BidService {
                     double bidAmount=highestCurrentPrice+increment;
 
                     new AuctionDAO().updateCurrentPrice(auctionRoomId,bidAmount,bidderId);
+                    new BidDAO().placeBid(auctionRoomId,bidderId,bidAmount);
 
                     bidUpdateResponseDTO = new BidUpdateResponseDTO(auctionRoomId,bidderId,bidAmount);
                     bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);

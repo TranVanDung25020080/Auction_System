@@ -22,14 +22,6 @@ public class ShowLiveAuctionsButton {
         lblHeader.setText("PHIÊN ĐẤU GIÁ ĐANG CHẠY");
         flowPaneContent.getChildren().clear();
 
-/*        // Tạo 1 Auction giả để test đồng hồ và giá
-        Auction mockAuction = new Auction(
-                101, 1, 2, 1200000, 1,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(5), // Kết thúc sau 5 phút
-                AuctionStatus.OPEN,
-                "Tranh Sơn Dầu Phố Cổ"
-        );*/
         //Goi auctionList tu server here:
         int sellerId=sellerDashboardController.getSellerId();
         GetAuctionRequestDTO getAuctionRequestDTO=new GetAuctionRequestDTO(sellerId);
