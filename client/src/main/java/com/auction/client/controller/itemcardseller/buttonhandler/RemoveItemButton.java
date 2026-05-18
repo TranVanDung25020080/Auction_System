@@ -9,7 +9,7 @@ import javafx.scene.layout.FlowPane;
 
 import java.util.Optional;
 
-public class RemoveCardButton {
+public class RemoveItemButton {
     @FXML
     public void handle(ItemCardSellerController itemCardSellerController) {
         Item item = itemCardSellerController.getItem();

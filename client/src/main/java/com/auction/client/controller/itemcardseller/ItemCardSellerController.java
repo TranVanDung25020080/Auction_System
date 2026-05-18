@@ -2,8 +2,8 @@ package com.auction.client.controller.itemcardseller;
 
 
 import com.auction.client.controller.annoucement.Alert;
-import com.auction.client.controller.itemcardseller.buttonhandler.RemoveCardButton;
-import com.auction.client.controller.itemcardseller.buttonhandler.StartAuctionButton;
+import com.auction.client.controller.itemcardseller.buttonhandler.RemoveItemButton;
+import com.auction.client.controller.itemcardseller.buttonhandler.OpenAuctionButton;
 import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
 import com.auction.common.model.Item.Item;
@@ -31,15 +31,16 @@ public class ItemCardSellerController {
         //Set on action for buttons:
         this.openAuctionButton.setOnAction(event -> {
             try {
-                new StartAuctionButton().handle(this, new RemoveCardButton());
+                new OpenAuctionButton().handle(this, new RemoveItemButton());
             } catch (IOException e) {
                 Alert.showAlert("ERROR", e.getMessage());
             }
         });
 
-        this.removeItemButton.setOnAction(event -> new RemoveCardButton().handle(this));
+        this.removeItemButton.setOnAction(event -> new RemoveItemButton().handle(this));
     }
 
+    //Method for other classes to call:
     public void setItemData(Item item, int sellerId) {
         this.sellerId = sellerId;
         this.item = item;

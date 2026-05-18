@@ -12,9 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StartAuctionButton {
+public class OpenAuctionButton {
     @FXML
-    public void handle(ItemCardSellerController itemCardSellerController, RemoveCardButton removeCardButton) throws IOException {
+    public void handle(ItemCardSellerController itemCardSellerController, RemoveItemButton removeItemButton) throws IOException {
         Item item = itemCardSellerController.getItem();
         int sellerId = itemCardSellerController.getSellerId();
         if (item == null) return;
@@ -37,7 +37,7 @@ public class StartAuctionButton {
 
             // 4. Nếu người dùng xác nhận "Bắt đầu" trên Popup thì mới xóa Card khỏi kho
             if (controller.isConfirmed()) {
-                removeCardButton.removeCardFromUI(itemCardSellerController);
+                removeItemButton.removeCardFromUI(itemCardSellerController);
                 System.out.println("Sản phẩm đã được đưa lên sàn đấu giá.");
             }
 
