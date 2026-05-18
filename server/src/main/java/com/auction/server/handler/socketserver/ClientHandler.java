@@ -9,6 +9,7 @@ import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.RequestType;
 import com.auction.common.model.Auction.Auction;
+import com.auction.server.dao.AutoBidDAO;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
 import com.auction.server.service.auction.AuctionService;
@@ -42,6 +43,7 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         Gson gson=new Gson();
+        AutoBidDAO autoBidDAO=new AutoBidDAO();
 
         try{
             //Join Room and broadcast:
@@ -87,11 +89,25 @@ public class ClientHandler implements Runnable{
 
                 else if(requestType==RequestType.AUTO_BIDDING){
 
-                    this.autoBidRequestDTO=gson.fromJson(baseRequestDTOJson, AutoBidRequestDTO.class);
+                    AutoBidRequestDTO autoBid=gson.fromJson(baseRequestDTOJson, AutoBidRequestDTO.class);
+
+                    int bidderId=autoBid.getBidderId();
+                    int auctionId=autoBid.getAuctionId();
+                    double maxBid=autoBid.getMaxBid();
+                    double increment=autoBid.getIncrement();
+
+                    if (this.autoBidRequestDTO !=null){
+                        autoBidDAO.updateAutoBid(bidderId,maxBid,increment);
+                    }
+                    else {
+                        autoBidDAO.insertAutoBid(bidderId,auctionId,maxBid,increment);
+                    }
+
+                    this.autoBidRequestDTO=autoBid;
 
                 }
 
-        /*        auctionRoomHandler.handleAutoBidding();*/
+
 
             }
 
