@@ -5,6 +5,7 @@ import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.client.service.BidService;
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.model.Auction.Auction;
+import com.auction.common.model.User.Bidder;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -21,7 +22,10 @@ public class AutoBidButton {
                 double maxBid = Double.parseDouble(txtMaxBid.getText());
                 double increment = Double.parseDouble(txtIncrement.getText());
 
-                if (maxBid>currentAuction.getCurrentHighestPrice()){
+                Bidder bidder=biddingPopupController.getBidder();
+                double balance=bidder.getBalance();
+
+                if (maxBid>currentAuction.getCurrentHighestPrice() && maxBid>balance){
 
                     lblStatus.setText("Đã kích hoạt Auto-Bid: Max " + maxBid + " Increment: " + increment);
                     // TODO: Gửi yêu cầu Auto-bid lên Server ở đây
@@ -29,7 +33,7 @@ public class AutoBidButton {
 
                 }
                 else {
-                    Alert.showAlert("ERROR","Your maxBid must be strictly greater than the current highest price");
+                    Alert.showAlert("ERROR","Your maxBid must be strictly greater than the current highest price and your balance");
                 }
 
 

@@ -34,7 +34,9 @@ public class BidderDashboardController {
                 Parent card = loader.load();
                 ProductCardController controller = loader.getController();
 
+
                 // Bây giờ auction đã là bản common, card sẽ nhận được dữ liệu
+                controller.setBidder(this.bidder);
                 controller.setData(auction, "/com/auction/client/view/khanh.png", bidder.getUserId());
                 productContainer.getChildren().add(card);
             }
@@ -53,6 +55,9 @@ public class BidderDashboardController {
         String text="Id: "+bidder.getId()+"--Name: "+bidder.getOwnerName();
         this.bidderInfoTextField.setPrefWidth(Region.USE_COMPUTED_SIZE);
         this.bidderInfoTextField.setText(text);
+    }
+    public Bidder getBidder(){
+        return this.bidder;
     }
 
 }

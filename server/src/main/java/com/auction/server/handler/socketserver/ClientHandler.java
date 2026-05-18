@@ -45,6 +45,7 @@ public class ClientHandler implements Runnable{
         Gson gson=new Gson();
         AutoBidDAO autoBidDAO=new AutoBidDAO();
 
+
         try{
             //Join Room and broadcast:
             String joinRoomRequestJson=bufferedReader.readLine();
@@ -82,6 +83,7 @@ public class ClientHandler implements Runnable{
 
                     BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO);
 
+
                     auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
 
                     auctionRoomHandler.handleAutoBidding();
@@ -91,7 +93,7 @@ public class ClientHandler implements Runnable{
 
                     AutoBidRequestDTO autoBid=gson.fromJson(baseRequestDTOJson, AutoBidRequestDTO.class);
 
-                    int bidderId=autoBid.getBidderId();
+/*                    int bidderId=autoBid.getBidderId();
                     int auctionId=autoBid.getAuctionId();
                     double maxBid=autoBid.getMaxBid();
                     double increment=autoBid.getIncrement();
@@ -101,7 +103,7 @@ public class ClientHandler implements Runnable{
                     }
                     else {
                         autoBidDAO.insertAutoBid(bidderId,auctionId,maxBid,increment);
-                    }
+                    }*/
 
                     this.autoBidRequestDTO=autoBid;
 
@@ -111,17 +113,11 @@ public class ClientHandler implements Runnable{
 
             }
 
-
-
-
-
-
-
-
         } catch (IOException e) {
-            e.printStackTrace(); // chua xu ly loi ky o day
+            e.printStackTrace();// chua xu ly loi ky o day
         } catch (DatabaseException e) {
-            e.printStackTrace(); //chua xu ly loi ky o day
+            e.printStackTrace();//chua xu ly loi ky o day
+
 
         }
 

@@ -43,7 +43,7 @@ public class BidService {
                 bidUpdateResponseDTO.setBidderId(bidderId);
             }
             else {
-                new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);
+/*                new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);*/
                 new BidDAO().placeBid(auctionId,bidderId,bidAmmount);
 
                 bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,bidAmmount);
@@ -96,7 +96,7 @@ public class BidService {
                 else {
                     double bidAmount=highestCurrentPrice+increment;
 
-                    new AuctionDAO().updateCurrentPrice(auctionRoomId,bidAmount,bidderId);
+/*                    new AuctionDAO().updateCurrentPrice(auctionRoomId,bidAmount,bidderId);*/
                     new BidDAO().placeBid(auctionRoomId,bidderId,bidAmount);
 
                     bidUpdateResponseDTO = new BidUpdateResponseDTO(auctionRoomId,bidderId,bidAmount);

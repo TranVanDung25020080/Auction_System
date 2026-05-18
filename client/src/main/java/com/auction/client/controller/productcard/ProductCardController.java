@@ -4,6 +4,7 @@ package com.auction.client.controller.productcard;
 import com.auction.client.controller.productcard.buttonhandler.JoinRoomButton;
 import com.auction.common.model.Auction.Auction;
 
+import com.auction.common.model.User.Bidder;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,10 +27,11 @@ public class ProductCardController {
     private int remainingSeconds;
     private Timeline timeline;
     private int userId;
+    private Bidder bidder;
     //
     public void initialize(){
         this.joinRoomButton.setOnAction(event ->
-                new JoinRoomButton().handle(this.auctionData,userId));
+                new JoinRoomButton().handle(this.auctionData,userId,this.bidder));
     }
 
     //Method for other classes to call:
@@ -76,6 +78,9 @@ public class ProductCardController {
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+    public void setBidder(Bidder bidder){
+        this.bidder=bidder;
     }
 
 

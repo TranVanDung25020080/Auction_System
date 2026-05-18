@@ -22,8 +22,8 @@ public class NormalBidButton {
             try {
                 double amount = Double.parseDouble(txtNormalBid.getText());
                 if (amount > currentAuction.getCurrentPrice()) {
-                    lblStatus.setText("Đã đặt thầu: " + amount);
-                    // TODO: Gửi yêu cầu bid lên Server ở đây
+
+                    // TODO: Gửi yêu cầu bid lên Server ở đây:
 
                     new BidService().sendBid(biddingPopupController,amount);
 
