@@ -17,7 +17,5 @@ public class MainServer {
 
         MySocketServer.start();
 
-
-
     }
 }
