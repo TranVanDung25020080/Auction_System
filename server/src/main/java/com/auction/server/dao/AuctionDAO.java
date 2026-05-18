@@ -241,15 +241,17 @@ public class AuctionDAO {
         }
     }
 
-/*    static void main(String[] args) throws DatabaseException, SQLException {
-        AuctionDAO auctionDAO = new AuctionDAO();
-        LocalDateTime start=LocalDateTime.now();
-        LocalDateTime end=LocalDateTime.of(2026,5,20,10,5);
+/*
+    //Test
+    static void main(String[] args) throws DatabaseException, SQLException {
+        AuctionDAO auctionDAO=new AuctionDAO();
 
-        auctionDAO.createAuction(12,"Bike",1234,2,start,end);
-        System.out.println("OK");
+        List<Auction> auctionList=auctionDAO.getAuctionBySellerId(3);
+
+        System.out.println(auctionList);
 
 
-    }*/
+    }
+*/
 
 }

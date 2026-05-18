@@ -13,6 +13,7 @@ public class RoutesConfig {
         MyHttpServer.addRoute("/getitem/sellerid",new GetItemHandler());
         MyHttpServer.addRoute("/additem",new AddItemHandler());
         MyHttpServer.addRoute("/createauction",new CreateAuctionHandler());
+        MyHttpServer.addRoute("/getauction/sellerid",new GetAuctionBySellerIdHandler());
 
     }
 }
