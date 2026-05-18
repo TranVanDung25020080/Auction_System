@@ -23,7 +23,7 @@ public class NormalBidButton {
 
             try {
                 double amount = Double.parseDouble(txtNormalBid.getText());
-                if (amount > currentAuction.getCurrentPrice() && amount <bidder.getBalance()) {
+                if (amount > currentAuction.getCurrentPrice() && amount <=bidder.getBalance()) {
 
                     // TODO: Gửi yêu cầu bid lên Server ở đây:
 

@@ -25,7 +25,7 @@ public class AutoBidButton {
                 Bidder bidder=biddingPopupController.getBidder();
                 double balance=bidder.getBalance();
 
-                if (maxBid>currentAuction.getCurrentHighestPrice() && maxBid<balance){
+                if (maxBid>currentAuction.getCurrentHighestPrice() && maxBid<=balance){
 
                     lblStatus.setText("Đã kích hoạt Auto-Bid: Max " + maxBid + " Increment: " + increment);
                     // TODO: Gửi yêu cầu Auto-bid lên Server ở đây
