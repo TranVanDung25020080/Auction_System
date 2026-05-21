@@ -2,7 +2,7 @@ package com.auction.client.controller.bidderdashboard;
 
 import com.auction.client.controller.productcard.ProductCardController;
 import com.auction.common.model.Auction.Auction; // Đảm bảo import bản client
-import com.auction.client.network.http.GetAutionApi;
+import com.auction.client.network.http.AuctionApi;
 import com.auction.common.model.User.Bidder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +25,7 @@ public class BidderDashboardController {
     private void renderProducts() {
         productContainer.getChildren().clear();
         try {
-            var response = new GetAutionApi().getAllAuction();
+            var response = new AuctionApi().getAllAuction();
             // Sau khi đổi import, dòng này sẽ chạy mượt mà:
             List<Auction> auctionList = (List<Auction>) (Object) response.getAuctionList();
 
@@ -34,7 +34,9 @@ public class BidderDashboardController {
                 Parent card = loader.load();
                 ProductCardController controller = loader.getController();
 
+
                 // Bây giờ auction đã là bản common, card sẽ nhận được dữ liệu
+                controller.setBidder(this.bidder);
                 controller.setData(auction, "/com/auction/client/view/khanh.png", bidder.getUserId());
                 productContainer.getChildren().add(card);
             }
@@ -53,6 +55,9 @@ public class BidderDashboardController {
         String text="Id: "+bidder.getId()+"--Name: "+bidder.getOwnerName();
         this.bidderInfoTextField.setPrefWidth(Region.USE_COMPUTED_SIZE);
         this.bidderInfoTextField.setText(text);
+    }
+    public Bidder getBidder(){
+        return this.bidder;
     }
 
 }

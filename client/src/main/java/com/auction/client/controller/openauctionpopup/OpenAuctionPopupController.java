@@ -23,6 +23,7 @@ public class OpenAuctionPopupController {
     //Other fields:
     private Item item;
     private int sellerId;
+    private String itemName;
     private boolean confirmed = false;
 
     @FXML
@@ -34,6 +35,7 @@ public class OpenAuctionPopupController {
         this.cancelButton.setOnAction(event -> new CancelButton().handle(this));
     }
 
+    //Method for other classes to call:
     public void setItemData(Item item,int sellerId) {
         this.item = item;
         this.sellerId=sellerId;
@@ -48,5 +50,17 @@ public class OpenAuctionPopupController {
     public DatePicker getDpEndDate() { return dpEndDate; }
     public TextField getTxtEndTime() { return txtEndTime; }
     public void setConfirmed(boolean confirmed) { this.confirmed = confirmed; }
+    public int getSellerId(){
+        return this.sellerId;
+    }
+    public Item getItem(){
+        return this.item;
+    }
+    public void setItemName(String itemName){
+        this.itemName=itemName;
+    }
+    public String getItemName(){
+        return this.itemName;
+    }
 
 }

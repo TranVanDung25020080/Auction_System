@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class CreateAuctionHandler extends HttpBaseHandler {
     @Override
@@ -28,6 +29,8 @@ public class CreateAuctionHandler extends HttpBaseHandler {
             createAuctionResponseDTO=new AuctionRoomService().createAuction(auction);
             createAuctionResponseDTO.setMessage("Create auction successfully!");
         } catch (DatabaseException e) {
+            createAuctionResponseDTO.setMessage(e.getMessage());
+        } catch (SQLException e) {
             createAuctionResponseDTO.setMessage(e.getMessage());
         }
 

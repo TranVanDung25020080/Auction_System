@@ -119,7 +119,7 @@ public class ItemDAO {
     }
 
     public List<Item> getItemBySellerId(int sellerId) throws DatabaseException {
-        String query = "SELECT * FROM item WHERE seller_id = ?";
+        String query = "SELECT * FROM item WHERE seller_id = ? and item_status=?";
         List<Item> itemList = new ArrayList<>();
 
 /*        try (Connection conn = DatabaseConnection.getConnection();*/
@@ -127,6 +127,7 @@ public class ItemDAO {
              PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, sellerId);
+            pst.setString(2,ItemStatus.AVAILABLE.toString());
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -142,6 +143,18 @@ public class ItemDAO {
         catch (SQLException e) {
             System.err.println("Loi SQL o ham getItemBySellerId: " + e.getMessage());
             throw new DatabaseException("Loi he thong: Khong the lay vat pham theo id nguoi ban.", e);
+        }
+    }
+    public void updateItemStatus(int itemId, ItemStatus itemStatus) throws SQLException {
+        String sql="UPDATE item SET item_status=? WHERE id=?";
+
+        try (Connection connection=MyDatabaseConfig.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+
+            preparedStatement.setString(1,itemStatus.toString());
+            preparedStatement.setInt(2,itemId);
+
+            preparedStatement.executeUpdate();
         }
     }
 

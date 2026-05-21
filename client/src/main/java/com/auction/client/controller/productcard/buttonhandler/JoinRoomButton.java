@@ -4,6 +4,7 @@ import com.auction.client.controller.biddingpopup.BiddingPopupController;
 import com.auction.client.network.socket.ClientSocket;
 import com.auction.client.service.AuctionRoomService;
 import com.auction.common.model.Auction.Auction;
+import com.auction.common.model.User.Bidder;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class JoinRoomButton {
-    public void handle(Auction auctionData, int userId){
+    public void handle(Auction auctionData, int userId, Bidder bidder){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidding_popup.fxml"));
             Parent root = loader.load();
@@ -21,7 +22,11 @@ public class JoinRoomButton {
             BiddingPopupController popupController = loader.getController();
             popupController.initData(auctionData);
             popupController.setUserId(userId);
+            popupController.setBidder(bidder);
+
             popupController.startAuction();
+
+
 
 
 

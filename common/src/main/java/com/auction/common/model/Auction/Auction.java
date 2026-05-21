@@ -30,6 +30,15 @@ public class Auction  {
         this.itemName=itemName;
     }
     public Auction(){};
+    public Auction(int itemId,int sellerId,String itemName,double startPrice,LocalDateTime startTime,LocalDateTime endTime){
+        this.itemId=itemId;
+        this.sellerId=sellerId;
+        this.startPrice=startPrice;
+        this.startTime=startTime;
+        this.endTime=endTime;
+        this.itemName=itemName;
+        this.status=AuctionStatus.OPEN;
+    }
 
     //Getter
     //region

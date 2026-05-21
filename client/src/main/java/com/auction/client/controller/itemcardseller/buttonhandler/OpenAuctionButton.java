@@ -12,9 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StartAuctionButton {
+public class OpenAuctionButton {
     @FXML
-    public void handle(ItemCardSellerController itemCardSellerController, RemoveCardButton removeCardButton) throws IOException {
+    public void handle(ItemCardSellerController itemCardSellerController, RemoveItemButton removeItemButton) throws IOException {
         Item item = itemCardSellerController.getItem();
         int sellerId = itemCardSellerController.getSellerId();
         if (item == null) return;
@@ -27,6 +27,7 @@ public class StartAuctionButton {
             // 2. Truyền dữ liệu Item sang Popup Controller
             OpenAuctionPopupController controller = loader.getController();
             controller.setItemData(item, sellerId);
+            controller.setItemName(itemCardSellerController.getItemName());
 
             // 3. Hiển thị cửa sổ dạng Modal (bắt buộc xử lý xong mới quay lại được)
             Stage stage = new Stage();
@@ -37,7 +38,7 @@ public class StartAuctionButton {
 
             // 4. Nếu người dùng xác nhận "Bắt đầu" trên Popup thì mới xóa Card khỏi kho
             if (controller.isConfirmed()) {
-                removeCardButton.removeCardFromUI(itemCardSellerController);
+                removeItemButton.removeCardFromUI(itemCardSellerController);
                 System.out.println("Sản phẩm đã được đưa lên sàn đấu giá.");
             }
 
@@ -46,4 +47,5 @@ public class StartAuctionButton {
             e.printStackTrace();
         }
     }
+
 }

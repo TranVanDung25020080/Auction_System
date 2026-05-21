@@ -3,22 +3,16 @@ package com.auction.client.controller.sellerdashboard.buttonhandler;
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.itemcardseller.ItemCardSellerController;
 import com.auction.client.controller.sellerdashboard.SellerDashboardController;
-import com.auction.client.network.http.GetItemAPI;
+import com.auction.client.network.http.ItemAPI;
 import com.auction.common.dto.request.GetItemRequestDTO;
 import com.auction.common.dto.response.GetItemReponseDTO;
-import com.auction.common.enums.ItemStatus;
-import com.auction.common.model.Item.Art;
-import com.auction.common.model.Item.Electronics;
 import com.auction.common.model.Item.Item;
-import com.auction.common.model.Item.Vehicle;
-import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowIntentoryButton {
@@ -40,7 +34,7 @@ public class ShowIntentoryButton {
             GetItemRequestDTO getItemRequestDTO=new GetItemRequestDTO(sellerId);
 
 
-            getItemReponseDTO=new GetItemAPI().getItemBySellerId(getItemRequestDTO);
+            getItemReponseDTO=new ItemAPI().getItemBySellerId(getItemRequestDTO);
 
         } catch (IOException e) {
             Alert.showAlert("ERORR",e.getMessage());

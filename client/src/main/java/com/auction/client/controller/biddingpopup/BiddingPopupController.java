@@ -7,6 +7,7 @@ import com.auction.client.network.socket.ClientSocket;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.model.Auction.Auction;
+import com.auction.common.model.User.Bidder;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -31,6 +32,7 @@ public class BiddingPopupController {
     private BidUpdateResponseDTO bidUpdateResponseDTO;
     private ClientSocket clientSocket;
     private int userId;
+    private Bidder bidder;
     //init method which is gonna be called automaticly:
     public void initialize(){
         //set on action for buttons:
@@ -121,5 +123,11 @@ public class BiddingPopupController {
     }
     public void startAuction(){
         this.currentAuction.startAuction();
+    }
+    public void setBidder(Bidder bidder){
+        this.bidder=bidder;
+    }
+    public Bidder getBidder(){
+        return this.bidder;
     }
 }

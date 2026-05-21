@@ -1,6 +1,6 @@
 package com.auction.server.handler.httpserver;
 
-import com.auction.common.dto.response.AddItemResponseDTO;
+import com.auction.common.dto.response.ItemResponseDTO;
 import com.auction.common.enums.ItemType;
 import com.auction.common.model.Item.Art;
 import com.auction.common.model.Item.Electronics;
@@ -41,16 +41,16 @@ public class AddItemHandler extends HttpBaseHandler {
 
 
 
-        AddItemResponseDTO addItemResponseDTO=new AddItemResponseDTO();
+        ItemResponseDTO itemResponseDTO =new ItemResponseDTO();
 
         try {
-            addItemResponseDTO=new ItemService().addItem(itemObject);
-        addItemResponseDTO.setMessage("Add item successfully!");
+            itemResponseDTO =new ItemService().addItem(itemObject);
+        itemResponseDTO.setMessage("Add item successfully!");
         } catch (Exception e) {
-            addItemResponseDTO.setMessage(e.getMessage());
+            itemResponseDTO.setMessage(e.getMessage());
         }
 
-        this.response=gson.toJson(addItemResponseDTO);
+        this.response=gson.toJson(itemResponseDTO);
         super.handle(exchange);
 
 

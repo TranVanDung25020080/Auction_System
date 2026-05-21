@@ -1,6 +1,8 @@
 package com.auction.server.service.auction;
 
+import com.auction.common.dto.request.GetAuctionRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
+import com.auction.common.dto.response.GetAuctionResponseDTO;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
 import com.auction.server.exception.DatabaseException;
@@ -32,7 +34,18 @@ public class AuctionService {
 
         return auction;
     }
+    public GetAuctionResponseDTO getAuctionBySellerId(GetAuctionRequestDTO getAuctionRequestDTO) throws DatabaseException {
+        GetAuctionResponseDTO getAuctionResponseDTO=new GetAuctionResponseDTO();
 
+        int sellerId=getAuctionRequestDTO.getSellerId();
+
+        List<Auction> auctionList=new AuctionDAO().getAuctionBySellerId(sellerId);
+
+        getAuctionResponseDTO.setAuctionList(auctionList);
+
+        return getAuctionResponseDTO;
+
+    }
 
    /* //test
     static void main(String[] args) throws SQLException {

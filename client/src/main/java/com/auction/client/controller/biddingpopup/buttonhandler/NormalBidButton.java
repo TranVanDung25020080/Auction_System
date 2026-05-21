@@ -7,6 +7,7 @@ import com.auction.client.service.AuctionRoomService;
 import com.auction.client.service.BidService;
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.model.Auction.Auction;
+import com.auction.common.model.User.Bidder;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -16,22 +17,23 @@ public class NormalBidButton {
     public void handle(TextField txtNormalBid, Auction currentAuction, Label lblStatus,
                        BiddingPopupController biddingPopupController){
         AuctionStatus status=currentAuction.getStatus();
+        Bidder bidder=biddingPopupController.getBidder();
 
         if (status==AuctionStatus.PENDING || status==AuctionStatus.OPEN){
 
             try {
                 double amount = Double.parseDouble(txtNormalBid.getText());
-                if (amount > currentAuction.getCurrentPrice()) {
-                    lblStatus.setText("Đã đặt thầu: " + amount);
-                    // TODO: Gửi yêu cầu bid lên Server ở đây
+                if (amount > currentAuction.getCurrentPrice() && amount <=bidder.getBalance()) {
+
+                    // TODO: Gửi yêu cầu bid lên Server ở đây:
 
                     new BidService().sendBid(biddingPopupController,amount);
 
                 } else {
-                    lblStatus.setText("Giá thầu phải cao hơn giá hiện tại!");
+                    Alert.showAlert("ERROR","Your bidAmount is either less than the current highest price or greater than your balance!");
                 }
             } catch (NumberFormatException e) {
-                lblStatus.setText("Vui lòng nhập số tiền hợp lệ!");
+                Alert.showAlert("ERROR","Vui lòng nhập số tiền hợp lệ!");
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package com.auction.client.controller.sellerdashboard;
 
+import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.sellerdashboard.buttonhandler.OpenItemPopupButton;
 import com.auction.client.controller.sellerdashboard.buttonhandler.ShowIntentoryButton;
 import com.auction.client.controller.sellerdashboard.buttonhandler.ShowLiveAuctionsButton;
@@ -7,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+
+import java.io.IOException;
 
 
 public class SellerDashboardController {
@@ -28,7 +31,13 @@ public class SellerDashboardController {
         this.showInventoryButton.setOnAction(event ->
                 new ShowIntentoryButton().handle(this));
 
-        this.showLiveAuctionsButton.setOnAction(event -> new ShowLiveAuctionsButton().handle(this));
+        this.showLiveAuctionsButton.setOnAction(event -> {
+            try {
+                new ShowLiveAuctionsButton().handle(this);
+            } catch (IOException e) {
+                Alert.showAlert("ERROR",e.getMessage());
+            }
+        });
 
 
 

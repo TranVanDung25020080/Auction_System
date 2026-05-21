@@ -120,7 +120,8 @@ public class UserDAO {
     public void updateBalance(int userId, double amount) throws Exception {
         String query = "UPDATE user SET balance = ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
 
-        try (Connection conn = DatabaseConnection.getConnection()) {
+      /*  try (Connection conn = DatabaseConnection.getConnection())*/
+        try (Connection conn = MyDatabaseConfig.getConnection()){
             conn.setAutoCommit(false);
             try (PreparedStatement pst = conn.prepareStatement(query)) {
 
@@ -147,7 +148,8 @@ public class UserDAO {
     public double showBalance(int userId) throws DatabaseException {
         String query = "SELECT balance FROM user WHERE userId = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+/*        try (Connection conn = DatabaseConnection.getConnection();*/
+        try (Connection conn = MyDatabaseConfig.getConnection();
             PreparedStatement pst = conn.prepareStatement(query)) {
 
             pst.setInt(1, userId);

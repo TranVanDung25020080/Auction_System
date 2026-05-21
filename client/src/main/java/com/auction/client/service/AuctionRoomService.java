@@ -81,6 +81,7 @@ public class AuctionRoomService {
 
                                 if (finalResponse instanceof BidUpdateResponseDTO) {
                                     BidUpdateResponseDTO bid = (BidUpdateResponseDTO) finalResponse;
+                                    
                                     biddingPopupController.updateHighCurrentPrice(bid.getNewHighestPrice());
                                     biddingPopupController.setLabelCurrentPrice();
                                 }
