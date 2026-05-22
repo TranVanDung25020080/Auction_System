@@ -2,9 +2,9 @@ name: Java CI Automation
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master, tranvandung ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ master, tranvandung ]
 
 jobs:
   build:
