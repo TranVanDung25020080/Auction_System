@@ -2,6 +2,7 @@ package com.auction.common.enums;
 
 public enum AuthStatus {
     SUCCESS,
+    FAILED,
 
     // Input / validation
     INVALID_INPUT,

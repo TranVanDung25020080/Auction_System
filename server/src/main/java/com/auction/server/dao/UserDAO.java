@@ -92,7 +92,7 @@ public class UserDAO {
         }
     }
 
-    public void updateBalance(int userId, double amount) throws Exception {
+    public void updateBalance(int userId, double amount) throws DatabaseException {
         String query = "UPDATE user SET balance = ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
 
       /*  try (Connection conn = DatabaseConnection.getConnection())*/

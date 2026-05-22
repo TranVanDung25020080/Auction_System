@@ -1,15 +1,14 @@
 package com.auction.client.controller.bidderdashboard;
 
+import com.auction.client.controller.bidderwallet.BidderWalletController;
 import com.auction.client.controller.productcard.ProductCardController;
 import com.auction.common.model.Auction.Auction; // Đảm bảo import bản client
 import com.auction.client.network.http.AuctionApi;
 import com.auction.common.model.User.Bidder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
@@ -75,7 +74,7 @@ public class BidderDashboardController {
             Parent root = loader.load();
 
             // 1. Lấy controller của ví và truyền dữ liệu bidder hiện tại sang
-            com.auction.client.controller.BidderWalletController walletController = loader.getController();
+            BidderWalletController walletController = loader.getController();
             walletController.setBidderData(this.bidder);
 
             Stage walletStage = new Stage();
