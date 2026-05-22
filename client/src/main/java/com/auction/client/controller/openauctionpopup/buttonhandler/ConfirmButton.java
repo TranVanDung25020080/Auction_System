@@ -34,7 +34,6 @@ public class ConfirmButton {
             //Call Api:
             Auction auction=new Auction(itemId,sellerId,itemName,startPrice,start,end);
 
-
             CreateAuctionResponseDTO createAuctionResponseDTO=new AuctionApi().createAuction(auction);
 
             Alert.showAlert("Announcement", createAuctionResponseDTO.getMessage());

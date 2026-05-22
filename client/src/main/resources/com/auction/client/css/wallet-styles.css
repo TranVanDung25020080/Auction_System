@@ -1,0 +1,99 @@
+/* Tổng thể container */
+.wallet-container {
+    -fx-background-color: #f4f7f6; /* Màu nền xám nhạt cực nhẹ */
+}
+
+/* Tiêu đề */
+.header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.header-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Thẻ số dư (The Card) */
+.balance-card {
+    -fx-background-color: linear-gradient(to bottom right, #1e3799, #0984e3);
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 5);
+}
+
+.balance-label-static {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 15px;
+    -fx-opacity: 0.9;
+}
+
+.balance-amount {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+}
+
+/* Nút Nạp Tiền */
+.btn-deposit {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 25;
+    -fx-background-radius: 30;
+    -fx-cursor: hand;
+}
+
+.btn-deposit:hover {
+    -fx-background-color: #27ae60;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Nút Lịch sử */
+.btn-history {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 30;
+    -fx-font-size: 14px;
+    -fx-padding: 10 25;
+    -fx-cursor: hand;
+}
+
+.btn-history:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Box thông tin bên dưới */
+.info-box {
+    -fx-background-color: #ffffff;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 0.5;
+}
+
+.info-text {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+    -fx-font-size: 12px;
+}
+
+/* Nút Đóng trong thẻ xanh */
+.btn-close {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-border-radius: 30;
+    -fx-border-width: 1;
+    -fx-font-size: 13px;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.btn-close:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: #ffffff;
+}
