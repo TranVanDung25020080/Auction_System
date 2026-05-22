@@ -10,7 +10,9 @@ import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
 import com.auction.server.service.auction.AuctionService;
 import com.auction.server.service.auction.BidService;
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +24,8 @@ import java.util.concurrent.TimeUnit;
 public class AuctionRoomHandler {
     private int auctionId;
     private List<ClientHandler> participants;
-    private boolean isSchelude=false;
     private final ScheduledExecutorService executorService= Executors.newSingleThreadScheduledExecutor();
+    private java.util.concurrent.ScheduledFuture<?> scheduledTask;
 
     //Constructor
     public AuctionRoomHandler(){
@@ -44,14 +46,14 @@ public class AuctionRoomHandler {
         }
     }
     public void startCountDown(Auction auction){
-        if (isSchelude){
-            return;
+
+        if (scheduledTask != null && !scheduledTask.isCancelled()) {
+            scheduledTask.cancel(false);
         }
-        isSchelude=true;
 
         int delay=auction.getDurationLeft();
 
-        executorService.schedule(()->{
+        scheduledTask=executorService.schedule(()->{
             try{
                 AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId());
 
@@ -67,7 +69,7 @@ public class AuctionRoomHandler {
         },delay, TimeUnit.SECONDS);
     }
     public void handleAutoBidding() throws DatabaseException, IOException {
-        Gson gson=new Gson();
+        Gson gson= Converters.registerAll(new GsonBuilder()).create();
 
         for (ClientHandler clientHandler:this.getSortedAutoBidParticipants()){
 
@@ -75,7 +77,7 @@ public class AuctionRoomHandler {
 
             if (autoBidRequestDTO!=null){
 
-                BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO);
+                BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO,this);
 
                 if (bidUpdateResponseDTO.getBidStatus()== BidStatus.SUCCESS){
                     this.broadcast(gson.toJson(bidUpdateResponseDTO));

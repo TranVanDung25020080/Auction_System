@@ -113,6 +113,9 @@ public class Auction  {
     public void startAuction(){
         this.status=AuctionStatus.PENDING;
     }
+    public void setEndTime(LocalDateTime endTime){
+        this.endTime=endTime;
+    }
 
 
 

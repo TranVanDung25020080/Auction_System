@@ -68,7 +68,7 @@ public class BiddingPopupController {
         }
     }
 
-    private void startCountdown(LocalDateTime endTime) {
+    public void startCountdown(LocalDateTime endTime) {
         if (timeline != null) timeline.stop();
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
@@ -129,5 +129,8 @@ public class BiddingPopupController {
     }
     public Bidder getBidder(){
         return this.bidder;
+    }
+    public void setEndTime(LocalDateTime endTime){
+        this.currentAuction.setEndTime(endTime);
     }
 }

@@ -241,17 +241,13 @@ public class AuctionDAO {
         }
     }
 
-/*
-    //Test
+/*    //Test
     static void main(String[] args) throws DatabaseException, SQLException {
         AuctionDAO auctionDAO=new AuctionDAO();
 
-        List<Auction> auctionList=auctionDAO.getAuctionBySellerId(3);
-
-        System.out.println(auctionList);
+        auctionDAO.extendEndTime(1,120);
 
 
-    }
-*/
+    }*/
 
 }

@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -28,8 +29,9 @@ public class BidService {
         int userId=biddingPopupController.getUserId();
         int auctionRoomId=currentAuction.getAuctionId();
         double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
+        LocalDateTime endTime=currentAuction.getEndTime();
 
-        BaseRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionRoomId,bidAmount,highestCurrentPrice);
+        BaseRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionRoomId,bidAmount,highestCurrentPrice,endTime);
 
         clientSocket.sendBiddingInfo(bidRequestDTO);
 
@@ -43,9 +45,10 @@ public class BidService {
         int userId=biddingPopupController.getUserId();
         int auctionRoomId=currentAuction.getAuctionId();
         double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
+        LocalDateTime endTime=currentAuction.getEndTime();
 
 
-        BaseRequestDTO autoBidRequestDTO=new AutoBidRequestDTO(auctionRoomId,userId,maxBid,increment,highestCurrentPrice);
+        BaseRequestDTO autoBidRequestDTO=new AutoBidRequestDTO(auctionRoomId,userId,maxBid,increment,highestCurrentPrice,endTime);
 
         clientSocket.sendBiddingInfo(autoBidRequestDTO);
     }

@@ -9,7 +9,11 @@ import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
 import com.auction.server.dao.BidDAO;
 import com.auction.server.exception.DatabaseException;
+import com.auction.server.handler.socketserver.AuctionRoomHandler;
+import com.auction.server.handler.socketserver.ClientHandler;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +30,7 @@ public class BidService {
         return  reentrantReadWriteLockMap.computeIfAbsent(auctionId,key->new ReentrantReadWriteLock());
     }
     //
-    public BidUpdateResponseDTO normalBid(BaseRequestDTO bidRequestDTO) throws DatabaseException {
+    public BidUpdateResponseDTO normalBid(BaseRequestDTO bidRequestDTO, AuctionRoomHandler auctionRoomHandler) throws DatabaseException {
         BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
         BidRequestDTO bid= (BidRequestDTO) bidRequestDTO;
 
@@ -37,10 +41,26 @@ public class BidService {
 
         ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionId);
         reentrantReadWriteLock.writeLock().lock();
+
         try{
+            AuctionDAO auctionDAO=new AuctionDAO();
+            Auction currentAuction = auctionDAO.getAuctionInfoById(auctionId);
+            LocalDateTime endTime=currentAuction.getEndTime();
+
+            if (getTimeLeft(endTime)<=10){
+
+                endTime=endTime.plusSeconds(20);
+
+                auctionDAO.extendEndTime(auctionId,20);
+                /*auctionRoomHandler.startCountDown(clientHandler.getAuction(auctionId));*/
+                auctionRoomHandler.startCountDown(auctionDAO.getAuctionInfoById(auctionId));
+            }
+
+
             if (bidAmmount<=highCurrentPrice){
                 bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
                 bidUpdateResponseDTO.setBidderId(bidderId);
+                bidUpdateResponseDTO.setEndTime(endTime);
             }
             else {
 /*                new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);*/
@@ -48,6 +68,8 @@ public class BidService {
 
                 bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,bidAmmount);
                 bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
+                bidUpdateResponseDTO.setEndTime(endTime);
+
             }
 
 
@@ -59,7 +81,7 @@ public class BidService {
 
     }
 
-    public BidUpdateResponseDTO autoBid(BaseRequestDTO autoBidRequestDTO) throws DatabaseException {
+    public BidUpdateResponseDTO autoBid(BaseRequestDTO autoBidRequestDTO,AuctionRoomHandler auctionRoomHandler) throws DatabaseException {
         BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
         AutoBidRequestDTO autoBid=(AutoBidRequestDTO) autoBidRequestDTO;
 
@@ -68,17 +90,34 @@ public class BidService {
         double maxBid=autoBid.getMaxBid();
         double increment=autoBid.getIncrement();
 
-        Auction currentAuction=new AuctionDAO().getAuctionInfoById(auctionRoomId);
+        /*Auction currentAuction=new AuctionDAO().getAuctionInfoById(auctionRoomId);*/
 
         ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionRoomId);
         reentrantReadWriteLock.writeLock().lock();
 
+
+
         try {
+
+            AuctionDAO auctionDAO=new AuctionDAO();
+            Auction currentAuction = auctionDAO.getAuctionInfoById(auctionRoomId);
+            LocalDateTime endTime=currentAuction.getEndTime();
+
+            if (getTimeLeft(endTime)<=10){
+
+                endTime=endTime.plusSeconds(20);
+
+                auctionDAO.extendEndTime(auctionRoomId,20);
+/*                auctionRoomHandler.startCountDown(clientHandler.getAuction(auctionRoomId));*/
+                 auctionRoomHandler.startCountDown(auctionDAO.getAuctionInfoById(auctionRoomId));
+            }
+
             if (maxBid<=currentAuction.getCurrentHighestPrice()){
                 bidUpdateResponseDTO.setBidStatus(BidStatus.FAILED);
                 bidUpdateResponseDTO.setBidderId(bidderId);
                 bidUpdateResponseDTO.setAuctionId(auctionRoomId);
                 bidUpdateResponseDTO.setNewHighestPrice(currentAuction.getCurrentHighestPrice());
+                bidUpdateResponseDTO.setEndTime(endTime);
 
             }
             else {
@@ -90,6 +129,7 @@ public class BidService {
                     bidUpdateResponseDTO.setBidderId(bidderId);
                     bidUpdateResponseDTO.setAuctionId(auctionRoomId);
                     bidUpdateResponseDTO.setNewHighestPrice(currentAuction.getCurrentHighestPrice());
+                    bidUpdateResponseDTO.setEndTime(endTime);
 
                 }
 
@@ -101,6 +141,8 @@ public class BidService {
 
                     bidUpdateResponseDTO = new BidUpdateResponseDTO(auctionRoomId,bidderId,bidAmount);
                     bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
+                    bidUpdateResponseDTO.setEndTime(endTime);
+
 
                 }
 
@@ -112,9 +154,12 @@ public class BidService {
 
         return bidUpdateResponseDTO;
 
+    }
 
+    private int getTimeLeft(LocalDateTime endTime){
+        Duration duration=Duration.between(LocalDateTime.now(),endTime);
 
-
+        return (int) duration.getSeconds();
     }
 
 

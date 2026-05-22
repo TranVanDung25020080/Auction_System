@@ -17,4 +17,9 @@ public class Bidder extends User {
     public void printInfo() {
         System.out.println("[BIDDER] Id: " + getUserId() + "Name: " + getOwnerName() + "Balance " +balance);
     }
+
+    // moi
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 }

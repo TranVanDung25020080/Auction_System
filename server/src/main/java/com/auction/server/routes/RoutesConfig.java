@@ -15,6 +15,7 @@ public class RoutesConfig {
         MyHttpServer.addRoute("/removeitem",new RemoveItemHandler());
         MyHttpServer.addRoute("/createauction",new CreateAuctionHandler());
         MyHttpServer.addRoute("/getauction/sellerid",new GetAuctionBySellerIdHandler());
+        MyHttpServer.addRoute("/depositbalance",new DepositBalanceHandler());
 
     }
 }

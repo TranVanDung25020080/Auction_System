@@ -17,10 +17,9 @@
       <VBox prefWidth="250.0" spacing="15.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <children>
             <Label styleClass="logo-text" text="AUCTION PRO" />
-            <Region prefHeight="20.0" /> <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="🏠 Khám Phá" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="⚖️ Đang Đấu Giá" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="🏆 Đã Thắng" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="💳 Ví Tiền" />
+            <Region prefHeight="20.0" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="🏠Trang chủ" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleShowWallet" styleClass="menu-button" text="  💳Ví Tiền" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
