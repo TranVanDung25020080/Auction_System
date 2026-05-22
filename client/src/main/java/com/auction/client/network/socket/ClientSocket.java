@@ -7,7 +7,9 @@ import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.BidStatus;
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 
 import java.io.*;
@@ -46,7 +48,7 @@ public class ClientSocket {
 
     }
     public void sendBiddingInfo(BaseRequestDTO baseRequestDTO) throws IOException {
-        Gson gson=new Gson();
+        Gson gson= Converters.registerAll(new GsonBuilder()).create();
         String bidRequestJson=gson.toJson(baseRequestDTO);
 
         bufferedWriter.write(bidRequestJson);

@@ -29,6 +29,7 @@ public class NormalBidButton {
                     if (amount <=bidder.getBalance()){
 
                         new BidService().sendBid(biddingPopupController,amount);
+
                     }
                     else{
 

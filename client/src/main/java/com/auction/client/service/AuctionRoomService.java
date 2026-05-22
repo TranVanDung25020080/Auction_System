@@ -9,7 +9,9 @@ import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.enums.ReponseType;
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.internal.bind.util.ISO8601Utils;
@@ -18,6 +20,7 @@ import javafx.application.Platform;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
+import java.time.LocalDateTime;
 
 public class AuctionRoomService {
     public ClientSocket joinRoom(int userId, int auctionRoomId, BiddingPopupController biddingPopupController) throws IOException {
@@ -45,7 +48,7 @@ public class AuctionRoomService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Gson gson=new Gson();
+                Gson gson= Converters.registerAll(new GsonBuilder()).create();
 
                 String jsonReponse;
 
@@ -81,7 +84,11 @@ public class AuctionRoomService {
 
                                 if (finalResponse instanceof BidUpdateResponseDTO) {
                                     BidUpdateResponseDTO bid = (BidUpdateResponseDTO) finalResponse;
-                                    
+
+                                    LocalDateTime endTime=bid.getEndTime();
+                                    biddingPopupController.setEndTime(endTime);
+
+                                    biddingPopupController.startCountdown(endTime);
                                     biddingPopupController.updateHighCurrentPrice(bid.getNewHighestPrice());
                                     biddingPopupController.setLabelCurrentPrice();
                                 }

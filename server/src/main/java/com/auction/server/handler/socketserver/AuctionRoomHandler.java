@@ -10,7 +10,9 @@ import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
 import com.auction.server.service.auction.AuctionService;
 import com.auction.server.service.auction.BidService;
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,8 +68,8 @@ public class AuctionRoomHandler {
 
         },delay, TimeUnit.SECONDS);
     }
-    public void handleAutoBidding() throws DatabaseException, IOException {
-        Gson gson=new Gson();
+    public void handleAutoBidding(ClientHandler cli) throws DatabaseException, IOException {
+        Gson gson= Converters.registerAll(new GsonBuilder()).create();
 
         for (ClientHandler clientHandler:this.getSortedAutoBidParticipants()){
 
@@ -75,7 +77,7 @@ public class AuctionRoomHandler {
 
             if (autoBidRequestDTO!=null){
 
-                BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO);
+                BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO,this,cli);
 
                 if (bidUpdateResponseDTO.getBidStatus()== BidStatus.SUCCESS){
                     this.broadcast(gson.toJson(bidUpdateResponseDTO));

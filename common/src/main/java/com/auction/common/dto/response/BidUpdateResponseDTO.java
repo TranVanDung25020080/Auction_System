@@ -3,12 +3,15 @@ package com.auction.common.dto.response;
 import com.auction.common.enums.BidStatus;
 import com.auction.common.enums.ReponseType;
 
+import java.time.LocalDateTime;
+
 public class BidUpdateResponseDTO extends BaseResponse{
     private int auctionId,bidderId;
     private double newHighestPrice;
     private String highestBidderName;
     private String timeStamp;
     private BidStatus bidStatus;
+    private LocalDateTime endTime;
 
     //Constructor
     public BidUpdateResponseDTO(int auctionId, double newHighestPrice, String highestBidderName, String timeStamp) {
@@ -39,6 +42,9 @@ public class BidUpdateResponseDTO extends BaseResponse{
     public BidStatus getBidStatus(){
         return this.bidStatus;
     }
+    public LocalDateTime getEndTime(){
+        return this.endTime;
+    }
     //endregion
 
     //setter
@@ -53,6 +59,9 @@ public class BidUpdateResponseDTO extends BaseResponse{
     }
     public void setAuctionId(int auctionId){
         this.auctionId=auctionId;
+    }
+    public void setEndTime(LocalDateTime endTime){
+        this.endTime=endTime;
     }
 
     @Override
