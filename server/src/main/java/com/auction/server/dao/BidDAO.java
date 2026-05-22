@@ -18,7 +18,7 @@ public class BidDAO {
     AuctionDAO auctionDAO = new AuctionDAO();
 
     public void placeBid(int auctionId, int bidderId, double bidAmount) throws DatabaseException {
-        String insertBidQuery = "INSERT INTO bids (auction_id, bidder_id, bid_amount, bid_time) VALUES (?, ?, ?, NOW())";
+        String insertBidQuery = "INSERT INTO bid_transaction (auction_id, bidder_id, bid_amount, bid_time) VALUES (?, ?, ?, NOW())";
 
         double bidderBalance = userDAO.showBalance(bidderId);
 
@@ -46,7 +46,7 @@ public class BidDAO {
 
     public List<BidTransaction> getBidsByAuctionId(int auctionId) throws DatabaseException {
         List<BidTransaction> list = new ArrayList<>();
-        String query = "SELECT * FROM bids WHERE auction_id = ? ORDER BY bid_amount DESC";
+        String query = "SELECT * FROM bid_transaction WHERE auction_id = ? ORDER BY bid_amount DESC";
 
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {

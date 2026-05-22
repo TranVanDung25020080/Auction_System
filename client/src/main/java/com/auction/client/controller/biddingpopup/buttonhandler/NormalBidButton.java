@@ -23,14 +23,21 @@ public class NormalBidButton {
 
             try {
                 double amount = Double.parseDouble(txtNormalBid.getText());
-                if (amount > currentAuction.getCurrentPrice() && amount <=bidder.getBalance()) {
+                if (amount > currentAuction.getCurrentPrice()/* && amount <=bidder.getBalance()*/) {
 
                     // TODO: Gửi yêu cầu bid lên Server ở đây:
+                    if (amount <=bidder.getBalance()){
 
-                    new BidService().sendBid(biddingPopupController,amount);
+                        new BidService().sendBid(biddingPopupController,amount);
+                    }
+                    else{
+
+                        Alert.showAlert("ERROR","Your bidAmount must be less than your balance!");
+                    }
+
 
                 } else {
-                    Alert.showAlert("ERROR","Your bidAmount is either less than the current highest price or greater than your balance!");
+                    Alert.showAlert("ERROR","Your bidAmount must be strictly greater than the highest current price!");
                 }
             } catch (NumberFormatException e) {
                 Alert.showAlert("ERROR","Vui lòng nhập số tiền hợp lệ!");
