@@ -35,7 +35,6 @@ public class ClientHandler implements Runnable{
     private int userId;
     private List<Integer> auctionRoomJoinId;
     private AutoBidRequestDTO autoBidRequestDTO;
-    private HashMap<Integer,Auction> auctionHashMap=new HashMap<>();
 
 
     //Constructor
@@ -71,8 +70,8 @@ public class ClientHandler implements Runnable{
 
 
             //Start countdown:
-            /*Auction auction=new AuctionService().getAuction(joinRoomRequestDTO.getAuctionId());*/
-            Auction auction=this.getAuction(joinRoomRequestDTO.getAuctionId());
+            Auction auction=new AuctionService().getAuction(joinRoomRequestDTO.getAuctionId());
+            /*Auction auction=this.getAuction(joinRoomRequestDTO.getAuctionId());*/
             auctionRoomHandler.startCountDown(auction);
 
             //Bidding:
@@ -87,11 +86,11 @@ public class ClientHandler implements Runnable{
 
                     BidRequestDTO bidRequestDTO=gson.fromJson(baseRequestDTOJson, BidRequestDTO.class);
 
-                    BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO,auctionRoomHandler,this);
+                    BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO,auctionRoomHandler);
 
                     auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
 
-                    auctionRoomHandler.handleAutoBidding(this);
+                    auctionRoomHandler.handleAutoBidding();
                 }
 
                 else if(requestType==RequestType.AUTO_BIDDING){
@@ -113,6 +112,8 @@ public class ClientHandler implements Runnable{
                     this.autoBidRequestDTO=autoBid;
 
                 }
+
+
 
 
 
@@ -154,18 +155,5 @@ public class ClientHandler implements Runnable{
         return this.autoBidRequestDTO;
     }
 
-    public Auction getAuction(int auctionId) throws DatabaseException {
-        if (this.auctionHashMap.containsKey(auctionId)){
-            return this.auctionHashMap.get(auctionId);
-        }
-        else{
-            Auction auction=new AuctionDAO().getAuctionInfoById(auctionId);
-
-            this.auctionHashMap.put(auctionId,auction);
-
-            return  auction;
-        }
-
-    }
 
 }
