@@ -3,7 +3,7 @@ package com.auction.server.handler.httpserver;
 import com.auction.common.dto.response.GetAuctionResponseDTO;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.handler.HttpBaseHandler;
-import com.auction.server.service.auction.AuctionService;
+import com.auction.server.auction.AuctionService;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

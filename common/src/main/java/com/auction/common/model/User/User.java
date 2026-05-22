@@ -14,7 +14,7 @@ public class User implements Entity, Serializable {
     protected double balance;
 
     //Constructor
-    public User(int userId, String ownerName, String userName, double balance) {
+    public User(int userId, String ownerName, String userName, String password, double balance) {
         this.userId = userId;
         this.ownerName = ownerName;
         this.userName = userName;
@@ -43,6 +43,12 @@ public class User implements Entity, Serializable {
         return this.balance;
     }
 
+    //Setter
+    public void setUserId(int userId) { this.userId = userId; }
+    public void setBalance(double balance) { this.balance = balance; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public boolean checkPassword(String inputPassword) {
         return this.password.equals(inputPassword);

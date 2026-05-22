@@ -1,4 +1,4 @@
-package com.auction.server.service.item;
+package com.auction.server.item;
 
 import com.auction.common.dto.request.GetItemRequestDTO;
 import com.auction.common.dto.request.ItemRequestDTO;

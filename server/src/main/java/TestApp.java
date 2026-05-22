@@ -1,19 +1,11 @@
 
 import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.UserRole;
-import com.auction.common.model.Item.Item;
-import com.auction.common.model.User.Bidder;
-import com.auction.common.model.User.Seller;
-import com.auction.common.model.User.User;
 import com.auction.server.dao.AuctionDAO;
 import com.auction.server.db.DatabaseConnection;
 import com.auction.server.exception.DatabaseException;
-import com.auction.server.service.auth.LoginService;
-import com.auction.server.service.auth.SignUpService;
-import com.auction.server.service.item.ItemService;
-import com.auction.server.service.user.UserService;
-
-import java.util.List;
+import com.auction.server.auth.LoginService;
+import com.auction.server.auth.SignUpService;
 
 public class TestApp {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.auction.server.service.auction;
+package com.auction.server.auction;
 
 import com.auction.common.dto.request.AutoBidRequestDTO;
 import com.auction.common.dto.request.BaseRequestDTO;

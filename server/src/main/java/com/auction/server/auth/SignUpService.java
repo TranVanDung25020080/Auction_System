@@ -1,4 +1,4 @@
-package com.auction.server.service.auth;
+package com.auction.server.auth;
 
 import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.UserRole;

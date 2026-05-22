@@ -7,7 +7,7 @@ import com.auction.common.model.Item.Electronics;
 import com.auction.common.model.Item.Item;
 import com.auction.common.model.Item.Vehicle;
 import com.auction.server.handler.HttpBaseHandler;
-import com.auction.server.service.item.ItemService;
+import com.auction.server.item.ItemService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

@@ -1,7 +1,6 @@
 package com.auction.client.controller.register.buttonhandler;
 
 import com.auction.client.controller.annoucement.Alert;
-import com.sun.net.httpserver.HttpExchange;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,7 +18,6 @@ public class SwitchToLoginButton {
 
             Scene scene = new Scene(loginRoot);
 
-            // Đảm bảo file CSS tồn tại tại đường dẫn này
             String css = getClass().getResource("/com/auction/client/css/auth-styles.css").toExternalForm();
             scene.getStylesheets().add(css);
 

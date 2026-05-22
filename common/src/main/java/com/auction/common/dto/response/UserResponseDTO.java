@@ -14,7 +14,7 @@ public class UserResponseDTO {
 
 
     //Construtor
-    public UserResponseDTO(int userId,  String ownerName, String userName, UserRole userRole, double balance) {
+    public UserResponseDTO(int userId, String ownerName, String userName, double balance, UserRole userRole) {
         this.userId = userId;
         this.ownerName = ownerName;
         this.userName = userName;
@@ -39,6 +39,7 @@ public class UserResponseDTO {
     public double getBalance() {return balance;}
     public String getMessage(){return this.message;}
     public AuthStatus getAuthStatus(){return this.authStatus;}
+
     //Setter
     public void setAuthStatus(AuthStatus authStatus){
         this.authStatus=authStatus;
@@ -46,5 +47,18 @@ public class UserResponseDTO {
     public void setMessage(String message){
         this.message=message;
     }
+    public void setUserName(String userName){
+        this.userName=userName;
+    }
+    public void setUserRole(UserRole userRole){
+        this.userRole=userRole;
+    }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }

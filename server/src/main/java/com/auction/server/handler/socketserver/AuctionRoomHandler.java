@@ -1,15 +1,13 @@
 package com.auction.server.handler.socketserver;
 
-import com.auction.common.dto.request.AutoBidRequestDTO;
 import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.exception.DatabaseException;
-import com.auction.server.service.auction.AuctionRoomService;
-import com.auction.server.service.auction.AuctionService;
-import com.auction.server.service.auction.BidService;
+import com.auction.server.auction.AuctionRoomService;
+import com.auction.server.auction.BidService;
 import com.google.gson.Gson;
 
 import java.io.IOException;

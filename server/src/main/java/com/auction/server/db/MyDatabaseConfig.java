@@ -6,17 +6,17 @@ import java.sql.SQLException;
 
 public class MyDatabaseConfig {
     private static Connection connection;
-    private static final String URL="jdbc:mysql://localhost:3306/auctions";
-    private static final String USER="root";
-    private static final String PASSWORD="namkhanh1";
+//    private static final String URL="jdbc:mysql://localhost:3306/auctions";
+//    private static final String USER="root";
+//    private static final String PASSWORD="namkhanh1";
 
 //        private static final String URL = "jdbc:mysql://localhost:3306/auction_db";
 //        private static final String USER = "root";
 //        private static final String PASSWORD = "123Dung#";
 
-//    private static final String URL = "jdbc:mysql://localhost:3306/auction_db";
-//    private static final String USER = "root";
-//    private static final String PASSWORD = "";
+    private static final String URL = "jdbc:mysql://localhost:3306/auction_db";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
 
 /*    private static final String URL = "jdbc:mysql://localhost:3306/auction_db";
     private static final String USER = "root";
