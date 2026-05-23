@@ -1,5 +1,6 @@
 package com.auction.client.controller.auctioncardseller;
 
+import com.auction.client.controller.auctioncardseller.buttonhandler.ViewDetailsButton;
 import com.auction.common.enums.AuctionStatus; // NHỚ IMPORT CÁI NÀY
 import com.auction.common.model.Auction.Auction;
 import javafx.animation.Animation;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,11 +20,20 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class AuctionCardSellerController {
+    //FXML fields:
     @FXML private Label lblItemName, lblCurrentPrice, lblTimeLeft, lblWinnerInfo, lblAuctionId;
+    @FXML private Button viewDetailsButton;
 
+    //other fields:
     private Timeline timeline;
     private Auction auction;
+    //
 
+    public void initialize(){
+        this.viewDetailsButton.setOnAction(event -> new ViewDetailsButton().handle(this));
+    }
+
+    //Method or other classes to call:
     public void setAuctionData(Auction auction) {
         this.auction = auction;
 
@@ -32,7 +43,7 @@ public class AuctionCardSellerController {
         updateDisplay();
 
         // CHỈ CHẠY ĐẾM NGƯỢC NẾU TRẠNG THÁI LÀ OPEN (Khớp với Enum bạn gửi)
-        if (auction.getStatus() == AuctionStatus.OPEN) {
+        if (auction.getStatus() == AuctionStatus.PENDING || auction.getStatus()==AuctionStatus.OPEN) {
             startCountdown();
         } else if (auction.getStatus() == AuctionStatus.FINISHED) {
             lblTimeLeft.setText("ĐÃ KẾT THÚC");
@@ -52,6 +63,9 @@ public class AuctionCardSellerController {
             lblWinnerInfo.setText("Chưa có người đặt giá");
             lblWinnerInfo.setStyle("-fx-text-fill: #95a5a6;");
         }
+    }
+    public Auction getAuction(){
+        return this.auction;
     }
 
     private void startCountdown() {
@@ -84,7 +98,7 @@ public class AuctionCardSellerController {
         timeline.play();
     }
 
-    @FXML
+    /*@FXML
     private void handleViewDetails() {
         try {
             // 1. Load file FXML vừa tạo
@@ -107,10 +121,11 @@ public class AuctionCardSellerController {
             e.printStackTrace();
             System.err.println("Không thể mở cửa sổ lịch sử!");
         }
-    }
+    }*/
 
     // Hàm bổ trợ để Dashboard có thể dừng timeline khi cần
     public void stopTimer() {
         if (timeline != null) timeline.stop();
     }
+
 }

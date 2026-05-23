@@ -8,6 +8,7 @@ import com.auction.common.dto.request.LoginRequestDTO;
 import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.AuthStatus;
 import com.auction.common.enums.UserRole;
+import com.auction.common.model.User.Seller;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -114,6 +115,13 @@ public class LoginButton {
             Parent root = loader.load();
             SellerDashboardController sellerDashboardController=loader.getController();
             sellerDashboardController.setSellerId(this.userId);
+
+            // Tạo đối tượng Seller để nạp vào Dashboard (Giải quyết lỗi Null ban đầu)
+            // Lưu ý: Nhấn Alt + Enter để Import class Seller nếu nó báo đỏ
+            Seller loggedSeller = new Seller(this.userId, this.ownerName, this.userName, 0.0, this.balance);
+
+            // Nạp dữ liệu vào Dashboard
+            sellerDashboardController.setSellerData(loggedSeller);
 
             // Lấy Stage từ cái nút bấm
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

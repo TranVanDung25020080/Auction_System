@@ -26,4 +26,9 @@ public class Seller extends User {
     public void printInfo() {
         System.out.println("[SELLER] Id: " + getUserId() + "Name: " + getOwnerName() + "Rating: " + rating);
     }
+
+    //moi
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 }

@@ -46,7 +46,7 @@ public class BidDAO {
 
     public List<BidTransaction> getBidsByAuctionId(int auctionId) throws DatabaseException {
         List<BidTransaction> list = new ArrayList<>();
-        String query = "SELECT * FROM bid_transaction WHERE auctionId = ? ORDER BY bidAmount DESC";
+        String query = "SELECT * FROM bid_transaction WHERE auctionId = ?;";
 
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
@@ -69,6 +69,39 @@ public class BidDAO {
         }
         return list;
     }
+    public List<BidTransaction> getBidInfoByBidderId(int bidderId,int auctionId) throws SQLException {
+        List<BidTransaction> bidTransactionList=new ArrayList<>();
+
+        String query="SELECT * FROM bid_transaction WHERE bidderId=? and auctionId=?";
+
+        try (Connection connection=MyDatabaseConfig.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+
+            preparedStatement.setInt(1,bidderId);
+            preparedStatement.setInt(2,auctionId);
+
+            try (ResultSet resultSet= preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    //int transactionId, int auctionId, int bidderId, double bidAmount, LocalDateTime bidTime
+                    BidTransaction bidTransaction=new BidTransaction(resultSet.getInt("transactionId"),
+                            resultSet.getInt("auctionId"),
+                            resultSet.getInt("bidderId"),
+                            resultSet.getDouble("bidAmount"),
+                            resultSet.getTimestamp("bidTime").toLocalDateTime());
+
+                    bidTransactionList.add(bidTransaction);
+
+                }
+
+            }
+
+            return bidTransactionList;
+
+        }
+
+
+    }
+
 
     private void closeConnection(Connection conn) {
         if (conn != null) {
@@ -80,4 +113,10 @@ public class BidDAO {
             }
         }
     }
+    /*//test
+    static void main(String[] args) throws SQLException {
+        for (BidTransaction bidTransaction:new BidDAO().getBidInfoByBidderId(1,1)){
+            System.out.println(bidTransaction);
+        }
+    }*/
 }

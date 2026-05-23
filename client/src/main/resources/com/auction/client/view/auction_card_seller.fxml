@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<VBox fx:id="auctionCard" spacing="10" styleClass="card-auction" prefWidth="260"
-      stylesheets="@../css/seller-styles.css"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.auction.client.controller.auctioncardseller.AuctionCardSellerController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="auctionCard" prefWidth="260" spacing="10" styleClass="card-auction" stylesheets="@../css/seller-styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.auction.client.controller.auctioncardseller.AuctionCardSellerController">
 
     <children>
         <HBox alignment="CENTER_LEFT">
             <children>
-                <Label text="● LIVE" styleClass="badge-live" />
+                <Label styleClass="badge-live" text="● LIVE" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Label fx:id="lblAuctionId" styleClass="text-id-small" />
             </children>
@@ -20,7 +22,7 @@
 
         <VBox spacing="5" styleClass="price-container">
             <children>
-                <Label text="Giá cao nhất hiện tại:" styleClass="label-sub-text" />
+                <Label styleClass="label-sub-text" text="Giá cao nhất hiện tại:" />
                 <Label fx:id="lblCurrentPrice" styleClass="price-text-large" />
                 <Label fx:id="lblWinnerInfo" styleClass="winner-info-text" />
             </children>
@@ -28,13 +30,13 @@
 
         <VBox alignment="CENTER" spacing="2" styleClass="timer-container">
             <children>
-                <Label text="THỜI GIAN CÒN LẠI" styleClass="label-timer-header" />
+                <Label styleClass="label-timer-header" text="THỜI GIAN CÒN LẠI" />
                 <Label fx:id="lblTimeLeft" styleClass="timer-display" />
             </children>
         </VBox>
 
         <Separator />
 
-        <Button text="Lịch sử đặt giá" onAction="#handleViewDetails" maxWidth="Infinity" styleClass="btn-primary" />
+        <Button fx:id="viewDetailsButton" maxWidth="Infinity" styleClass="btn-primary" text="Lịch sử đặt giá" />
     </children>
 </VBox>
