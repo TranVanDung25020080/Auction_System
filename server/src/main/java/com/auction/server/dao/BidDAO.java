@@ -46,7 +46,7 @@ public class BidDAO {
 
     public List<BidTransaction> getBidsByAuctionId(int auctionId) throws DatabaseException {
         List<BidTransaction> list = new ArrayList<>();
-        String query = "SELECT * FROM bid_transaction WHERE auctionId = ? ORDER BY bidAmount DESC";
+        String query = "SELECT * FROM bid_transaction WHERE auctionId = ?;";
 
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
