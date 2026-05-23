@@ -4,63 +4,49 @@ import com.auction.common.model.Auction.BidTransaction;
 import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BidDAO {
 
-    public boolean placeBid(int auctionId, int bidderId, double bidAmount) throws DatabaseException {
-        String insertBidQuery = "INSERT INTO bids (auction_id, bidder_id, bid_amount, bid_time) VALUES (?, ?, ?, NOW())";
-        String updateUserQuery = "UPDATE users SET balance = balance - ? WHERE userId = ? AND balance >= ?";
+    UserDAO userDAO = new UserDAO();
+    AuctionDAO auctionDAO = new AuctionDAO();
 
-        Connection conn = null;
-        try {
-            conn = MyDatabaseConfig.getConnection();
-            conn.setAutoCommit(false);
+    public void placeBid(int auctionId, int bidderId, double bidAmount) throws DatabaseException {
+        String insertBidQuery = "INSERT INTO bid_transaction (auctionId, bidderId, bidAmount, bidTime) VALUES (?, ?, ?, NOW())";
 
-            try (PreparedStatement pstUser = conn.prepareStatement(updateUserQuery)) {
-                pstUser.setDouble(1, bidAmount);
-                pstUser.setInt(2, bidderId);
-                pstUser.setDouble(3, bidAmount);
+        double bidderBalance = userDAO.showBalance(bidderId);
 
-                int affectedRows = pstUser.executeUpdate();
-                if (affectedRows == 0) {
-                    throw new SQLException("Thất bại: Người dùng không tồn tại hoặc không đủ số dư!");
+        try (Connection conn = MyDatabaseConfig.getConnection();
+            PreparedStatement pst = conn.prepareStatement(insertBidQuery)) {
+            if (bidderBalance >= bidAmount) {
+                pst.setInt(1, auctionId);
+                pst.setInt(2, bidderId);
+                pst.setDouble(3, bidAmount);
+
+                int result = pst.executeUpdate();
+                if (result > 0) {
+                    auctionDAO.updateCurrentPrice(auctionId, bidAmount, bidderId);
                 }
             }
-
-            try (PreparedStatement pstBid = conn.prepareStatement(insertBidQuery)) {
-                pstBid.setInt(1, auctionId);
-                pstBid.setInt(2, bidderId);
-                pstBid.setDouble(3, bidAmount);
-                pstBid.executeUpdate();
+            else {
+                throw new DatabaseException("Khong du so du de dat gia");
             }
-
-            conn.commit();
-            return true;
-
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            System.err.println("Loi SQL tai BidDAO.placeBid: " + e.getMessage());
-            throw new DatabaseException("Lỗi hệ thống khi đặt giá thầu.", e);
-        } finally {
-            closeConnection(conn);
+        }
+        catch (SQLException e) {
+            System.err.println("Loi SQL o ham placeBid: " + e.getMessage());
+            throw new DatabaseException("Loi he thong: khong the dat gia", e);
         }
     }
 
-    /**
-     * Lấy danh sách lịch sử đặt giá của một cuộc đấu giá
-     */
     public List<BidTransaction> getBidsByAuctionId(int auctionId) throws DatabaseException {
         List<BidTransaction> list = new ArrayList<>();
-        String query = "SELECT * FROM bids WHERE auction_id = ? ORDER BY bid_amount DESC";
+        String query = "SELECT * FROM bid_transaction WHERE auctionId = ?;";
 
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(query)) {
@@ -70,11 +56,11 @@ public class BidDAO {
 
             while (rs.next()) {
                 BidTransaction bid = new BidTransaction(
-                        rs.getInt("bid_id"),
-                        rs.getInt("auction_id"),
-                        rs.getInt("bidder_id"),
-                        rs.getDouble("bid_amount"),
-                        rs.getTimestamp("bid_time").toLocalDateTime()
+                        rs.getInt("transactionId"),
+                        rs.getInt("auctionId"),
+                        rs.getInt("bidderId"),
+                        rs.getDouble("bidAmount"),
+                        rs.getTimestamp("bidTime").toLocalDateTime()
                 );
                 list.add(bid);
             }
@@ -83,6 +69,39 @@ public class BidDAO {
         }
         return list;
     }
+    public List<BidTransaction> getBidInfoByBidderId(int bidderId,int auctionId) throws SQLException {
+        List<BidTransaction> bidTransactionList=new ArrayList<>();
+
+        String query="SELECT * FROM bid_transaction WHERE bidderId=? and auctionId=?";
+
+        try (Connection connection=MyDatabaseConfig.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+
+            preparedStatement.setInt(1,bidderId);
+            preparedStatement.setInt(2,auctionId);
+
+            try (ResultSet resultSet= preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    //int transactionId, int auctionId, int bidderId, double bidAmount, LocalDateTime bidTime
+                    BidTransaction bidTransaction=new BidTransaction(resultSet.getInt("transactionId"),
+                            resultSet.getInt("auctionId"),
+                            resultSet.getInt("bidderId"),
+                            resultSet.getDouble("bidAmount"),
+                            resultSet.getTimestamp("bidTime").toLocalDateTime());
+
+                    bidTransactionList.add(bidTransaction);
+
+                }
+
+            }
+
+            return bidTransactionList;
+
+        }
+
+
+    }
+
 
     private void closeConnection(Connection conn) {
         if (conn != null) {
@@ -94,4 +113,10 @@ public class BidDAO {
             }
         }
     }
+    /*//test
+    static void main(String[] args) throws SQLException {
+        for (BidTransaction bidTransaction:new BidDAO().getBidInfoByBidderId(1,1)){
+            System.out.println(bidTransaction);
+        }
+    }*/
 }

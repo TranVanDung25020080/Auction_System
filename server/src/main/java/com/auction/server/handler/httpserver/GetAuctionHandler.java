@@ -38,6 +38,5 @@ public class GetAuctionHandler extends HttpBaseHandler {
 
         super.handle(exchange);
 
-
     }
 }

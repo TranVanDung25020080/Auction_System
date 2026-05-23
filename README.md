@@ -52,7 +52,7 @@ Dưới đây là chi tiết công dụng của từng package trong hệ thốn
 
 * **`com.auction.client.controller`**: Bộ điều khiển (Chữ C trong MVC). Gắn kết trực tiếp với các file `.fxml`, bắt sự kiện click/nhập liệu, gửi Request lên Server và cập nhật dữ liệu trả về lên màn hình (ví dụ: `LoginController`, `AuctionRoomController`).
 
-* **`com.auction.client.network`**: Chịu trách nhiệm duy trì Socket kết nối tới Server, gửi gói tin đi và chạy luồng nền để lắng nghe `Response` Realtime từ Server (`ServerConnection`).
+* **`com.auction.client.service`**: Chịu trách nhiệm duy trì Socket kết nối tới Server, gửi gói tin đi và chạy luồng nền để lắng nghe `Response` Realtime từ Server (`ServerConnection`).
 
 * **`com.auction.client.util`**: Chứa các lớp hỗ trợ tiện ích cho UI (ví dụ: `Session` lưu thông tin người dùng đang đăng nhập, `DialogHelper` hiển thị popup cảnh báo lỗi/thành công).
 

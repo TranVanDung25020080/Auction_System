@@ -1,0 +1,321 @@
+/* --- Tổng thể --- */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Vùng nội dung bên phải */
+.content-area {
+    -fx-padding: 30;
+    -fx-background-color: #f4f7f6; /* Màu xám trắng rất nhẹ nhàng */
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+/* ScrollPane sạch sẽ không lộ viền */
+.content-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Khoảng cách cho dấu gạch ngang trong sidebar */
+.sidebar-separator {
+    -fx-padding: 15 0;
+    -fx-opacity: 0.3;
+}
+
+/* --- Sidebar (Giữ nguyên của bạn và thêm tí padding) --- */
+.sidebar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 25;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 30 0;
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #bdc3c7;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-padding: 10 15;
+    -fx-background-radius: 5;
+}
+
+.menu-item:hover {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+}
+
+/* --- Nút bấm --- */
+.btn-primary {
+    -fx-background-color: #f3d0b2;
+    -fx-text-fill: #5d4037;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.btn-success {
+    -fx-background-color: #5cb85c;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-danger {
+    -fx-background-color: #d9534f;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+/* --- Card sản phẩm (Phần quan trọng nhất) --- */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    /* Hiệu ứng đổ bóng nhẹ cho sang */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.item-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.price-text {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e67e22; /* Màu cam giá tiền */
+}
+
+.extra-info-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+}
+
+/* --- Badges cho từng loại hàng --- */
+.badge {
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 8;
+    -fx-background-radius: 5;
+}
+
+.badge-art { -fx-background-color: #9b59b6; }     /* Tím cho Nghệ thuật */
+.badge-elec { -fx-background-color: #3498db; }    /* Xanh cho Điện tử */
+.badge-vehi { -fx-background-color: #e67e22; }    /* Cam đậm cho Phương tiện */
+
+
+/* Container của Form */
+.form-container {
+    -fx-padding: 30;
+    -fx-background-color: white;
+}
+
+/* Các ô nhập liệu */
+.form-input {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+}
+
+.form-input:focused {
+    -fx-border-color: #f3d0b2; /* Màu cam nhạt khi click vào */
+    -fx-background-color: white;
+}
+
+/* Vùng chứa các trường động */
+.dynamic-section {
+    -fx-padding: 15;
+    -fx-background-color: #fff9f4; /* Nền màu cam cực nhạt để phân biệt vùng riêng */
+    -fx-background-radius: 10;
+    -fx-border-color: #f3d0b2;
+    -fx-border-width: 0.5;
+}
+
+/* Nút hủy */
+.btn-secondary {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #7f8c8d;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+}
+
+/* Container chung của thẻ đấu giá */
+.card-auction {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+    -fx-border-color: #f3d0b2; /* Viền cam nhạt để phân biệt với card kho hàng */
+    -fx-border-width: 1;
+    -fx-border-radius: 15;
+}
+
+/* Badge LIVE nhấp nháy màu đỏ */
+.badge-live {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-padding: 2 8;
+    -fx-background-radius: 4;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+/* Text ID nhỏ */
+.text-id-small {
+    -fx-text-fill: #bdc3c7;
+    -fx-font-size: 10px;
+}
+
+/* Vùng hiển thị giá */
+.price-container {
+    -fx-background-color: #fdf2e9; /* Cam cực nhạt */
+    -fx-padding: 10;
+    -fx-background-radius: 8;
+}
+
+.label-sub-text {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.price-text-large {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d35400; /* Màu cam đậm của giá tiền */
+}
+
+.winner-info-text {
+    -fx-font-size: 11px;
+    -fx-text-fill: #27ae60; /* Màu xanh lá cho người dẫn đầu */
+}
+
+/* Vùng đồng hồ */
+.timer-container {
+    -fx-padding: 5 0;
+}
+
+.label-timer-header {
+    -fx-font-size: 9px;
+    -fx-text-fill: #95a5a6;
+    -fx-font-weight: bold;
+}
+
+.timer-display {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Màu chữ đỏ khi sắp hết giờ (Sẽ được set qua code controller) */
+.timer-urgent {
+    -fx-text-fill: #e74c3c;
+}
+
+/* Nút Hủy bỏ */
+.btn-secondary {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #bdc3c7;
+}
+
+/* Nút Lưu vào kho */
+.btn-primary {
+    -fx-background-color: linear-gradient(to right, #00d2ff, #3a7bd5); /* Màu xanh giống nút Đăng ký */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+.btn-primary:hover {
+    -fx-opacity: 0.9;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* Container của Popup */
+.popup-container {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdde1;
+    -fx-border-width: 1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+/* Label tĩnh và động */
+.label-static {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-size: 14px;
+}
+
+.label-dynamic {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+
+/* Tùy chỉnh bảng TableView cho xịn */
+.history-table {
+    -fx-background-color: transparent;
+    -fx-border-color: #f1f2f6;
+    -fx-border-radius: 5;
+}
+
+.history-table .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: transparent transparent #dee2e6 transparent;
+}
+
+.history-table .column-header .label {
+    -fx-text-fill: #2f3640;
+    -fx-font-weight: bold;
+}
+
+.history-table .table-row-cell:odd {
+    -fx-background-color: #ffffff;
+}
+
+.history-table .table-row-cell:even {
+    -fx-background-color: #fafafa;
+}
+
+.history-table .table-row-cell:selected {
+    -fx-background-color: #e3f2fd;
+}
+/* Chỉ áp dụng cho nút Ví Tiền */
+#walletBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+
+.button:hover {
+    -fx-background-color: #34495e; /* Màu nền khi di chuột qua */
+}

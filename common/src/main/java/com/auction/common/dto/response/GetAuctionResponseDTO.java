@@ -26,5 +26,8 @@ public class GetAuctionResponseDTO {
     public List<Auction> getAuctionList(){
         return this.auctionList;
     }
+    public String getMessage(){
+        return this.message;
+    }
 
 }

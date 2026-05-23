@@ -11,9 +11,9 @@ public class AddElectronics implements AddItem {
     @Override
     public void addToItem(PreparedStatement pst, Item item) throws SQLException {
         Electronics el = (Electronics) item;
-        pst.setString(5, "ELECTRONICS");
-        pst.setInt(7,el.getWarranty());
+        pst.setString(4, "ELECTRONICS");
+        pst.setInt(6,el.getWarranty());
+        pst.setNull(7, Types.VARCHAR);
         pst.setNull(8, Types.VARCHAR);
-        pst.setNull(9, Types.VARCHAR);
     }
 }

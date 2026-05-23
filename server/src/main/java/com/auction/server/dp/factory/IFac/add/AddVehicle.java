@@ -11,9 +11,9 @@ public class AddVehicle implements AddItem {
     @Override
     public void addToItem(PreparedStatement pst, Item item) throws SQLException {
         Vehicle vh = (Vehicle) item;
-        pst.setString(5, "VEHICLE");
-        pst.setNull(7, Types.INTEGER);
-        pst.setString(8, vh.getCompany());
-        pst.setNull(9, Types.VARCHAR);
+        pst.setString(4, "VEHICLE");
+        pst.setNull(6, Types.INTEGER);
+        pst.setString(7, vh.getCompany());
+        pst.setNull(8, Types.VARCHAR);
     }
 }
