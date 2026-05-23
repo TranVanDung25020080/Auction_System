@@ -37,8 +37,13 @@ public class JoinRoomButton {
 
             //Hien thi cho user:
             Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root,1100,800));
 /*            stage.initModality(Modality.APPLICATION_MODAL);*/
+
+            stage.setResizable(true);
+            stage.setMinWidth(900);
+            stage.setMinHeight(700);
+
             stage.setTitle("Chi tiết phiên đấu giá");
             stage.show();
         } catch (IOException e) {

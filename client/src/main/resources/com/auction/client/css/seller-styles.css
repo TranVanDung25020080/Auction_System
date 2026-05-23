@@ -308,3 +308,14 @@
 .history-table .table-row-cell:selected {
     -fx-background-color: #e3f2fd;
 }
+/* Chỉ áp dụng cho nút Ví Tiền */
+#walletBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+
+.button:hover {
+    -fx-background-color: #34495e; /* Màu nền khi di chuột qua */
+}
