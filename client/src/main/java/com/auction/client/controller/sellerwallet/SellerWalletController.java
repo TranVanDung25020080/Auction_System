@@ -1,4 +1,4 @@
-package com.auction.client.controller;
+package com.auction.client.controller.sellerwallet;
 
 import com.auction.common.model.User.Seller;
 import javafx.fxml.FXML;

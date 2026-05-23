@@ -21,7 +21,11 @@ public class AuctionHistoryController {
         lblProductName.setText(itemName);
 
         // TODO: Đổ dữ liệu từ List vào TableView
-        // tableHistory.setItems(bidData);
+        //tableHistory.setItems(bidData);
+
+
+
+
     }
 
     /**

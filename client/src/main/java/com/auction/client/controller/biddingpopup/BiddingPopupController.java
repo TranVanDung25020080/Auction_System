@@ -31,7 +31,7 @@ public class BiddingPopupController {
     @FXML private TextField txtNormalBid;
     @FXML private TextField txtMaxBid;      // fx:id phải khớp trong FXML
     @FXML private TextField txtIncrement;   // fx:id phải khớp trong FXML
-    @FXML private Button normalBidButton,autoBidButton,exitButton;
+    @FXML private Button normalBidButton,autoBidButton,exitButton,viewBidHistoryButton;
 
     // Khai báo biểu đồ từ file fx:include
     @FXML private VBox priceChart; // ID này phải trùng với fx:id ở thẻ include

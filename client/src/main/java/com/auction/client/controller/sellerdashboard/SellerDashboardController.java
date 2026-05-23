@@ -4,6 +4,7 @@ import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.sellerdashboard.buttonhandler.OpenItemPopupButton;
 import com.auction.client.controller.sellerdashboard.buttonhandler.ShowIntentoryButton;
 import com.auction.client.controller.sellerdashboard.buttonhandler.ShowLiveAuctionsButton;
+import com.auction.client.controller.sellerwallet.SellerWalletController;
 import com.auction.common.model.User.Seller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,7 +80,7 @@ public class SellerDashboardController {
             Parent root = loader.load();
 
             // 2. Lấy controller của ví và truyền dữ liệu Seller hiện tại sang
-            com.auction.client.controller.SellerWalletController walletController = loader.getController();
+            SellerWalletController walletController = loader.getController();
             walletController.setSellerData(this.seller); // Giả sử biến 'seller' là thông tin người đang đăng nhập
 
             // 3. Hiển thị cửa sổ mới (Popup)
