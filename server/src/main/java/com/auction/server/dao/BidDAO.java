@@ -69,15 +69,16 @@ public class BidDAO {
         }
         return list;
     }
-    public List<BidTransaction> getBidInfoByBidderId(int bidderId) throws SQLException {
+    public List<BidTransaction> getBidInfoByBidderId(int bidderId,int auctionId) throws SQLException {
         List<BidTransaction> bidTransactionList=new ArrayList<>();
 
-        String query="SELECT * FROM bid_transaction WHERE bidderId=?";
+        String query="SELECT * FROM bid_transaction WHERE bidderId=? and auctionId=?";
 
         try (Connection connection=MyDatabaseConfig.getConnection()){
             PreparedStatement preparedStatement=connection.prepareStatement(query);
 
             preparedStatement.setInt(1,bidderId);
+            preparedStatement.setInt(2,auctionId);
 
             try (ResultSet resultSet= preparedStatement.executeQuery()){
                 while (resultSet.next()){
@@ -112,9 +113,9 @@ public class BidDAO {
             }
         }
     }
-   /* //test
+    /*//test
     static void main(String[] args) throws SQLException {
-        for (BidTransaction bidTransaction:new BidDAO().getBidInfoByBidderId(1)){
+        for (BidTransaction bidTransaction:new BidDAO().getBidInfoByBidderId(1,1)){
             System.out.println(bidTransaction);
         }
     }*/

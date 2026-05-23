@@ -38,7 +38,7 @@ public class ItemService {
 
         try {
             new ItemDAO().updateItemStatus(itemId,ItemStatus.INVALID);
-            itemResponseDTO.setMessage("remvoe item successfully");
+            itemResponseDTO.setMessage("remove item successfully");
         } catch (SQLException e) {
             itemResponseDTO.setMessage(e.getMessage());
         }

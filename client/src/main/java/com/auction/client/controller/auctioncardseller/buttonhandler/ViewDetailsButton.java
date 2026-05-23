@@ -65,7 +65,7 @@ public class ViewDetailsButton {
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Không thể mở cửa sổ lịch sử!");
+            Alert.showAlert("ERROR",e.getMessage());
         }
 
     }

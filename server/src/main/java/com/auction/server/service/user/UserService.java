@@ -42,9 +42,10 @@ public class UserService {
         GetBidInfoResponseDTO getBidInfoResponseDTO=new GetBidInfoResponseDTO();
 
         int bidderId=getBidInfoRequestDTO.getBidderId();
+        int auctionId=getBidInfoRequestDTO.getAuctionId();
 
         try{
-            List<BidTransaction> bidTransactionList=new BidDAO().getBidInfoByBidderId(bidderId);
+            List<BidTransaction> bidTransactionList=new BidDAO().getBidInfoByBidderId(bidderId,auctionId);
 
             getBidInfoResponseDTO.setBidTransactionList(bidTransactionList);
             getBidInfoResponseDTO.setMessage("Get bidInfo successfully!");

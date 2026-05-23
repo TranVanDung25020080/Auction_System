@@ -3,7 +3,9 @@ package com.auction.client.network.http;
 import com.auction.common.dto.request.DepositBalanceRequestDTO;
 import com.auction.common.dto.request.GetBidInfoRequestDTO;
 import com.auction.common.dto.response.DepositBalanceResponseDTO;
+import com.auction.common.dto.response.GetAuctionResponseDTO;
 import com.auction.common.dto.response.GetBidInfoResponseDTO;
+import com.auction.common.enums.GetBidInfoType;
 import com.auction.common.enums.HttpMethod;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
@@ -47,7 +49,17 @@ public class UserApi {
         return gson.fromJson(jsonResponse, GetBidInfoResponseDTO.class);
 
 
-
     }
+    /*//test
+    static void main(String[] args) throws IOException {
+        GetBidInfoRequestDTO getBidInfoRequestDTO=new GetBidInfoRequestDTO();
+        getBidInfoRequestDTO.setBidderId(1);
+        getBidInfoRequestDTO.setAuctionId(1);
+        getBidInfoRequestDTO.setGetBidInfoType(GetBidInfoType.BIDDER_ID);
+
+        GetBidInfoResponseDTO getBidInfoResponseDTO=new UserApi().getBidInfoByBidderId(getBidInfoRequestDTO);
+        Gson gson=Converters.registerAll(new GsonBuilder()).create();
+        System.out.println(gson.toJson(getBidInfoResponseDTO));
+    }*/
 
 }

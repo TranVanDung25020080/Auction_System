@@ -67,7 +67,7 @@
                             <Label style="-fx-font-weight: bold;" text="Nhập giá thầu:" />
                             <TextField fx:id="txtNormalBid" prefWidth="200" />
                             <Button fx:id="normalBidButton" styleClass="btn-bid" text="Gửi giá thầu" />
-                     <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Xem lịch sử đặt" />
+                     <Button fx:id="viewBidHistoryButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Xem lịch sử đặt" />
                         </children>
                     </HBox>
                     <Label fx:id="lblStatus" text="..." textFill="#e74c3c" />

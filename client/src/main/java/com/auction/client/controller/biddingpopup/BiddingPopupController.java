@@ -1,8 +1,10 @@
 package com.auction.client.controller.biddingpopup;
 
+import com.auction.client.controller.auctioncardseller.buttonhandler.ViewDetailsButton;
 import com.auction.client.controller.biddingpopup.buttonhandler.AutoBidButton;
 import com.auction.client.controller.biddingpopup.buttonhandler.ExitButton;
 import com.auction.client.controller.biddingpopup.buttonhandler.NormalBidButton;
+import com.auction.client.controller.biddingpopup.buttonhandler.ViewBidHistoryButton;
 import com.auction.client.network.socket.ClientSocket;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
@@ -62,6 +64,8 @@ public class BiddingPopupController {
 
         this.exitButton.setOnAction(event ->
                 new ExitButton().handle(this.timeline,this.lblId));
+        this.viewBidHistoryButton.setOnAction(event -> new ViewBidHistoryButton().handle(this));
+
         //Khoi tao doi tuong dto :
         this.bidUpdateResponseDTO=new BidUpdateResponseDTO();
 
