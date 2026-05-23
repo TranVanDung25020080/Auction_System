@@ -3,6 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <ScrollPane fitToWidth="true" stylesheets="@../css/bidding-popup-style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.biddingpopup.BiddingPopupController">
     <content>
         <VBox spacing="20.0" styleClass="root-container">
@@ -32,7 +35,19 @@
                     </children>
                 </GridPane>
 
-                <fx:include source="PriceChart.fxml" />
+                <VBox styleClass="chart-container" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Label style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;" text="Lịch sử diễn biến giá" />
+                        <LineChart fx:id="priceHistoryChart" animated="false" minHeight="400">
+                            <xAxis>
+                                <CategoryAxis label="Thời gian" side="BOTTOM" animated="false" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Giá (VNĐ)" side="LEFT" autoRanging="true" forceZeroInRange="false" />
+                            </yAxis>
+                        </LineChart>
+                    </children>
+                </VBox>
 
                 <VBox spacing="10" styleClass="control-section">
                     <HBox alignment="CENTER_LEFT" spacing="15">
