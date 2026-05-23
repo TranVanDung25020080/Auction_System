@@ -11,7 +11,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class BaseApi {
-    private static final String BASE_URL="http://localhost:8000";
+    /*private static final String BASE_URL="http://localhost:8000";*/
+    private static final String BASE_URL = "http://100.65.119.25:8000";
     public static String getJsonReponse(String jsonRequest, String route, HttpMethod httpMethod) throws IOException {
         URL url=new URL(BASE_URL+route);
 

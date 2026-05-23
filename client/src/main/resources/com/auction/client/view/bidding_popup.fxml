@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
 <ScrollPane fitToWidth="true" stylesheets="@../css/bidding-popup-style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.biddingpopup.BiddingPopupController">
     <content>
         <VBox spacing="20.0" styleClass="root-container">
@@ -33,6 +41,10 @@
                         <Label fx:id="lblCurrentPrice" maxWidth="Infinity" styleClass="grid-cell" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <Label fx:id="lblCountdown" maxWidth="Infinity" styleClass="grid-cell" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                     </children>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
                 </GridPane>
 
                 <VBox styleClass="chart-container" VBox.vgrow="ALWAYS">
@@ -40,10 +52,10 @@
                         <Label style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;" text="Lịch sử diễn biến giá" />
                         <LineChart fx:id="priceHistoryChart" animated="false" minHeight="400">
                             <xAxis>
-                                <CategoryAxis label="Thời gian" side="BOTTOM" animated="false" />
+                                <CategoryAxis animated="false" label="Thời gian" side="BOTTOM" />
                             </xAxis>
                             <yAxis>
-                                <NumberAxis label="Giá (VNĐ)" side="LEFT" autoRanging="true" forceZeroInRange="false" />
+                                <NumberAxis autoRanging="true" forceZeroInRange="false" label="Giá (VNĐ)" side="LEFT" />
                             </yAxis>
                         </LineChart>
                     </children>
@@ -55,6 +67,7 @@
                             <Label style="-fx-font-weight: bold;" text="Nhập giá thầu:" />
                             <TextField fx:id="txtNormalBid" prefWidth="200" />
                             <Button fx:id="normalBidButton" styleClass="btn-bid" text="Gửi giá thầu" />
+                     <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Xem lịch sử đặt" />
                         </children>
                     </HBox>
                     <Label fx:id="lblStatus" text="..." textFill="#e74c3c" />
@@ -78,6 +91,10 @@
                             <TextField fx:id="txtIncrement" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                             <Button fx:id="autoBidButton" maxWidth="Infinity" styleClass="btn-auto" text="Kích hoạt tự động" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         </children>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
                     </GridPane>
                 </VBox>
 

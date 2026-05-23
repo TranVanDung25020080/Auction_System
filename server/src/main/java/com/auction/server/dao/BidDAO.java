@@ -69,6 +69,38 @@ public class BidDAO {
         }
         return list;
     }
+    public List<BidTransaction> getBidInfoByBidderId(int bidderId) throws SQLException {
+        List<BidTransaction> bidTransactionList=new ArrayList<>();
+
+        String query="SELECT * FROM bid_transaction WHERE bidderId=?";
+
+        try (Connection connection=MyDatabaseConfig.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+
+            preparedStatement.setInt(1,bidderId);
+
+            try (ResultSet resultSet= preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    //int transactionId, int auctionId, int bidderId, double bidAmount, LocalDateTime bidTime
+                    BidTransaction bidTransaction=new BidTransaction(resultSet.getInt("transactionId"),
+                            resultSet.getInt("auctionId"),
+                            resultSet.getInt("bidderId"),
+                            resultSet.getDouble("bidAmount"),
+                            resultSet.getTimestamp("bidTime").toLocalDateTime());
+
+                    bidTransactionList.add(bidTransaction);
+
+                }
+
+            }
+
+            return bidTransactionList;
+
+        }
+
+
+    }
+
 
     private void closeConnection(Connection conn) {
         if (conn != null) {
@@ -80,4 +112,10 @@ public class BidDAO {
             }
         }
     }
+   /* //test
+    static void main(String[] args) throws SQLException {
+        for (BidTransaction bidTransaction:new BidDAO().getBidInfoByBidderId(1)){
+            System.out.println(bidTransaction);
+        }
+    }*/
 }
