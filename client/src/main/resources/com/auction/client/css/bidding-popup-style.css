@@ -79,3 +79,15 @@
     -fx-text-fill: white;
     -fx-padding: 8 25;
 }
+
+/* Làm đường biểu đồ dày hơn và có màu xanh đậm */
+.default-color0.chart-series-line {
+    -fx-stroke: #2980b9;
+    -fx-stroke-width: 3px;
+}
+/* Làm các điểm nút to lên cho dễ nhìn */
+.default-color0.chart-line-symbol {
+    -fx-background-color: #2980b9, white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
