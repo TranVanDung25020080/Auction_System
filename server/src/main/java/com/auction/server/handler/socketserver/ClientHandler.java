@@ -5,23 +5,17 @@ import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.BaseResponse;
-import com.auction.common.dto.response.BidUpdateResponseDTO;
-import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.RequestType;
 import com.auction.common.model.Auction.Auction;
-import com.auction.server.dao.AuctionDAO;
 import com.auction.server.dao.AutoBidDAO;
 import com.auction.server.exception.DatabaseException;
-import com.auction.server.service.auction.AuctionRoomService;
-import com.auction.server.service.auction.AuctionService;
-import com.auction.server.service.auction.BidService;
-import com.fatboyindustrial.gsonjavatime.Converters;
+import com.auction.server.auction.AuctionRoomService;
+import com.auction.server.auction.AuctionService;
+import com.auction.server.auction.BidService;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.List;
 
 public class ClientHandler implements Runnable{
@@ -46,7 +40,7 @@ public class ClientHandler implements Runnable{
     //Override
     @Override
     public void run() {
-        Gson gson= Converters.registerAll(new GsonBuilder()).create();
+        Gson gson=new Gson();
         AutoBidDAO autoBidDAO=new AutoBidDAO();
 
 
@@ -71,7 +65,6 @@ public class ClientHandler implements Runnable{
 
             //Start countdown:
             Auction auction=new AuctionService().getAuction(joinRoomRequestDTO.getAuctionId());
-            /*Auction auction=this.getAuction(joinRoomRequestDTO.getAuctionId());*/
             auctionRoomHandler.startCountDown(auction);
 
             //Bidding:
@@ -86,7 +79,8 @@ public class ClientHandler implements Runnable{
 
                     BidRequestDTO bidRequestDTO=gson.fromJson(baseRequestDTOJson, BidRequestDTO.class);
 
-                    BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO,auctionRoomHandler);
+                    BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO);
+
 
                     auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
 
@@ -112,8 +106,6 @@ public class ClientHandler implements Runnable{
                     this.autoBidRequestDTO=autoBid;
 
                 }
-
-
 
 
 
@@ -154,6 +146,5 @@ public class ClientHandler implements Runnable{
     public AutoBidRequestDTO getAutoBidRequestDTO(){
         return this.autoBidRequestDTO;
     }
-
 
 }

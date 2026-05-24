@@ -158,15 +158,10 @@ public class ItemDAO {
         }
     }
 
-/*    //test
+    //test
     static void main(String[] args) throws Exception {
-        Item car=new Vehicle("Car2","nothing to describe ",100,3,ItemStatus.AVAILABLE);
-*//*        car.printInfo();*//*
-        new ItemDAO().addItem(car);
-        System.out.println("OK");
-        new ItemDAO().getItemById(2).printInfo();
+        System.out.println(new ItemDAO().getItemBySellerId(2));
 
-
-    }*/
+    }
 
 }

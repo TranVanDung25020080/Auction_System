@@ -5,7 +5,7 @@ import com.auction.common.dto.response.GetItemReponseDTO;
 import com.auction.common.enums.AuthStatus;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.handler.HttpBaseHandler;
-import com.auction.server.service.item.ItemService;
+import com.auction.server.item.ItemService;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 

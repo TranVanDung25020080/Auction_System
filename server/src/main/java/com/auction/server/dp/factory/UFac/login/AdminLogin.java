@@ -12,7 +12,9 @@ public class AdminLogin implements UserLogin {
         return new Admin(
                 rs.getInt("userId"),
                 rs.getString("ownerName"),
-                rs.getString("userName"),
-                rs.getDouble("balance"));
+                rs.getString("username"),
+                rs.getString("password") != null ? rs.getString("password").trim() : "",
+                rs.getDouble("balance")
+        );
     }
 }

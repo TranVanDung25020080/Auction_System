@@ -1,4 +1,4 @@
-package com.auction.server.service.user;
+package com.auction.server.user;
 
 import com.auction.common.dto.request.GetBidInfoRequestDTO;
 import com.auction.common.dto.request.UserBalanceRequestDTO;

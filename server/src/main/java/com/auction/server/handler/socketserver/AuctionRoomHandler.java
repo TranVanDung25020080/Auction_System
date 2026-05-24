@@ -1,18 +1,14 @@
 package com.auction.server.handler.socketserver;
 
-import com.auction.common.dto.request.AutoBidRequestDTO;
 import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.exception.DatabaseException;
-import com.auction.server.service.auction.AuctionRoomService;
-import com.auction.server.service.auction.AuctionService;
-import com.auction.server.service.auction.BidService;
-import com.fatboyindustrial.gsonjavatime.Converters;
+import com.auction.server.auction.AuctionRoomService;
+import com.auction.server.auction.BidService;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 public class AuctionRoomHandler {
     private int auctionId;
     private List<ClientHandler> participants;
+    private boolean isSchelude=false;
     private final ScheduledExecutorService executorService= Executors.newSingleThreadScheduledExecutor();
-    private java.util.concurrent.ScheduledFuture<?> scheduledTask;
 
     //Constructor
     public AuctionRoomHandler(){
@@ -46,14 +42,14 @@ public class AuctionRoomHandler {
         }
     }
     public void startCountDown(Auction auction){
-
-        if (scheduledTask != null && !scheduledTask.isCancelled()) {
-            scheduledTask.cancel(false);
+        if (isSchelude){
+            return;
         }
+        isSchelude=true;
 
         int delay=auction.getDurationLeft();
 
-        scheduledTask=executorService.schedule(()->{
+        executorService.schedule(()->{
             try{
                 AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId());
 
@@ -69,7 +65,7 @@ public class AuctionRoomHandler {
         },delay, TimeUnit.SECONDS);
     }
     public void handleAutoBidding() throws DatabaseException, IOException {
-        Gson gson= Converters.registerAll(new GsonBuilder()).create();
+        Gson gson=new Gson();
 
         for (ClientHandler clientHandler:this.getSortedAutoBidParticipants()){
 
@@ -77,7 +73,7 @@ public class AuctionRoomHandler {
 
             if (autoBidRequestDTO!=null){
 
-                BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO,this);
+                BidUpdateResponseDTO bidUpdateResponseDTO =new BidService().autoBid(autoBidRequestDTO);
 
                 if (bidUpdateResponseDTO.getBidStatus()== BidStatus.SUCCESS){
                     this.broadcast(gson.toJson(bidUpdateResponseDTO));

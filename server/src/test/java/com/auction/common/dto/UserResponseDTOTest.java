@@ -7,55 +7,55 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserResponseDTOTest {
-
-    //test cons truyền vào 5 tham số
     @Test
+    //Test cons 5 tham số của UserResponseDTO
     void testConstructorFiveParameters() {
         int expectedId = 1;
-        String expectedOwner = "nguoitinhmuadong";
-        String expectedUserName = "Htamhuhu";
+        String expectedOwner = "Daddy Tam";
+        String expectedUserName = "Htam";
+        double expectedBalance = 150.0;
         UserRole expectedRole = UserRole.BIDDER;
-        double expectedBalance = 1000000000.0;
 
-        UserResponseDTO userResponse = new UserResponseDTO(expectedId, expectedOwner, expectedUserName, expectedRole, expectedBalance);
+        UserResponseDTO userResponse = new UserResponseDTO(expectedId, expectedOwner, expectedUserName, expectedBalance, expectedRole);
 
-        assertEquals(expectedId, userResponse.getUserId(), "Lỗi: Khởi tạo hoặc lấy dữ liệu userId bị sai!");
-        assertEquals(expectedOwner, userResponse.getOwnerName(), "Lỗi: Khởi tạo hoặc lấy dữ liệu ownerName bị sai!");
-        assertEquals(expectedUserName, userResponse.getUserName(), "Lỗi: Khởi tạo hoặc lấy dữ liệu userName bị sai!");
-        assertEquals(expectedRole, userResponse.getUserRole(), "Lỗi: Khởi tạo hoặc lấy dữ liệu userRole bị sai!");
-        assertEquals(expectedBalance, userResponse.getBalance(), "Lỗi: Khởi tạo hoặc lấy dữ liệu balance bị sai!");
+        assertEquals(expectedId, userResponse.getUserId(), "Lỗi: Khởi tạo userId bị sai!");
+        assertEquals(expectedOwner, userResponse.getOwnerName(), "Lỗi: Khởi tạo ownerName bị sai!");
+        assertEquals(expectedUserName, userResponse.getUserName(), "Lỗi: Khởi tạo userName bị sai!");
+        assertEquals(expectedBalance, userResponse.getBalance(), "Lỗi: Khởi tạo balance bị sai!");
+        assertEquals(expectedRole, userResponse.getUserRole(), "Lỗi: Khởi tạo userRole bị sai!");
     }
-
-    //Test cons truyền vào 3 tham số
     @Test
+    //Test cons 3 tham số của UserResponseDTO
     void testConstructorThreeParameters() {
-        String expectedOwnerName = "Htam testAdmin";
-        String expectedUserName = "admin_1779641577050";
+        String expectedOwnerName = "Nguyen Van A";
+        String expectedUserName = "admin";
         UserRole expectedRole = UserRole.ADMIN;
 
         UserResponseDTO userResponse = new UserResponseDTO(expectedOwnerName, expectedUserName, expectedRole);
 
-        assertEquals(expectedOwnerName, userResponse.getOwnerName(), "Lỗi: Constructor 3 tham số gán sai ownerName!");
-        assertEquals(expectedUserName, userResponse.getUserName(), "Lỗi: Constructor 3 tham số gán sai userName!");
-        assertEquals(expectedRole, userResponse.getUserRole(), "Lỗi: Constructor 3 tham số gán sai userRole!");
-        assertEquals(0.0, userResponse.getBalance(), "Lỗi: Mặc định số dư tài khoản mới phải bằng 0.0!");
+        assertEquals(expectedOwnerName, userResponse.getOwnerName());
+        assertEquals(expectedUserName, userResponse.getUserName());
+        assertEquals(expectedRole, userResponse.getUserRole());
+        assertEquals(0.0, userResponse.getBalance(), "Mặc định constructor này phải gán số dư bằng 0.0");
     }
 
-    //Test Constructor mặc định và các hàm Setter/Getter
+    //Test tất cả các hàm Setter và Getter
     @Test
     void testSettersAndGetters() {
         UserResponseDTO userResponse = new UserResponseDTO();
 
+        userResponse.setUserId(2);
+        userResponse.setUserName("DaddyDung");
+        userResponse.setUserRole(UserRole.SELLER);
+        userResponse.setBalance(500.0);
         userResponse.setAuthStatus(AuthStatus.SUCCESS);
         userResponse.setMessage("Đăng nhập thành công!");
 
-        assertEquals(AuthStatus.SUCCESS, userResponse.getAuthStatus(), "Lỗi: Hàm setAuthStatus hoặc getAuthStatus chạy sai!");
-        assertEquals("Đăng nhập thành công!", userResponse.getMessage(), "Lỗi: Hàm setMessage hoặc getMessage chạy sai!");
-
-        assertEquals(0, userResponse.getUserId());
-        assertNull(userResponse.getUserName());
-        assertNull(userResponse.getOwnerName());
-        assertNull(userResponse.getUserRole());
-        assertEquals(0.0, userResponse.getBalance());
+        assertEquals(2, userResponse.getUserId());
+        assertEquals("DaddyDung", userResponse.getUserName());
+        assertEquals(UserRole.SELLER, userResponse.getUserRole());
+        assertEquals(500.0, userResponse.getBalance());
+        assertEquals(AuthStatus.SUCCESS, userResponse.getAuthStatus());
+        assertEquals("Đăng nhập thành công!", userResponse.getMessage());
     }
 }

@@ -5,7 +5,7 @@ import com.auction.common.enums.AuthStatus;
 import com.auction.server.exception.AuthException;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.handler.HttpBaseHandler;
-import com.auction.server.service.auth.LoginService;
+import com.auction.server.auth.LoginService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

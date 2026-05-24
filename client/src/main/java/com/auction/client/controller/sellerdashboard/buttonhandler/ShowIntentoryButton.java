@@ -36,6 +36,8 @@ public class ShowIntentoryButton {
 
             getItemReponseDTO=new ItemAPI().getItemBySellerId(getItemRequestDTO);
 
+
+
         } catch (IOException e) {
             Alert.showAlert("ERORR",e.getMessage());
             e.printStackTrace();
@@ -44,6 +46,7 @@ public class ShowIntentoryButton {
         List<Item> mockItems = getItemReponseDTO.getItemList();
 
         renderInventory(mockItems);
+        System.out.println(mockItems);
         //
 
     }

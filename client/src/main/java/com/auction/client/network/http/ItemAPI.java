@@ -9,6 +9,7 @@ import com.auction.common.model.Item.Item;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 
 public class ItemAPI {
@@ -21,6 +22,7 @@ public class ItemAPI {
         HttpMethod method=HttpMethod.POST;
 
         String jsonReponse=BaseApi.getJsonReponse(jsonRequest,route,method);
+        System.out.println(jsonReponse);
 
         return gson.fromJson(jsonReponse, GetItemReponseDTO.class);
 
@@ -48,5 +50,17 @@ public class ItemAPI {
 
         return gson.fromJson(jsonResponse, ItemResponseDTO.class);
 
+    }
+    //test
+    static void main(String[] args) {
+        GetItemRequestDTO getItemRequestDTO=new GetItemRequestDTO(2);
+
+        try{
+            GetItemReponseDTO getItemReponseDTO=new ItemAPI().getItemBySellerId(getItemRequestDTO);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
     }
 }

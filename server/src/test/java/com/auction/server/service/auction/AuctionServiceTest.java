@@ -1,13 +1,12 @@
 package com.auction.server.service.auction;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import com.auction.common.dto.request.GetAuctionRequestDTO;
-import com.auction.common.dto.response.GetAuctionResponseDTO;
 import com.auction.common.model.Auction.Auction;
+import com.auction.server.exception.DatabaseException;
+import com.auction.server.auction.AuctionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Map;
 
 class AuctionServiceTest {
@@ -19,52 +18,42 @@ class AuctionServiceTest {
     }
 
     @Test
-    void testGetAuction_DynamicData() {
-        assertDoesNotThrow(() -> {
-            List<Auction> activeAuctions = auctionService.getAllAuctions();
-
-            if (activeAuctions == null || activeAuctions.isEmpty()) {
-                System.out.println("DB Railway trống phòng, bỏ qua kiểm thử thông tin chi tiết.");
-                return;
-            }
-
-            Auction sampleAuction = activeAuctions.get(0);
-            int dynamicAuctionId = sampleAuction.getAuctionId();
-
-            Auction result = auctionService.getAuction(dynamicAuctionId);
-            assertNotNull(result, "Lỗi: Không lấy được thông tin chi tiết của phòng tồn tại thực tế!");
-            assertEquals(dynamicAuctionId, result.getAuctionId());
-        });
+    //Kiểm tra Lấy tất cả các phiên đấu giá không trống
+    void testGetAllAuctions_NotEmpty() throws SQLException {
+        // Kiểm tra xem database có danh sách đấu giá không
+        var auctions = auctionService.getAllAuctions();
+        assertNotNull(auctions);
+        assertFalse(auctions.isEmpty(), "Danh sách đấu giá không được trống");
     }
 
     @Test
-    void testGetAllAuctionMap_StructureCheck() {
-        assertDoesNotThrow(() -> {
-            Map<Integer, Auction> auctionMap = auctionService.getAllAuction();
-            assertNotNull(auctionMap, "Lỗi: Hệ thống trả về Map rỗng!");
+    //Kiểm tra Lấy đấu giá theo ID hợp lệ
+    void testGetAuctionById_ValidId() throws DatabaseException {
+        int validId = 1;
+        Auction auction = auctionService.getAuction(validId);
 
-            if (!auctionMap.isEmpty()) {
-                Integer firstKey = auctionMap.keySet().iterator().next();
-                assertEquals(firstKey, auctionMap.get(firstKey).getAuctionId());
-            }
-        });
+        assertNotNull(auction);
+        assertEquals(validId, auction.getAuctionId());
+        System.out.println("Món hàng đang đấu giá: " + auction.getItemName());
     }
 
     @Test
-    void testGetAuctionBySellerId_DynamicCheck() {
-        assertDoesNotThrow(() -> {
-            List<Auction> activeAuctions = auctionService.getAllAuctions();
-            if (activeAuctions == null || activeAuctions.isEmpty()) return;
+    //Kiểm tra việc lấy thông tin đấu giá bằng ID không hợp lệ
+    void testGetAuctionById_InvalidId() throws DatabaseException {
+        int fakeId = 999999;
+        Auction auction = auctionService.getAuction(fakeId);
+        assertNull(auction, "Nếu ID không tồn tại phải trả về null");
+    }
 
-            int dynamicSellerId = activeAuctions.get(0).getSellerId();
-
-            GetAuctionRequestDTO requestDTO = new GetAuctionRequestDTO();
-            requestDTO.setSellerId(dynamicSellerId);
-
-            GetAuctionResponseDTO responseDTO = auctionService.getAuctionBySellerId(requestDTO);
-            assertNotNull(responseDTO);
-            assertNotNull(responseDTO.getAuctionList());
-            assertTrue(responseDTO.getAuctionList().size() > 0);
-        });
+    @Test
+    //Kiểm tra tất cả bản đồ đấu giá
+    void testGetAllAuctionMap() throws SQLException {
+        Map<Integer, Auction> auctionMap = auctionService.getAllAuction();
+        assertNotNull(auctionMap);
+        // Kiểm tra xem Key của Map có khớp với AuctionId Sbên trong không
+        if (!auctionMap.isEmpty()) {
+            Integer firstKey = auctionMap.keySet().iterator().next();
+            assertEquals(firstKey, auctionMap.get(firstKey).getAuctionId());
+        }
     }
 }

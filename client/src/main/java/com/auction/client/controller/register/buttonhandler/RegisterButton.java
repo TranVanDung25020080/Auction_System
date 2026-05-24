@@ -24,7 +24,7 @@ public class RegisterButton {
             return;
         }
 
-        // --- Logic Đăng ký (API/Database) viết ở đây ---
+        //Logic Đăng ký (API/Database)
         System.out.println("Đăng ký thành công cho: " + displayName);
 
         //call api:
@@ -42,8 +42,4 @@ public class RegisterButton {
         new SwitchToLoginButton().handle(event);
 
     }
-
-
-
-
 }

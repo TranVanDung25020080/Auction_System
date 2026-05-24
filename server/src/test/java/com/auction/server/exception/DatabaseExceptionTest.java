@@ -24,11 +24,14 @@ class DatabaseExceptionTest {
 
         SQLException rootCause = new SQLException("Access denied for user 'root'@'localhost'");
 
+        // Khởi tạo ngoại lệ DatabaseException có bọc lỗi gốc
         DatabaseException exception = new DatabaseException(customMessage, rootCause);
 
+        // Kiểm tra tính toàn vẹn của dữ liệu lỗi
         assertNotNull(exception);
         assertEquals(customMessage, exception.getMessage(), "Lỗi: Sai thông điệp tùy biến!");
 
+        // Đảm bảo nguyên nhân gốc (Throwable cause) không bị nuốt mất
         assertNotNull(exception.getCause(), "Lỗi: Không tìm thấy nguyên nhân lỗi gốc!");
         assertEquals(rootCause, exception.getCause(), "Lỗi: Nguyên nhân gốc bị sai lệch!");
     }
