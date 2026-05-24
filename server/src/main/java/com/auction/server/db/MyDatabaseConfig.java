@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class MyDatabaseConfig {
     private static Connection connection;
-    private static final String URL= ConfigLoader.get("db.url");
-    private static final String USER= ConfigLoader.get("db.user");
-    private static final String PASSWORD= ConfigLoader.get("db.password");
+    private static final String URL = "jdbc:mysql://kodama.proxy.rlwy.net:11971/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASSWORD = "xQocNoyDrzXAvHViQhaVmzdwPgnZSyoZ";
 
 //        private static final String URL = "jdbc:mysql://localhost:3306/auction_db";
 //        private static final String USER = "root";
