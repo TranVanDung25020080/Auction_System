@@ -57,6 +57,7 @@ jobs:
 
       - name: Automate Continuous Delivery (GitHub Release)
         if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && matrix.os == 'ubuntu-latest'
+        id: create_release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v1.0.${{ github.run_number }}
@@ -97,6 +98,7 @@ jobs:
 
   # chay tren may ao window de dong goi file exe
   build-client-windows-exe:
+    needs: build
     runs-on: windows-latest
     if: github.ref == 'refs/heads/master'
     steps:

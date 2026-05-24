@@ -1,20 +1,21 @@
-# Sử dụng JDK 21 JRE (chỉ để chạy, dung lượng nhẹ)
-FROM eclipse-temurin:21-jre-jammy
+# === BƯỚC 1: MƯỢN MÁY MAVEN ĐỂ BIÊN DỊCH CODE TỪ GITHUB ===
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+WORKDIR /app
+# Copy toàn bộ mã nguồn vào máy build
+COPY . .
+# Biên dịch ra file jar (bỏ qua chạy thử test để build nhanh hơn)
+RUN mvn clean package -DskipTests
 
-# Thiết lập thư mục làm việc trong container
+# === BƯỚC 2: CONTAINER CHẠY CHÍNH (SIÊU NHẸ) ===
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
-# Copy file jar đã build từ máy build vào container
-# Lưu ý: Sẽ lấy file jar có kích thước lớn nhất (Fat Jar) trong thư mục target
-COPY target/server-*.jar app.jar
+# Copy file jar vừa build xong ở Bước 1 sang máy chạy này
+# (Lệnh này sẽ tự động tìm file .jar trong thư mục target vừa build)
+COPY --from=build /app/target/*.jar app.jar
 
-# Mở cổng 8000 (hoặc cổng bạn dùng cho socket/http)
-EXPOSE 8000
+# Các biến môi trường mặc định (chỉ dùng làm dự phòng khi test local)
+# Khi lên Railway, bạn điền các thông số này vào mục "Variables" trên web nhé
 
-# Cấu hình biến môi trường mặc định cho Database (có thể ghi đè khi chạy docker)
-ENV DB_URL=jdbc:mysql://localhost:3306/auction_db
-ENV DB_USER=root
-ENV DB_PASSWORD=123Dung#
-
-# Lệnh chạy ứng dụng
+# Chạy ứng dụng
 ENTRYPOINT ["java", "-jar", "app.jar"]
