@@ -18,6 +18,7 @@ public class RoutesConfig {
         MyHttpServer.addRoute("/depositbalance",new DepositBalanceHandler());
         MyHttpServer.addRoute("/getbidinfo/bidderid",new GetBidInfoHandler());
         MyHttpServer.addRoute("/getbidinfo/auctionid",new GetBidInfoHandler());
+        MyHttpServer.addRoute("/getallusers",new GetAllUsersHandler());
 
     }
 }

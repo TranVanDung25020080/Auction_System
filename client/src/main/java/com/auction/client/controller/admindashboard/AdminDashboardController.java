@@ -1,5 +1,15 @@
 package com.auction.client.controller.admindashboard;
 
+import com.auction.client.controller.annoucement.Alert;
+import com.auction.client.network.http.AuctionApi;
+import com.auction.client.network.http.UserApi;
+import com.auction.common.dto.request.GetAuctionRequestDTO;
+import com.auction.common.dto.request.GetBidInfoRequestDTO;
+import com.auction.common.dto.response.GetAuctionResponseDTO;
+import com.auction.common.dto.response.GetBidInfoResponseDTO;
+import com.auction.common.dto.response.UserResponseDTO;
+import com.auction.common.enums.AuctionStatus;
+import com.auction.common.enums.GetBidInfoType;
 import com.auction.common.model.Auction.Auction;
 import com.auction.common.model.Auction.BidTransaction;
 import com.auction.common.model.User.Bidder;
@@ -11,8 +21,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class AdminDashboardController {
     @FXML private Button btnUsers, btnAuctions;
@@ -28,6 +40,7 @@ public class AdminDashboardController {
     @FXML private TableColumn<Auction, Integer> colAuctionId;
     @FXML private TableColumn<Auction, String> colItemName;
     @FXML private TableColumn<Auction, Double> colCurrentPrice;
+    @FXML private TableColumn<Auction, AuctionStatus> colAuctionStatus;
 
     @FXML private TableView<BidTransaction> tableTransactions;
     @FXML private TableColumn<BidTransaction, Integer> colTransId, colTransBidder;
@@ -63,6 +76,7 @@ public class AdminDashboardController {
         colAuctionId.setCellValueFactory(new PropertyValueFactory<>("auctionId"));
         colItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         colCurrentPrice.setCellValueFactory(new PropertyValueFactory<>("currentPrice"));
+        colAuctionStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         // Cột Transactions (Lịch sử đặt giá)
         colTransId.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
@@ -87,16 +101,31 @@ public class AdminDashboardController {
     }
 
     private void loadHistoryForAuction(int auctionId) {
-        // Tạo dữ liệu thầu giả cho mỗi khi click
-        ObservableList<BidTransaction> history = FXCollections.observableArrayList();
+        try{
+            //call api here:
+            GetBidInfoRequestDTO getBidInfoRequestDTO=new GetBidInfoRequestDTO();
+            getBidInfoRequestDTO.setAuctionId(auctionId);
+            getBidInfoRequestDTO.setGetBidInfoType(GetBidInfoType.AUCTION_ID);
 
-        // Dữ liệu mẫu thay đổi dựa trên auctionId
-        history.add(new BidTransaction(1001, auctionId, 7, 550.0 + auctionId, LocalDateTime.now().minusMinutes(10)));
-        history.add(new BidTransaction(1002, auctionId, 12, 600.0 + auctionId, LocalDateTime.now().minusMinutes(5)));
-        history.add(new BidTransaction(1003, auctionId, 7, 750.0 + auctionId, LocalDateTime.now().minusMinutes(1)));
 
-        tableTransactions.setItems(history);
-        System.out.println("Đã hiển thị lịch sử cho sản phẩm mã: " + auctionId);
+            GetBidInfoResponseDTO getBidInfoResponseDTO=new UserApi().getBidInfoByAuctionId(getBidInfoRequestDTO);
+            List<BidTransaction> bidTransactionList=getBidInfoResponseDTO.getBidTransactionList();
+
+            // Tạo dữ liệu thầu giả cho mỗi khi click
+            if (bidTransactionList!=null){
+                ObservableList<BidTransaction> history = FXCollections.observableArrayList(bidTransactionList);
+
+                /*// Dữ liệu mẫu thay đổi dựa trên auctionId
+                history.add(new BidTransaction(1001, auctionId, 7, 550.0 + auctionId, LocalDateTime.now().minusMinutes(10)));
+                history.add(new BidTransaction(1002, auctionId, 12, 600.0 + auctionId, LocalDateTime.now().minusMinutes(5)));
+                history.add(new BidTransaction(1003, auctionId, 7, 750.0 + auctionId, LocalDateTime.now().minusMinutes(1)));
+*/
+                tableTransactions.setItems(history);
+                System.out.println("Đã hiển thị lịch sử cho sản phẩm mã: " + auctionId);
+            }
+        } catch (IOException e) {
+            Alert.showAlert("ERROR",e.getMessage());
+        }
     }
 
     private void switchTab(String tab) {
@@ -113,14 +142,27 @@ public class AdminDashboardController {
     }
 
     private void loadMockData() {
-        ObservableList<User> users = FXCollections.observableArrayList();
-        for(int i=1; i<=30; i++) users.add(new Bidder(i, "Khách hàng " + i, "user"+i, i*1200.0));
-        tableUsers.setItems(users);
+        //Call api o day:
 
-        ObservableList<Auction> auctions = FXCollections.observableArrayList();
-        for(int i=1; i<=20; i++) {
-            auctions.add(new Auction(i, 100+i, 50+i, 500.0 + (i*10), 0, LocalDateTime.now(), LocalDateTime.now().plusHours(2), null, "Sản phẩm " + i));
+        try{
+            //load userList:
+            UserResponseDTO userResponseDTO=new UserApi().getAllUser();
+
+            ObservableList<User> users = FXCollections.observableArrayList(userResponseDTO.getUserList());
+            /*for(int i=1; i<=30; i++) users.add(new Bidder(i, "Khách hàng " + i, "user"+i, i*1200.0));*/
+            tableUsers.setItems(users);
+
+            //load auctionList:
+            GetAuctionResponseDTO getAuctionResponseDTO=new AuctionApi().getAllAuction();
+
+            ObservableList<Auction> auctions = FXCollections.observableArrayList(getAuctionResponseDTO.getAuctionList());
+            /*for(int i=1; i<=20; i++) {
+                auctions.add(new Auction(i, 100+i, 50+i, 500.0 + (i*10), 0, LocalDateTime.now(), LocalDateTime.now().plusHours(2), null, "Sản phẩm " + i));
+            }*/
+            tableAuctions.setItems(auctions);
+        } catch (IOException e) {
+            Alert.showAlert("ERROR",e.getMessage());
         }
-        tableAuctions.setItems(auctions);
+
     }
 }

@@ -76,32 +76,4 @@ public class BidderDashboardController {
         return this.bidder;
     }
 
-
-    // wallet nhé
-    /*@FXML
-    private void handleShowWallet() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidder_wallet.fxml"));
-            Parent root = loader.load();
-
-            // 1. Lấy controller của ví và truyền dữ liệu bidder hiện tại sang
-            BidderWalletController walletController = loader.getController();
-            walletController.setBidderData(this.bidder);
-
-            Stage walletStage = new Stage();
-            walletStage.setTitle("Ví tiền của tôi");
-            walletStage.initModality(Modality.APPLICATION_MODAL);
-            walletStage.setScene(new Scene(root));
-            walletStage.setResizable(false);
-
-            // 2. Đợi cho đến khi cửa sổ ví đóng lại
-            walletStage.showAndWait();
-
-            // 3. Sau khi đóng ví, cập nhật lại cái TextField hiển thị thông tin ở Dashboard
-            setBidderInfoTextField();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

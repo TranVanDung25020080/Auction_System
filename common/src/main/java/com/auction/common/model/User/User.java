@@ -5,7 +5,7 @@ import com.auction.common.model.Entity;
 
 import java.io.Serializable;
 
-public abstract class User implements Entity, Serializable {
+public  class User implements Entity, Serializable {
     protected int userId;
     protected String ownerName;
     protected String userName;
@@ -41,6 +41,10 @@ public abstract class User implements Entity, Serializable {
     }
     public double getBalance(){
         return this.balance;
+    }
+    //setter
+    public void setUserRole(UserRole userRole){
+        this.userRole=userRole;
     }
 
 

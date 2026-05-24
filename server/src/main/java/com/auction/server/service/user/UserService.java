@@ -4,8 +4,10 @@ import com.auction.common.dto.request.DepositBalanceRequestDTO;
 import com.auction.common.dto.request.GetBidInfoRequestDTO;
 import com.auction.common.dto.response.DepositBalanceResponseDTO;
 import com.auction.common.dto.response.GetBidInfoResponseDTO;
+import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.AuthStatus;
 import com.auction.common.model.Auction.BidTransaction;
+import com.auction.common.model.User.User;
 import com.auction.server.dao.BidDAO;
 import com.auction.server.dao.UserDAO;
 import com.auction.server.exception.DatabaseException;
@@ -76,6 +78,22 @@ public class UserService {
         }
 
         return getBidInfoResponseDTO;
+    }
+    public UserResponseDTO getAllUsers(){
+        UserResponseDTO userResponseDTO=new UserResponseDTO();
+
+        try{
+            List<User> userList=new UserDAO().getAllUsers();
+
+            userResponseDTO.setUserList(userList);
+            userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+            userResponseDTO.setMessage("get all user succesfully");
+        } catch (SQLException e) {
+            userResponseDTO.setMessage(e.getMessage());
+            userResponseDTO.setAuthStatus(AuthStatus.FAILED);
+        }
+        return userResponseDTO;
+
     }
 
 

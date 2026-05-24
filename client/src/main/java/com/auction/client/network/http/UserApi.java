@@ -5,6 +5,7 @@ import com.auction.common.dto.request.GetBidInfoRequestDTO;
 import com.auction.common.dto.response.DepositBalanceResponseDTO;
 import com.auction.common.dto.response.GetAuctionResponseDTO;
 import com.auction.common.dto.response.GetBidInfoResponseDTO;
+import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.GetBidInfoType;
 import com.auction.common.enums.HttpMethod;
 import com.fatboyindustrial.gsonjavatime.Converters;
@@ -50,16 +51,21 @@ public class UserApi {
 
 
     }
-    /*//test
+    public UserResponseDTO getAllUser() throws IOException {
+        Gson gson=new Gson();
+
+        String route="/getallusers";
+
+        String jsonResponse=BaseApi.getJsonResponse(route,HttpMethod.GET);
+
+        return gson.fromJson(jsonResponse,UserResponseDTO.class);
+
+    }
+   /* //test
     static void main(String[] args) throws IOException {
-        GetBidInfoRequestDTO getBidInfoRequestDTO=new GetBidInfoRequestDTO();
-        getBidInfoRequestDTO.setBidderId(1);
-        getBidInfoRequestDTO.setAuctionId(1);
-        getBidInfoRequestDTO.setGetBidInfoType(GetBidInfoType.BIDDER_ID);
+       UserResponseDTO userResponseDTO=new UserApi().getAllUser();
 
-        GetBidInfoResponseDTO getBidInfoResponseDTO=new UserApi().getBidInfoByBidderId(getBidInfoRequestDTO);
-        Gson gson=Converters.registerAll(new GsonBuilder()).create();
-        System.out.println(gson.toJson(getBidInfoResponseDTO));
-    }*/
-
+        System.out.println(userResponseDTO.getUserList());
+    }
+*/
 }
