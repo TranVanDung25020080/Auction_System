@@ -1,5 +1,5 @@
 package com.auction.server.util;
-
+//Lấy dữ liệu từ Config.propertie
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -18,7 +18,7 @@ public class ConfigLoader {
             ex.printStackTrace();
         }
     }
-
+    //Lấy data danjg chuỗi
     public static String get(String key) {
         String envKey = key.toUpperCase().replace('.', '_');
 
@@ -29,7 +29,7 @@ public class ConfigLoader {
 
         return properties.getProperty(key);
     }
-
+    // lấy data dạng số
     public static int getInt(String key) {
         String value = get(key);
         if (value == null) {

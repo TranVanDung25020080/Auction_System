@@ -1,9 +1,9 @@
 package com.auction.server.service.user;
 
-import com.auction.common.dto.request.UserBalanceRequestDTO;
 import com.auction.common.dto.request.GetBidInfoRequestDTO;
-import com.auction.common.dto.response.UserBalanceResponseDTO;
+import com.auction.common.dto.request.UserBalanceRequestDTO;
 import com.auction.common.dto.response.GetBidInfoResponseDTO;
+import com.auction.common.dto.response.UserBalanceResponseDTO;
 import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.AuthStatus;
 import com.auction.common.model.Auction.BidTransaction;
@@ -16,17 +16,25 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
-    public UserBalanceResponseDTO depositBalance(UserBalanceRequestDTO userBalanceRequestDTO){
-        UserBalanceResponseDTO userBalanceResponseDTO =new UserBalanceResponseDTO();
+    public UserBalanceResponseDTO depositBalance(UserBalanceRequestDTO userBalanceRequestDTO) {
+        UserBalanceResponseDTO userBalanceResponseDTO = new UserBalanceResponseDTO();
 
-        int userId= userBalanceRequestDTO.getUserId();
-        double amount= userBalanceRequestDTO.getAmount();
-        double balance= userBalanceRequestDTO.getBalance();
+        int userId = userBalanceRequestDTO.getUserId();
+        double amount = userBalanceRequestDTO.getAmount();
+        double balance = userBalanceRequestDTO.getBalance();
 
-        try{
-            new UserDAO().updateBalance(userId,amount+balance);
+        if (amount <= 0) {
             userBalanceResponseDTO.setUserId(userId);
-            userBalanceResponseDTO.setCurrentBalance(balance+amount);
+            userBalanceResponseDTO.setCurrentBalance(balance);
+            userBalanceResponseDTO.setAuthStatus(AuthStatus.FAILED);
+            userBalanceResponseDTO.setMessage("Lỗi: Không thể nạp số tiền âm!");
+            return userBalanceResponseDTO;
+        }
+
+        try {
+            new UserDAO().updateBalance(userId, amount + balance);
+            userBalanceResponseDTO.setUserId(userId);
+            userBalanceResponseDTO.setCurrentBalance(balance + amount);
             userBalanceResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
             userBalanceResponseDTO.setMessage("deposit balance successfully!");
         } catch (DatabaseException e) {
@@ -37,24 +45,81 @@ public class UserService {
         }
 
         return userBalanceResponseDTO;
+
     }
-    public UserBalanceResponseDTO withDraw(UserBalanceRequestDTO userBalanceRequestDTO){
-        UserBalanceResponseDTO userBalanceResponseDTO=new UserBalanceResponseDTO();
 
-        int userId= userBalanceRequestDTO.getUserId();
-        double amount= userBalanceRequestDTO.getAmount();
-        double balance= userBalanceRequestDTO.getBalance();
+    public GetBidInfoResponseDTO getBidInfoByBidderId(GetBidInfoRequestDTO getBidInfoRequestDTO) {
+        GetBidInfoResponseDTO getBidInfoResponseDTO = new GetBidInfoResponseDTO();
 
-        try{
+        int bidderId = getBidInfoRequestDTO.getBidderId();
+        int auctionId = getBidInfoRequestDTO.getAuctionId();
 
-            if (amount<=balance){
-                new UserDAO().updateBalance(userId,balance-amount);
+        try {
+            List<BidTransaction> bidTransactionList = new BidDAO().getBidInfoByBidderId(bidderId, auctionId);
+
+            getBidInfoResponseDTO.setBidTransactionList(bidTransactionList);
+            getBidInfoResponseDTO.setMessage("Get bidInfo successfully!");
+            getBidInfoResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+        } catch (SQLException e) {
+            getBidInfoResponseDTO.setAuthStatus(AuthStatus.FAILED);
+            getBidInfoResponseDTO.setMessage(e.getMessage());
+        }
+
+        return getBidInfoResponseDTO;
+    }
+
+    public GetBidInfoResponseDTO getBidInfoByAuctionId(GetBidInfoRequestDTO getBidInfoRequestDTO) {
+        GetBidInfoResponseDTO getBidInfoResponseDTO = new GetBidInfoResponseDTO();
+
+        int auctionId = getBidInfoRequestDTO.getAuctionId();
+
+        try {
+            List<BidTransaction> bidTransactionList = new BidDAO().getBidsByAuctionId(auctionId);
+
+            getBidInfoResponseDTO.setBidTransactionList(bidTransactionList);
+            getBidInfoResponseDTO.setMessage("Get bidInfo successfully!");
+            getBidInfoResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+        } catch (DatabaseException e) {
+            getBidInfoResponseDTO.setAuthStatus(AuthStatus.FAILED);
+            getBidInfoResponseDTO.setMessage(e.getMessage());
+        }
+
+        return getBidInfoResponseDTO;
+    }
+
+    public UserResponseDTO getAllUsers() {
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+
+        try {
+            List<User> userList = new UserDAO().getAllUsers();
+
+            userResponseDTO.setUserList(userList);
+            userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+            userResponseDTO.setMessage("get all user succesfully");
+        } catch (SQLException e) {
+            userResponseDTO.setMessage(e.getMessage());
+            userResponseDTO.setAuthStatus(AuthStatus.FAILED);
+        }
+        return userResponseDTO;
+
+    }
+
+    public UserBalanceResponseDTO withDraw(UserBalanceRequestDTO userBalanceRequestDTO) {
+        UserBalanceResponseDTO userBalanceResponseDTO = new UserBalanceResponseDTO();
+
+        int userId = userBalanceRequestDTO.getUserId();
+        double amount = userBalanceRequestDTO.getAmount();
+        double balance = userBalanceRequestDTO.getBalance();
+
+        try {
+
+            if (amount <= balance) {
+                new UserDAO().updateBalance(userId, balance - amount);
                 userBalanceResponseDTO.setUserId(userId);
-                userBalanceResponseDTO.setCurrentBalance(balance-amount);
+                userBalanceResponseDTO.setCurrentBalance(balance - amount);
                 userBalanceResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
                 userBalanceResponseDTO.setMessage("withdraw successfully!");
-            }
-            else{
+            } else {
                 userBalanceResponseDTO.setUserId(userId);
                 userBalanceResponseDTO.setCurrentBalance(balance);
                 userBalanceResponseDTO.setAuthStatus(AuthStatus.FAILED);
@@ -68,66 +133,5 @@ public class UserService {
         }
 
         return userBalanceResponseDTO;
-
     }
-
-
-    public GetBidInfoResponseDTO getBidInfoByBidderId(GetBidInfoRequestDTO getBidInfoRequestDTO){
-        GetBidInfoResponseDTO getBidInfoResponseDTO=new GetBidInfoResponseDTO();
-
-        int bidderId=getBidInfoRequestDTO.getBidderId();
-        int auctionId=getBidInfoRequestDTO.getAuctionId();
-
-        try{
-            List<BidTransaction> bidTransactionList=new BidDAO().getBidInfoByBidderId(bidderId,auctionId);
-
-            getBidInfoResponseDTO.setBidTransactionList(bidTransactionList);
-            getBidInfoResponseDTO.setMessage("Get bidInfo successfully!");
-            getBidInfoResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
-        } catch (SQLException e) {
-            getBidInfoResponseDTO.setAuthStatus(AuthStatus.FAILED);
-            getBidInfoResponseDTO.setMessage(e.getMessage());
-        }
-
-        return getBidInfoResponseDTO;
-    }
-
-    public GetBidInfoResponseDTO getBidInfoByAuctionId(GetBidInfoRequestDTO getBidInfoRequestDTO){
-        GetBidInfoResponseDTO getBidInfoResponseDTO=new GetBidInfoResponseDTO();
-
-        int auctionId=getBidInfoRequestDTO.getAuctionId();
-
-        try{
-            List<BidTransaction> bidTransactionList=new BidDAO().getBidsByAuctionId(auctionId);
-
-            getBidInfoResponseDTO.setBidTransactionList(bidTransactionList);
-            getBidInfoResponseDTO.setMessage("Get bidInfo successfully!");
-            getBidInfoResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
-        }
-        catch (DatabaseException e) {
-            getBidInfoResponseDTO.setAuthStatus(AuthStatus.FAILED);
-            getBidInfoResponseDTO.setMessage(e.getMessage());
-        }
-
-        return getBidInfoResponseDTO;
-    }
-    public UserResponseDTO getAllUsers(){
-        UserResponseDTO userResponseDTO=new UserResponseDTO();
-
-        try{
-            List<User> userList=new UserDAO().getAllUsers();
-
-            userResponseDTO.setUserList(userList);
-            userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
-            userResponseDTO.setMessage("get all user succesfully");
-        } catch (SQLException e) {
-            userResponseDTO.setMessage(e.getMessage());
-            userResponseDTO.setAuthStatus(AuthStatus.FAILED);
-        }
-        return userResponseDTO;
-
-    }
-
-
-
 }

@@ -14,7 +14,6 @@ public class Bidder extends User {
     }
 
     public double getBalance() { return balance; }
-    public void setBalance(double balance) { this.balance = balance; }
 
     @Override
     public void printInfo() {
