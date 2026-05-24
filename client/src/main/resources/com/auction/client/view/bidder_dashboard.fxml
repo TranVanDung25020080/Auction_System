@@ -34,6 +34,7 @@
          </padding>
          <children>
             <TextField fx:id="txtSearch" prefHeight="45.0" prefWidth="500.0" promptText="Tìm kiếm sản phẩm đấu giá..." styleClass="search-bar" />
+            <Button fx:id="reloadButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Reload" />
             <Region HBox.hgrow="ALWAYS" />
             <Button styleClass="icon-button" text="🔔" />
             <Button styleClass="icon-button" text="BIDDER" />

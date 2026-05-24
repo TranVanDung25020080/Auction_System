@@ -1,15 +1,16 @@
-package com.auction.client.controller;
+package com.auction.client.controller.admindashboard;
 
-import com.auction.common.model.User.User;
-import com.auction.common.model.User.Bidder;
 import com.auction.common.model.Auction.Auction;
 import com.auction.common.model.Auction.BidTransaction;
+import com.auction.common.model.User.Bidder;
+import com.auction.common.model.User.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

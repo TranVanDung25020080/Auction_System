@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="750.0" prefWidth="1200.0" stylesheets="@../css/admin-style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.AdminDashboardController">
+<BorderPane prefHeight="750.0" prefWidth="1200.0" stylesheets="@../css/admin-style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.auction.client.controller.admindashboard.AdminDashboardController">
     <left>
         <VBox spacing="15" styleClass="sidebar" prefWidth="250">
             <children>

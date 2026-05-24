@@ -1,5 +1,6 @@
 package com.auction.client.controller.bidderdashboard;
 
+import com.auction.client.controller.bidderdashboard.buttonhandler.ReloadButton;
 import com.auction.client.controller.bidderwallet.BidderWalletController;
 import com.auction.client.controller.productcard.ProductCardController;
 import com.auction.common.model.Auction.Auction; // Đảm bảo import bản client
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
@@ -22,12 +24,17 @@ public class BidderDashboardController {
     //FXML Fields:
     @FXML private FlowPane productContainer;
     @FXML private TextField bidderInfoTextField;
+    @FXML private Button reloadButton;
 
     //Other fields:
     private Bidder bidder;
+    //
+    public void initialize(){
+        this.reloadButton.setOnAction(event -> new ReloadButton().handle(this));
+    }
 
     //Method for other classes to call:
-    private void renderProducts() {
+    public void renderProducts() {
         productContainer.getChildren().clear();
         try {
             var response = new AuctionApi().getAllAuction();
