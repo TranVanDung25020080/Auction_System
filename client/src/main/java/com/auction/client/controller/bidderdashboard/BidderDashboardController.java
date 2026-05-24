@@ -1,6 +1,7 @@
 package com.auction.client.controller.bidderdashboard;
 
 import com.auction.client.controller.bidderdashboard.buttonhandler.ReloadButton;
+import com.auction.client.controller.bidderdashboard.buttonhandler.ShowWalletButton;
 import com.auction.client.controller.bidderwallet.BidderWalletController;
 import com.auction.client.controller.productcard.ProductCardController;
 import com.auction.common.model.Auction.Auction; // Đảm bảo import bản client
@@ -24,13 +25,16 @@ public class BidderDashboardController {
     //FXML Fields:
     @FXML private FlowPane productContainer;
     @FXML private TextField bidderInfoTextField;
-    @FXML private Button reloadButton;
+    @FXML private Button reloadButton,showWalletButton;
 
     //Other fields:
     private Bidder bidder;
     //
     public void initialize(){
+        //set on action for buttons:
         this.reloadButton.setOnAction(event -> new ReloadButton().handle(this));
+
+        this.showWalletButton.setOnAction(event -> new ShowWalletButton().handle(this));
     }
 
     //Method for other classes to call:
@@ -74,7 +78,7 @@ public class BidderDashboardController {
 
 
     // wallet nhé
-    @FXML
+    /*@FXML
     private void handleShowWallet() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidder_wallet.fxml"));
@@ -99,5 +103,5 @@ public class BidderDashboardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
