@@ -1,16 +1,16 @@
 package com.auction.common.dto.request;
 
-public class DepositBalanceRequestDTO {
+public class UserBalanceRequestDTO {
     private int userId;
     private double amount;
     private  double balance;
     //Constructor
-    public DepositBalanceRequestDTO(int userId, double amount,double balance){
+    public UserBalanceRequestDTO(int userId, double amount, double balance){
         this.userId=userId;
         this.amount=amount;
         this.balance=balance;
     }
-    public DepositBalanceRequestDTO(){};
+    public UserBalanceRequestDTO(){};
     //getter
     public int getUserId(){
         return this.userId;

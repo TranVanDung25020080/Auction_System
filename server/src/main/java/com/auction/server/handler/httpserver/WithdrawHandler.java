@@ -9,17 +9,17 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 
-public class DepositBalanceHandler extends HttpBaseHandler {
+public class WithdrawHandler extends HttpBaseHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         Gson gson=new Gson();
 
-        String jsonResponse=super.getRequest(exchange);
-        System.out.println(jsonResponse);
+        String jsonRequest=super.getRequest(exchange);
+        System.out.println(jsonRequest);
 
-        UserBalanceRequestDTO userBalanceRequestDTO =gson.fromJson(jsonResponse, UserBalanceRequestDTO.class);
+        UserBalanceRequestDTO userBalanceRequestDTO=gson.fromJson(jsonRequest, UserBalanceRequestDTO.class);
 
-        UserBalanceResponseDTO userBalanceResponseDTO =new UserService().depositBalance(userBalanceRequestDTO);
+        UserBalanceResponseDTO userBalanceResponseDTO=new UserService().withDraw(userBalanceRequestDTO);
 
         this.response=gson.toJson(userBalanceResponseDTO);
         super.handle(exchange);

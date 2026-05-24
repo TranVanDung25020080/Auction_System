@@ -3,8 +3,8 @@ package com.auction.client.controller.bidderwallet.buttonhandler;
 import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.bidderwallet.BidderWalletController;
 import com.auction.client.network.http.UserApi;
-import com.auction.common.dto.request.DepositBalanceRequestDTO;
-import com.auction.common.dto.response.DepositBalanceResponseDTO;
+import com.auction.common.dto.request.UserBalanceRequestDTO;
+import com.auction.common.dto.response.UserBalanceResponseDTO;
 import com.auction.common.model.User.Bidder;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -34,10 +34,10 @@ public class DepositButton {
                     /*currentBalance += amount;*/
                     //Call api here:
                     int userId= bidder.getUserId();
-                    DepositBalanceRequestDTO depositBalanceRequestDTO=new DepositBalanceRequestDTO(userId,amount,currentBalance);
+                    UserBalanceRequestDTO userBalanceRequestDTO =new UserBalanceRequestDTO(userId,amount,currentBalance);
 
-                    DepositBalanceResponseDTO depositBalanceResponseDTO=new UserApi().depositBalance(depositBalanceRequestDTO);
-                    this.currentBalance=depositBalanceResponseDTO.getCurrentBalance();
+                    UserBalanceResponseDTO userBalanceResponseDTO =new UserApi().depositBalance(userBalanceRequestDTO);
+                    this.currentBalance= userBalanceResponseDTO.getCurrentBalance();
 
                     // Cập nhật số dư vào đối tượng bidder
                     if (bidder != null) {

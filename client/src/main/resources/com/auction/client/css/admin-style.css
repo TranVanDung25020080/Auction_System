@@ -1,0 +1,125 @@
+/* Sidebar - Thanh điều hướng bên trái */
+.sidebar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 20;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22;
+    -fx-font-weight: bold;
+}
+
+/* Các nút bấm menu */
+.menu-btn {
+    -fx-text-fill: #ecf0f1;
+    -fx-background-color: transparent;
+    -fx-alignment: center-left;
+    -fx-cursor: hand;
+    -fx-font-size: 14;
+    -fx-padding: 10 15;
+}
+
+.menu-btn:hover {
+    -fx-background-color: #34495e;
+}
+
+/* Vùng nội dung chính bên phải */
+.main-container {
+    -fx-padding: 30;
+    -fx-background-color: #f8f9fa;
+}
+
+.header-text {
+    -fx-font-size: 26;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.sub-header {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7f8c8d;
+    -fx-padding: 10 0 5 0;
+}
+
+/* ScrollPane - Xử lý trong suốt để lộ màu nền main-container */
+.main-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+/* Tùy chỉnh TableView cho sang trọng hơn */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+/* Tổng thể TableView */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #dcdde1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Thanh tiêu đề (Header) - Làm cho đậm và rõ hơn */
+.table-view .column-header {
+    -fx-background-color: #f1f2f6; /* Màu nền xám nhạt cho header */
+    -fx-border-color: #dcdde1;
+    -fx-border-width: 0 1 1 0;
+    -fx-padding: 10;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #2f3542; /* Màu chữ tiêu đề gần đen */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Các ô dữ liệu (Cells) - Làm chữ nét hơn */
+.table-view .table-cell {
+    -fx-text-fill: #2f3542; /* Chữ màu đậm hẳn lên */
+    -fx-padding: 10;
+    -fx-alignment: center-left;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent #f1f2f6 transparent transparent;
+}
+
+/* Hiệu ứng dòng lẻ/dòng chẵn (Zebra Stripping) */
+.table-row-cell:odd {
+    -fx-background-color: #ffffff;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #fafafa; /* Dòng chẵn hơi xám một tí để dễ nhìn */
+}
+
+/* Khi di chuột qua dòng */
+.table-row-cell:hover {
+    -fx-background-color: #e1f5fe;
+}
+
+/* Khi chọn một dòng (Selected) */
+.table-row-cell:selected {
+    -fx-background-color: #3498db;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: white; /* Chữ trắng khi dòng được chọn */
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #2c3e50; /* Màu xanh đen đậm, nhìn cực nét */
+    -fx-font-weight: 500;
+}

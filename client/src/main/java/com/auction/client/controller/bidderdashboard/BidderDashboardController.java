@@ -1,5 +1,7 @@
 package com.auction.client.controller.bidderdashboard;
 
+import com.auction.client.controller.bidderdashboard.buttonhandler.ReloadButton;
+import com.auction.client.controller.bidderdashboard.buttonhandler.ShowWalletButton;
 import com.auction.client.controller.bidderwallet.BidderWalletController;
 import com.auction.client.controller.productcard.ProductCardController;
 import com.auction.common.model.Auction.Auction; // Đảm bảo import bản client
@@ -9,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
@@ -22,12 +25,20 @@ public class BidderDashboardController {
     //FXML Fields:
     @FXML private FlowPane productContainer;
     @FXML private TextField bidderInfoTextField;
+    @FXML private Button reloadButton,showWalletButton;
 
     //Other fields:
     private Bidder bidder;
+    //
+    public void initialize(){
+        //set on action for buttons:
+        this.reloadButton.setOnAction(event -> new ReloadButton().handle(this));
+
+        this.showWalletButton.setOnAction(event -> new ShowWalletButton().handle(this));
+    }
 
     //Method for other classes to call:
-    private void renderProducts() {
+    public void renderProducts() {
         productContainer.getChildren().clear();
         try {
             var response = new AuctionApi().getAllAuction();
@@ -65,32 +76,4 @@ public class BidderDashboardController {
         return this.bidder;
     }
 
-
-    // wallet nhé
-    @FXML
-    private void handleShowWallet() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/bidder_wallet.fxml"));
-            Parent root = loader.load();
-
-            // 1. Lấy controller của ví và truyền dữ liệu bidder hiện tại sang
-            BidderWalletController walletController = loader.getController();
-            walletController.setBidderData(this.bidder);
-
-            Stage walletStage = new Stage();
-            walletStage.setTitle("Ví tiền của tôi");
-            walletStage.initModality(Modality.APPLICATION_MODAL);
-            walletStage.setScene(new Scene(root));
-            walletStage.setResizable(false);
-
-            // 2. Đợi cho đến khi cửa sổ ví đóng lại
-            walletStage.showAndWait();
-
-            // 3. Sau khi đóng ví, cập nhật lại cái TextField hiển thị thông tin ở Dashboard
-            setBidderInfoTextField();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

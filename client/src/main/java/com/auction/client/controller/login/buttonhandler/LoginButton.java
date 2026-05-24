@@ -60,6 +60,12 @@ public class LoginButton {
                     switchToSellerDashboard(event);
                 }
 
+                // 3. THÊM ĐOẠN NÀY ĐỂ VÀO ADMIN DASHBOARD
+                else if (userResponseDTO.getUserRole() == UserRole.ADMIN) {
+                    System.out.println("Đang chuyển hướng tới Admin Dashboard...");
+                    switchToAdminDashboard(event); // Gọi hàm chuyển cảnh admin
+                }
+
 
             }
             else {
@@ -138,6 +144,37 @@ public class LoginButton {
             Alert.showAlert("Lỗi Giao Diện", e.getMessage());
         }
 
+    }
+
+    // --- THÊM PHƯƠNG THỨC CHUYỂN CẢNH ADMIN ---
+    private void switchToAdminDashboard(ActionEvent event) {
+        try {
+            // Kiểm tra kỹ đường dẫn file fxml của bạn, thường là:
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/auction/client/view/admin_dashboard.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            Scene scene = new Scene(root);
+
+            // Có thể gắn thêm CSS Admin nếu bạn đã tạo file riêng
+            try {
+                String css = getClass().getResource("/com/auction/client/css/admin-style.css").toExternalForm();
+                scene.getStylesheets().add(css);
+            } catch (Exception e) {
+                System.out.println("Chưa có file CSS cho Admin, bỏ qua.");
+            }
+
+            stage.setScene(scene);
+            stage.setTitle("HỆ THỐNG QUẢN TRỊ - AUCTION PRO");
+            stage.centerOnScreen();
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert.showAlert("Lỗi", "Không tìm thấy file admin_dashboard.fxml: " + e.getMessage());
+        }
     }
 
 }
