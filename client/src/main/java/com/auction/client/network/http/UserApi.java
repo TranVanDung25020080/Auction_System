@@ -1,12 +1,10 @@
 package com.auction.client.network.http;
 
-import com.auction.common.dto.request.DepositBalanceRequestDTO;
+import com.auction.common.dto.request.UserBalanceRequestDTO;
 import com.auction.common.dto.request.GetBidInfoRequestDTO;
-import com.auction.common.dto.response.DepositBalanceResponseDTO;
-import com.auction.common.dto.response.GetAuctionResponseDTO;
+import com.auction.common.dto.response.UserBalanceResponseDTO;
 import com.auction.common.dto.response.GetBidInfoResponseDTO;
 import com.auction.common.dto.response.UserResponseDTO;
-import com.auction.common.enums.GetBidInfoType;
 import com.auction.common.enums.HttpMethod;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
@@ -15,16 +13,27 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 
 public class UserApi {
-    public DepositBalanceResponseDTO depositBalance(DepositBalanceRequestDTO depositBalanceRequestDTO) throws IOException {
+    public UserBalanceResponseDTO depositBalance(UserBalanceRequestDTO userBalanceRequestDTO) throws IOException {
         Gson gson=new Gson();
 
         String route="/depositbalance";
 
-        String jsonRequest=gson.toJson(depositBalanceRequestDTO);
+        String jsonRequest=gson.toJson(userBalanceRequestDTO);
 
         String jsonResponse=BaseApi.getJsonReponse(jsonRequest,route, HttpMethod.POST);
 
-        return gson.fromJson(jsonResponse, DepositBalanceResponseDTO.class);
+        return gson.fromJson(jsonResponse, UserBalanceResponseDTO.class);
+    }
+    public UserBalanceResponseDTO withdraw(UserBalanceRequestDTO userBalanceRequestDTO) throws IOException {
+        Gson gson=new Gson();
+
+        String route="/withdraw";
+
+        String jsonRequest=gson.toJson(userBalanceRequestDTO);
+
+        String jsonResponse=BaseApi.getJsonReponse(jsonRequest,route,HttpMethod.POST);
+
+        return gson.fromJson(jsonResponse,UserBalanceResponseDTO.class);
     }
 
     public GetBidInfoResponseDTO getBidInfoByBidderId(GetBidInfoRequestDTO getBidInfoRequestDTO) throws IOException {

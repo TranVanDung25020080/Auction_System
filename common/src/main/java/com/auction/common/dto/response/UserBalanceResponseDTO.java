@@ -2,17 +2,17 @@ package com.auction.common.dto.response;
 
 import com.auction.common.enums.AuthStatus;
 
-public class DepositBalanceResponseDTO {
+public class UserBalanceResponseDTO {
     private int userId;
     private double currentBalance;
     private AuthStatus authStatus;
     private String message;
     //Constructor
-    public DepositBalanceResponseDTO(int userId,double currentBalance){
+    public UserBalanceResponseDTO(int userId, double currentBalance){
         this.userId=userId;
         this.currentBalance=currentBalance;
     }
-    public DepositBalanceResponseDTO(){};
+    public UserBalanceResponseDTO(){};
     //getter
     public int getUserId(){
         return this.userId;
