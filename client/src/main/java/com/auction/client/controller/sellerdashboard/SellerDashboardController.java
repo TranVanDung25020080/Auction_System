@@ -4,6 +4,7 @@ import com.auction.client.controller.annoucement.Alert;
 import com.auction.client.controller.sellerdashboard.buttonhandler.OpenItemPopupButton;
 import com.auction.client.controller.sellerdashboard.buttonhandler.ShowIntentoryButton;
 import com.auction.client.controller.sellerdashboard.buttonhandler.ShowLiveAuctionsButton;
+import com.auction.client.controller.sellerdashboard.buttonhandler.ShowWalletButton;
 import com.auction.client.controller.sellerwallet.SellerWalletController;
 import com.auction.common.model.User.Seller;
 import javafx.fxml.FXML;
@@ -24,15 +25,11 @@ public class SellerDashboardController {
     //FXML Fields:
     @FXML private FlowPane flowPaneContent;
     @FXML private Label lblHeader;
-    @FXML private Button openItemPopupButton,showInventoryButton,showLiveAuctionsButton;
+    @FXML private Button openItemPopupButton,showInventoryButton,showLiveAuctionsButton,walletButton;
     //Other fields:
     private int sellerId;
     private Seller seller;
 
-    public void setSellerData(Seller seller) {
-        this.seller = seller;
-        this.sellerId = seller.getUserId();
-    }
 
 
     //Method which is gonna be called automaticly:
@@ -52,6 +49,9 @@ public class SellerDashboardController {
             }
         });
 
+        this.walletButton.setOnAction(event ->
+                new ShowWalletButton().handle(this));
+
 
 
     }
@@ -69,9 +69,15 @@ public class SellerDashboardController {
     public void setSellerId(int sellerId){
         this.sellerId=sellerId;
     }
+    public Seller getSeller(){
+        return this.seller;
+    }
+    public void setSellerData(Seller seller) {
+        this.seller = seller;
+        this.sellerId = seller.getUserId();
+    }
 
-
-    //wallet
+ /*   //wallet
     @FXML
     private void handleOpenWallet() {
         try {
@@ -94,5 +100,5 @@ public class SellerDashboardController {
             System.err.println("Không tìm thấy file seller_wallet.fxml! Kiểm tra lại đường dẫn.");
             e.printStackTrace();
         }
-    }
+    }*/
 }

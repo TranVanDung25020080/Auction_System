@@ -1,14 +1,16 @@
 package com.auction.server.db;
 
+import com.auction.server.util.ConfigLoader;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyDatabaseConfig {
     private static Connection connection;
-    private static final String URL="jdbc:mysql://localhost:3306/auctions";
-    private static final String USER="root";
-    private static final String PASSWORD="namkhanh1";
+    private static final String URL = "jdbc:mysql://kodama.proxy.rlwy.net:11971/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASSWORD = "xQocNoyDrzXAvHViQhaVmzdwPgnZSyoZ";
 
 //        private static final String URL = "jdbc:mysql://localhost:3306/auction_db";
 //        private static final String USER = "root";

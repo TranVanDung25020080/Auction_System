@@ -19,7 +19,7 @@
             <Label styleClass="logo-text" text="AUCTION PRO" />
             <Region prefHeight="20.0" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="🏠Trang chủ" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleShowWallet" styleClass="menu-button" text="  💳Ví Tiền" />
+            <Button fx:id="showWalletButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="menu-button" text="  💳Ví Tiền" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
@@ -34,6 +34,7 @@
          </padding>
          <children>
             <TextField fx:id="txtSearch" prefHeight="45.0" prefWidth="500.0" promptText="Tìm kiếm sản phẩm đấu giá..." styleClass="search-bar" />
+            <Button fx:id="reloadButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Reload" />
             <Region HBox.hgrow="ALWAYS" />
             <Button styleClass="icon-button" text="🔔" />
             <Button styleClass="icon-button" text="BIDDER" />

@@ -1,11 +1,13 @@
 package com.auction.server.service.user;
 
-import com.auction.common.dto.request.DepositBalanceRequestDTO;
+import com.auction.common.dto.request.UserBalanceRequestDTO;
 import com.auction.common.dto.request.GetBidInfoRequestDTO;
-import com.auction.common.dto.response.DepositBalanceResponseDTO;
+import com.auction.common.dto.response.UserBalanceResponseDTO;
 import com.auction.common.dto.response.GetBidInfoResponseDTO;
+import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.enums.AuthStatus;
 import com.auction.common.model.Auction.BidTransaction;
+import com.auction.common.model.User.User;
 import com.auction.server.dao.BidDAO;
 import com.auction.server.dao.UserDAO;
 import com.auction.server.exception.DatabaseException;
@@ -14,29 +16,61 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
-    public DepositBalanceResponseDTO depositBalance(DepositBalanceRequestDTO depositBalanceRequestDTO){
-        DepositBalanceResponseDTO depositBalanceResponseDTO=new DepositBalanceResponseDTO();
+    public UserBalanceResponseDTO depositBalance(UserBalanceRequestDTO userBalanceRequestDTO){
+        UserBalanceResponseDTO userBalanceResponseDTO =new UserBalanceResponseDTO();
 
-        int userId= depositBalanceRequestDTO.getUserId();
-        double amount=depositBalanceRequestDTO.getAmount();
-        double balance=depositBalanceRequestDTO.getBalance();
+        int userId= userBalanceRequestDTO.getUserId();
+        double amount= userBalanceRequestDTO.getAmount();
+        double balance= userBalanceRequestDTO.getBalance();
 
         try{
             new UserDAO().updateBalance(userId,amount+balance);
-            depositBalanceResponseDTO.setUserId(userId);
-            depositBalanceResponseDTO.setCurrentBalance(balance+amount);
-            depositBalanceResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
-            depositBalanceResponseDTO.setMessage("deposit balance successfully!");
+            userBalanceResponseDTO.setUserId(userId);
+            userBalanceResponseDTO.setCurrentBalance(balance+amount);
+            userBalanceResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+            userBalanceResponseDTO.setMessage("deposit balance successfully!");
         } catch (DatabaseException e) {
-            depositBalanceResponseDTO.setUserId(userId);
-            depositBalanceResponseDTO.setCurrentBalance(balance);
-            depositBalanceResponseDTO.setAuthStatus(AuthStatus.FAILED);
-            depositBalanceResponseDTO.setMessage(e.getMessage());
+            userBalanceResponseDTO.setUserId(userId);
+            userBalanceResponseDTO.setCurrentBalance(balance);
+            userBalanceResponseDTO.setAuthStatus(AuthStatus.FAILED);
+            userBalanceResponseDTO.setMessage(e.getMessage());
         }
 
-        return  depositBalanceResponseDTO;
+        return userBalanceResponseDTO;
+    }
+    public UserBalanceResponseDTO withDraw(UserBalanceRequestDTO userBalanceRequestDTO){
+        UserBalanceResponseDTO userBalanceResponseDTO=new UserBalanceResponseDTO();
+
+        int userId= userBalanceRequestDTO.getUserId();
+        double amount= userBalanceRequestDTO.getAmount();
+        double balance= userBalanceRequestDTO.getBalance();
+
+        try{
+
+            if (amount<=balance){
+                new UserDAO().updateBalance(userId,balance-amount);
+                userBalanceResponseDTO.setUserId(userId);
+                userBalanceResponseDTO.setCurrentBalance(balance-amount);
+                userBalanceResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+                userBalanceResponseDTO.setMessage("withdraw successfully!");
+            }
+            else{
+                userBalanceResponseDTO.setUserId(userId);
+                userBalanceResponseDTO.setCurrentBalance(balance);
+                userBalanceResponseDTO.setAuthStatus(AuthStatus.FAILED);
+                userBalanceResponseDTO.setMessage("Khong du so du!");
+            }
+        } catch (DatabaseException e) {
+            userBalanceResponseDTO.setUserId(userId);
+            userBalanceResponseDTO.setCurrentBalance(balance);
+            userBalanceResponseDTO.setAuthStatus(AuthStatus.FAILED);
+            userBalanceResponseDTO.setMessage(e.getMessage());
+        }
+
+        return userBalanceResponseDTO;
 
     }
+
 
     public GetBidInfoResponseDTO getBidInfoByBidderId(GetBidInfoRequestDTO getBidInfoRequestDTO){
         GetBidInfoResponseDTO getBidInfoResponseDTO=new GetBidInfoResponseDTO();
@@ -76,6 +110,22 @@ public class UserService {
         }
 
         return getBidInfoResponseDTO;
+    }
+    public UserResponseDTO getAllUsers(){
+        UserResponseDTO userResponseDTO=new UserResponseDTO();
+
+        try{
+            List<User> userList=new UserDAO().getAllUsers();
+
+            userResponseDTO.setUserList(userList);
+            userResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+            userResponseDTO.setMessage("get all user succesfully");
+        } catch (SQLException e) {
+            userResponseDTO.setMessage(e.getMessage());
+            userResponseDTO.setAuthStatus(AuthStatus.FAILED);
+        }
+        return userResponseDTO;
+
     }
 
 

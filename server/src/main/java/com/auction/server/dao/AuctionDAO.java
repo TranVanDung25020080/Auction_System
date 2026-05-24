@@ -187,6 +187,7 @@ public class AuctionDAO {
         String query = "UPDATE auction SET status = ? WHERE auctionId = ?";
         String query1 = "UPDATE user SET balance = balance - ? WHERE userId = ?";
         String query2 = "UPDATE item SET item_status = ? WHERE id = ?";
+        String query3="UPDATE user SET balance=balance+? WHERE userId=?";
 
         Auction auctionInfo = getAuctionInfoById(auctionId);
 
@@ -196,7 +197,8 @@ public class AuctionDAO {
 
             try (PreparedStatement pst = conn.prepareStatement(query);
                  PreparedStatement pst1 = conn.prepareStatement(query1);
-                 PreparedStatement pst2 = conn.prepareStatement(query2)) {
+                 PreparedStatement pst2 = conn.prepareStatement(query2);
+                 PreparedStatement pst3=conn.prepareStatement(query3)) {
 
                 pst.setString(1, AuctionStatus.FINISHED.name());
                 pst.setInt(2, auctionId);
@@ -207,9 +209,13 @@ public class AuctionDAO {
                 pst2.setString(1, ItemStatus.SOLD.name());
                 pst2.setInt(2, auctionInfo.getItemId());
 
+                pst3.setDouble(1,auctionInfo.getCurrentHighestPrice());
+                pst3.setInt(2,auctionInfo.getSellerId());
+
                 pst.executeUpdate();
                 pst1.executeUpdate();
                 pst2.executeUpdate();
+                pst3.executeUpdate();
 
                 conn.commit();
                 System.out.println("Cuoc dau gia co id " + auctionId + " da ket thuc thanh cong!");

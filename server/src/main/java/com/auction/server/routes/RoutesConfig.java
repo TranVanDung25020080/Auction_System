@@ -2,12 +2,13 @@ package com.auction.server.routes;
 
 import com.auction.server.handler.httpserver.*;
 import com.auction.server.network.MyHttpServer;
+import com.auction.server.util.ConfigLoader;
 
 import java.io.IOException;
 
 public class RoutesConfig {
     public static void addAllRoutes() throws IOException {
-        MyHttpServer.addRoute(8000,"/login",new LoginHandler());
+        MyHttpServer.addRoute(ConfigLoader.getInt("server.http.port"),"/login",new LoginHandler());
         MyHttpServer.addRoute("/signup",new SingUpHandler());
         MyHttpServer.addRoute("/getallauction",new GetAuctionHandler());
         MyHttpServer.addRoute("/getitem/sellerid",new GetItemHandler());
@@ -18,6 +19,8 @@ public class RoutesConfig {
         MyHttpServer.addRoute("/depositbalance",new DepositBalanceHandler());
         MyHttpServer.addRoute("/getbidinfo/bidderid",new GetBidInfoHandler());
         MyHttpServer.addRoute("/getbidinfo/auctionid",new GetBidInfoHandler());
+        MyHttpServer.addRoute("/getallusers",new GetAllUsersHandler());
+        MyHttpServer.addRoute("/withdraw",new WithdrawHandler());
 
     }
 }

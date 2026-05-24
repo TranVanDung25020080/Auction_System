@@ -1,6 +1,7 @@
 package com.auction.server.network;
 
 import com.auction.server.handler.socketserver.ClientHandler;
+import com.auction.server.util.ConfigLoader;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,7 +11,7 @@ public class MySocketServer {
     private static ServerSocket serverSocket;
 
     public static void start() throws IOException {
-        serverSocket=new ServerSocket(6969);
+        serverSocket=new ServerSocket(ConfigLoader.getInt("server.socket.port"));
 
         while (!serverSocket.isClosed()){
             Socket socket=serverSocket.accept();

@@ -19,7 +19,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserDAO {
@@ -168,5 +170,33 @@ public class UserDAO {
             throw new DatabaseException("Loi he thong: khong the lay so du cua user nay", e);
         }
     }
+    public List<User> getAllUsers() throws SQLException {
+        List<User> userList=new ArrayList<>();
+
+        String query="SELECT * FROM user;";
+
+        try (Connection connection=MyDatabaseConfig.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+
+            try (ResultSet resultSet=preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    //int userId, String ownerName, String userName, double balance
+                    User user=new User(resultSet.getInt("userId"),
+                            resultSet.getString("ownerName"),
+                            resultSet.getString("userName"),
+                            resultSet.getDouble("balance"));
+                    user.setUserRole(UserRole.valueOf(resultSet.getString("role")));
+
+                    userList.add(user);
+
+                }
+            }
+            return userList;
+        }
+    }
+
+
+
+
 
 }

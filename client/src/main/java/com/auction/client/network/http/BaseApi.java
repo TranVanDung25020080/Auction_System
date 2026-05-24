@@ -1,6 +1,7 @@
 package com.auction.client.network.http;
 
 import com.auction.common.enums.HttpMethod;
+import com.auction.client.util.ConfigLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class BaseApi {
-    private static final String BASE_URL="http://localhost:8000";
-    /*private static final String BASE_URL = "http://100.65.119.25:8000";*/
+//    private static final String BASE_URL="https://jaundice-scrunch-uninsured.ngrok-free.dev";
+    private static final String BASE_URL = ConfigLoader.get("server.http.url");
     public static String getJsonReponse(String jsonRequest, String route, HttpMethod httpMethod) throws IOException {
         URL url=new URL(BASE_URL+route);
 

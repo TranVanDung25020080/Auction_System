@@ -1,0 +1,137 @@
+name: Java CI Automation
+
+on:
+  push:
+    branches: [ master, tranvandung ]
+  pull_request:
+    branches: [ master, tranvandung ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    # MySQL Service chạy trên Linux để phục vụ quá trình test
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: '123Dung#'
+          MYSQL_DATABASE: auction_db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'oracle'
+          cache: 'maven'
+
+      - name: Build and Verify with JaCoCo
+        run: mvn clean verify
+        env:
+          DATABASE_SECRET_KEY: ${{ secrets.APP_DB_CONN }}
+          DB_URL: jdbc:mysql://localhost:3306/auction_db
+          DB_USER: root
+          DB_PASSWORD: '123Dung#'
+
+      - name: Upload JaCoCo Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report-${{ matrix.os }}
+          path: "**/target/site/jacoco/"
+
+      - name: Automate Continuous Delivery (GitHub Release)
+        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && matrix.os == 'ubuntu-latest'
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Production Release Build v1.0.${{ github.run_number }}
+          body: |
+            🎉 Hệ thống CD tự động phát hành phiên bản mới!
+            - Trạng thái: Build & Kiểm thử thành công.
+            - Mã định danh tự động: #${{ github.run_number }}
+          files: |
+            server/target/*.jar
+            client/target/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-docker:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Server Docker Image (CD Part 2)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./server
+          file: server/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}/auction-server:latest
+
+  # chay tren may ao window de dong goi file exe
+  build-client-windows-exe:
+    needs: build
+    runs-on: windows-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'oracle'
+          cache: 'maven'
+
+      - name: Build Client Fat JAR
+        # Lệnh này chỉ build riêng module common và client để tiết kiệm thời gian
+        run: mvn clean package -pl client -am -DskipTests
+
+      - name: Convert JAR to Windows EXE Installer
+        # Dùng công cụ jpackage có sẵn trong JDK 21 để tạo file cài đặt .exe
+        run: |
+          jpackage --type exe `
+            --name "AuctionClient" `
+            --input client/target `
+            --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar `
+            --main-class com.auction.client.main.MainApplication `
+            --win-dir-chooser `
+            --win-shortcut `
+            --dest dist
+
+      - name: Upload EXE to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          files: dist/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
