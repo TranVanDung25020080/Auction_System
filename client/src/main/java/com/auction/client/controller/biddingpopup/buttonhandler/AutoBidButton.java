@@ -23,11 +23,13 @@ public class AutoBidButton {
                 double increment = Double.parseDouble(txtIncrement.getText());
 
                 Bidder bidder=biddingPopupController.getBidder();
+/*
                 double balance=bidder.getBalance();
+*/
 
                 if (maxBid>currentAuction.getCurrentHighestPrice() /*&& maxBid<=balance*/){
 
-                    if (maxBid<=balance){
+                    if (maxBid<=biddingPopupController.getMaxBidDuringAuction()){
 
                         lblStatus.setText("Đã kích hoạt Auto-Bid: Max " + maxBid + " Increment: " + increment);
                         // TODO: Gửi yêu cầu Auto-bid lên Server ở đây
@@ -36,7 +38,7 @@ public class AutoBidButton {
                     }
                     else{
 
-                        Alert.showAlert("ERROR","Your maxBid must be less than your balance!");
+                        Alert.showAlert("ERROR","Your maxBid must be less than the max bid that you chose before!");
 
                     }
 

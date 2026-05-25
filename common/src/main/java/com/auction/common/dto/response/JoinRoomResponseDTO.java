@@ -7,6 +7,7 @@ public class JoinRoomResponseDTO extends BaseResponse {
     private int userId;
     private int auctionRoomId;
     private AuctionStatus auctionStatus;
+    private double currentBalance;
     //Constructor
     public JoinRoomResponseDTO(int userId,int auctionRoomId){
         this.userId=userId;
@@ -21,6 +22,9 @@ public class JoinRoomResponseDTO extends BaseResponse {
     public AuctionStatus getAuctionStatus(){
         return this.auctionStatus;
     }
+    public double getCurrentBalance(){
+        return this.currentBalance;
+    }
 
     //setter
     public void setUserId(int userId){
@@ -28,6 +32,9 @@ public class JoinRoomResponseDTO extends BaseResponse {
     }
     public void setAuctionStatus(AuctionStatus auctionStatus){
         this.auctionStatus=auctionStatus;
+    }
+    public void setCurrentBalance(double currentBalance){
+        this.currentBalance=currentBalance;
     }
 
     @Override

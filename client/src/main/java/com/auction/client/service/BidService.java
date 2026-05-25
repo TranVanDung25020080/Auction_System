@@ -29,9 +29,10 @@ public class BidService {
         int userId=biddingPopupController.getUserId();
         int auctionRoomId=currentAuction.getAuctionId();
         double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
+        double maxBidDuringAuction=biddingPopupController.getMaxBidDuringAuction();
         LocalDateTime endTime=currentAuction.getEndTime();
 
-        BaseRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionRoomId,bidAmount,highestCurrentPrice,endTime);
+        BaseRequestDTO bidRequestDTO=new BidRequestDTO(userId,auctionRoomId,bidAmount,highestCurrentPrice,endTime,maxBidDuringAuction);
 
         clientSocket.sendBiddingInfo(bidRequestDTO);
 
@@ -45,10 +46,11 @@ public class BidService {
         int userId=biddingPopupController.getUserId();
         int auctionRoomId=currentAuction.getAuctionId();
         double highestCurrentPrice=currentAuction.getCurrentHighestPrice();
+        double maxBidDuringAuction=biddingPopupController.getMaxBidDuringAuction();
         LocalDateTime endTime=currentAuction.getEndTime();
 
 
-        BaseRequestDTO autoBidRequestDTO=new AutoBidRequestDTO(auctionRoomId,userId,maxBid,increment,highestCurrentPrice,endTime);
+        BaseRequestDTO autoBidRequestDTO=new AutoBidRequestDTO(auctionRoomId,userId,maxBid,increment,highestCurrentPrice,endTime,maxBidDuringAuction);
 
         clientSocket.sendBiddingInfo(autoBidRequestDTO);
     }

@@ -9,9 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class BaseApi {
-    /*private static final String BASE_URL="http://localhost:8000";*/
+    private static final String BASE_URL="http://localhost:8000";
     /*private static final String BASE_URL = "http://100.65.119.25:8000";*/
-    private static String BASE_URL;
+    /*private static String BASE_URL;
 
     //Cai nay la gemini lam nhe:))
     static {
@@ -23,7 +23,7 @@ public class BaseApi {
             // Nếu lỗi hoặc không tìm thấy file, tự động dùng localhost để dev nội bộ
             BASE_URL = "http://localhost:8000";
         }
-    }
+    }*/
     public static String getJsonReponse(String jsonRequest, String route, HttpMethod httpMethod) throws IOException {
         URL url=new URL(BASE_URL+route);
 

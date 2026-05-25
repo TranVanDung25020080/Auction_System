@@ -6,6 +6,7 @@ import com.auction.common.dto.response.AuctionResultResponseDTO;
 import com.auction.common.dto.response.BidUpdateResponseDTO;
 import com.auction.common.enums.BidStatus;
 import com.auction.common.model.Auction.Auction;
+import com.auction.server.dao.UserDAO;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
 import com.auction.server.service.auction.AuctionService;
@@ -16,7 +17,9 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -53,11 +56,23 @@ public class AuctionRoomHandler {
 
         int delay=auction.getDurationLeft();
 
+
         scheduledTask=executorService.schedule(()->{
             try{
-                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId());
-
+                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId(),this);
                 this.broadcast(new Gson().toJson(auctionResultResponseDTO));
+
+                /*double maxBidDuringAuction= clientHandler.getMaxBidDuringAuction();
+
+                UserDAO userDAO=new UserDAO();
+
+                double currentBalance=userDAO.showBalance(clientHandler.getUserId());
+                userDAO.updateBalance(clientHandler.getUserId(),currentBalance+maxBidDuringAuction);*/
+
+
+
+
+
             }
             catch (DatabaseException e) {
                 e.printStackTrace(); //chua xy ly loi ky o day
@@ -106,6 +121,9 @@ public class AuctionRoomHandler {
         });
 
         return autoBidClients;
+    }
+    public List<ClientHandler> getParticipants(){
+        return this.participants;
     }
 
 }

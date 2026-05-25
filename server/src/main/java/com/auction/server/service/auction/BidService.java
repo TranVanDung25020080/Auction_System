@@ -64,7 +64,8 @@ public class BidService {
             }
             else {
 /*                new AuctionDAO().updateCurrentPrice(auctionId,bidAmmount,bidderId);*/
-                new BidDAO().placeBid(auctionId,bidderId,bidAmmount);
+                double maxBidDuringAuction=((BidRequestDTO) bidRequestDTO).getGetMaxBidDuringAuction();
+                new BidDAO().placeBid(auctionId,bidderId,bidAmmount,maxBidDuringAuction);
 
                 bidUpdateResponseDTO=new BidUpdateResponseDTO(auctionId,bidderId,bidAmmount);
                 bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
@@ -94,8 +95,6 @@ public class BidService {
 
         ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionRoomId);
         reentrantReadWriteLock.writeLock().lock();
-
-
 
         try {
 
@@ -137,7 +136,8 @@ public class BidService {
                     double bidAmount=highestCurrentPrice+increment;
 
 /*                    new AuctionDAO().updateCurrentPrice(auctionRoomId,bidAmount,bidderId);*/
-                    new BidDAO().placeBid(auctionRoomId,bidderId,bidAmount);
+                    double maxBidDuringAuction=((AutoBidRequestDTO) autoBidRequestDTO).getMaxBidDuringAuction();
+                    new BidDAO().placeBid(auctionRoomId,bidderId,bidAmount,maxBidDuringAuction);
 
                     bidUpdateResponseDTO = new BidUpdateResponseDTO(auctionRoomId,bidderId,bidAmount);
                     bidUpdateResponseDTO.setBidStatus(BidStatus.SUCCESS);
