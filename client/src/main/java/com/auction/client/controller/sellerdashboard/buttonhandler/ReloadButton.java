@@ -1,22 +1,20 @@
-package com.auction.client.controller.bidderdashboard.buttonhandler;
+package com.auction.client.controller.sellerdashboard.buttonhandler;
 
 import com.auction.client.controller.annoucement.Alert;
-import com.auction.client.controller.bidderdashboard.BidderDashboardController;
+import com.auction.client.controller.sellerdashboard.SellerDashboardController;
 import com.auction.client.network.http.UserApi;
 import com.auction.common.dto.request.UserBalanceRequestDTO;
 import com.auction.common.dto.response.UserBalanceResponseDTO;
-import com.auction.common.model.User.Bidder;
+import com.auction.common.dto.response.UserResponseDTO;
 import com.auction.common.model.User.Seller;
 
 import java.io.IOException;
 
 public class ReloadButton {
-    public void handle(BidderDashboardController bidderDashboardController){
-        bidderDashboardController.renderProducts();
+    public void handle(SellerDashboardController sellerDashboardController){
+        Seller seller=sellerDashboardController.getSeller();
 
-        Bidder bidder=bidderDashboardController.getBidder();
-
-        int userId=bidder.getUserId();
+        int userId=seller.getUserId();
 
         UserBalanceRequestDTO userBalanceRequestDTO=new UserBalanceRequestDTO();
         userBalanceRequestDTO.setUserId(userId);
@@ -26,11 +24,12 @@ public class ReloadButton {
             System.out.println(userBalanceResponseDTO.getMessage());
 
             double currentBalance=userBalanceResponseDTO.getCurrentBalance();
-            bidder.setBalance(currentBalance);
+            seller.setBalance(currentBalance);
 
         } catch (IOException e) {
             Alert.showAlert("ERROR",e.getMessage());
         }
 
     }
+
 }

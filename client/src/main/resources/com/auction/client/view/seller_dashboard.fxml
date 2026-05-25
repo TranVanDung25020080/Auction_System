@@ -22,6 +22,8 @@
                 <Separator styleClass="sidebar-separator" />
 
                 <Button fx:id="openItemPopupButton" maxWidth="Infinity" styleClass="btn-primary" text="+ THÊM SẢN PHẨM" />
+            <Separator styleClass="sidebar-separator" />
+            <Button fx:id="reloadButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="180.0" text="Reload" />
             </children>
         </VBox>
     </left>

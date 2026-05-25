@@ -89,7 +89,6 @@ public class AuctionRoomService {
 
                 userDAO.updateBalance(userId,currentBalance+ clientHandler.getMaxBidDuringAuction());
 
-
             }
 
             AuctionResultResponseDTO auctionResultResponseDTO= new AuctionResultResponseDTO(winnerId);

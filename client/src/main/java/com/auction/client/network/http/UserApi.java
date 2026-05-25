@@ -70,6 +70,19 @@ public class UserApi {
         return gson.fromJson(jsonResponse,UserResponseDTO.class);
 
     }
+    public UserBalanceResponseDTO getBalanceByUserId(UserBalanceRequestDTO userBalanceRequestDTO) throws IOException {
+        Gson gson=Converters.registerAll(new GsonBuilder()).create();
+
+        String route="/getbalance";
+
+        String jsonRequest=gson.toJson(userBalanceRequestDTO);
+
+        String jsonResponse=BaseApi.getJsonReponse(jsonRequest,route,HttpMethod.POST);
+
+        return gson.fromJson(jsonResponse, UserBalanceResponseDTO.class);
+
+
+    }
    /* //test
     static void main(String[] args) throws IOException {
        UserResponseDTO userResponseDTO=new UserApi().getAllUser();
