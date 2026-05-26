@@ -82,27 +82,28 @@ public class ClientHandler implements Runnable{
             auctionRoomHandler.startCountDown(auction);
 
             //Bidding:
-            while (socket.isConnected()){
-                String baseRequestDTOJson=bufferedReader.readLine();
-                System.out.println(baseRequestDTOJson);
+            /*while (socket.isConnected()){
+                String baseRequestDTOJson=bufferedReader.readLine();*/
 
-                BaseRequestDTO baseRequestDTO=gson.fromJson(baseRequestDTOJson, BaseRequestDTO.class);
-                RequestType requestType=baseRequestDTO.getRequestType();
+                /*if (baseRequestDTOJson!=null){*/
+            String baseRequestDTOJson;
+            while ((baseRequestDTOJson = bufferedReader.readLine()) != null) {
 
-                if (requestType==RequestType.NORMAL_BIDDING){
+                BaseRequestDTO baseRequestDTO = gson.fromJson(baseRequestDTOJson, BaseRequestDTO.class);
+                RequestType requestType = baseRequestDTO.getRequestType();
 
-                    BidRequestDTO bidRequestDTO=gson.fromJson(baseRequestDTOJson, BidRequestDTO.class);
+                if (requestType == RequestType.NORMAL_BIDDING) {
 
-                    BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO,auctionRoomHandler);
+                    BidRequestDTO bidRequestDTO = gson.fromJson(baseRequestDTOJson, BidRequestDTO.class);
+
+                    BaseResponse bidUpdateResponseDTO = new BidService().normalBid(bidRequestDTO, auctionRoomHandler);
 
                     auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
 
                     auctionRoomHandler.handleAutoBidding();
-                }
+                } else if (requestType == RequestType.AUTO_BIDDING) {
 
-                else if(requestType==RequestType.AUTO_BIDDING){
-
-                    AutoBidRequestDTO autoBid=gson.fromJson(baseRequestDTOJson, AutoBidRequestDTO.class);
+                    AutoBidRequestDTO autoBid = gson.fromJson(baseRequestDTOJson, AutoBidRequestDTO.class);
 
 /*                    int bidderId=autoBid.getBidderId();
                     int auctionId=autoBid.getAuctionId();
@@ -116,15 +117,20 @@ public class ClientHandler implements Runnable{
                         autoBidDAO.insertAutoBid(bidderId,auctionId,maxBid,increment);
                     }*/
 
-                    this.autoBidRequestDTO=autoBid;
+                    this.autoBidRequestDTO = autoBid;
 
                 }
 
-
-
-
-
+                //}
             }
+
+
+
+
+
+
+
+            //}
 
         } catch (IOException e) {
             e.printStackTrace();// chua xu ly loi ky o day
