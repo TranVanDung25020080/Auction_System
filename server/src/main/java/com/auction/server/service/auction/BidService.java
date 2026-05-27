@@ -100,6 +100,8 @@ public class BidService {
 
         ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionRoomId);
         reentrantReadWriteLock.writeLock().lock();
+        reentrantReadWriteLock.readLock().lock();
+
 
         try {
 
@@ -155,6 +157,9 @@ public class BidService {
         }
         finally {
             reentrantReadWriteLock.writeLock().unlock();
+            reentrantReadWriteLock.readLock().unlock();
+
+            
         }
 
         return bidUpdateResponseDTO;
