@@ -37,14 +37,18 @@ public class BidService {
         int bidderId=bid.getBidderId();
         int auctionId=bid.getAuctionId();
         double bidAmmount=bid.getBidAmount();
-        double highCurrentPrice=bid.getHighCurrentPrice();
 
         ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionId);
         reentrantReadWriteLock.writeLock().lock();
+        reentrantReadWriteLock.readLock().lock();
 
         try{
             AuctionDAO auctionDAO=new AuctionDAO();
             Auction currentAuction = auctionDAO.getAuctionInfoById(auctionId);
+
+            double highCurrentPrice=currentAuction.getCurrentHighestPrice();
+
+
             LocalDateTime endTime=currentAuction.getEndTime();
 
             if (getTimeLeft(endTime)<=10){
@@ -78,6 +82,7 @@ public class BidService {
         }
         finally {
             reentrantReadWriteLock.writeLock().unlock();
+            reentrantReadWriteLock.readLock().unlock();
         }
 
     }
@@ -95,6 +100,8 @@ public class BidService {
 
         ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionRoomId);
         reentrantReadWriteLock.writeLock().lock();
+        reentrantReadWriteLock.readLock().lock();
+
 
         try {
 
@@ -150,6 +157,9 @@ public class BidService {
         }
         finally {
             reentrantReadWriteLock.writeLock().unlock();
+            reentrantReadWriteLock.readLock().unlock();
+
+            
         }
 
         return bidUpdateResponseDTO;
