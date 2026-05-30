@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class BaseApi {
 //    private static final String BASE_URL="https://jaundice-scrunch-uninsured.ngrok-free.dev";
-    private static final String BASE_URL = ConfigLoader.get("server.http.url");
+    private static final String BASE_URL = "https://auctionsystem-production-7bbb.up.railway.app";
     public static String getJsonReponse(String jsonRequest, String route, HttpMethod httpMethod) throws IOException {
         URL url=new URL(BASE_URL+route);
 
