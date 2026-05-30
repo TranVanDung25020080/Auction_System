@@ -18,9 +18,11 @@ import com.google.gson.internal.bind.util.ISO8601Utils;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.Properties;
 
 public class AuctionRoomService {
     public ClientSocket joinRoom(int userId, int auctionRoomId, BiddingPopupController biddingPopupController) throws IOException {
@@ -32,7 +34,8 @@ public class AuctionRoomService {
 
         ClientSocket clientSocket=new ClientSocket(socket,userId);
 
-        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(auctionRoomId);
+        double maxBidDuringAuction= biddingPopupController.getMaxBidDuringAuction();
+        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(auctionRoomId,maxBidDuringAuction);
 
         if (joinRoomResponseDTO.getAuctionStatus()== AuctionStatus.PENDING || joinRoomResponseDTO.getAuctionStatus()==AuctionStatus.OPEN){
             //Luon nghe thong tin tu server tra ve:

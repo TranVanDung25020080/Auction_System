@@ -1,10 +1,7 @@
 package com.auction.client.controller.sellerdashboard;
 
 import com.auction.client.controller.annoucement.Alert;
-import com.auction.client.controller.sellerdashboard.buttonhandler.OpenItemPopupButton;
-import com.auction.client.controller.sellerdashboard.buttonhandler.ShowIntentoryButton;
-import com.auction.client.controller.sellerdashboard.buttonhandler.ShowLiveAuctionsButton;
-import com.auction.client.controller.sellerdashboard.buttonhandler.ShowWalletButton;
+import com.auction.client.controller.sellerdashboard.buttonhandler.*;
 import com.auction.client.controller.sellerwallet.SellerWalletController;
 import com.auction.common.model.User.Seller;
 import javafx.fxml.FXML;
@@ -25,7 +22,7 @@ public class SellerDashboardController {
     //FXML Fields:
     @FXML private FlowPane flowPaneContent;
     @FXML private Label lblHeader;
-    @FXML private Button openItemPopupButton,showInventoryButton,showLiveAuctionsButton,walletButton;
+    @FXML private Button openItemPopupButton,showInventoryButton,showLiveAuctionsButton,walletButton,reloadButton;
     //Other fields:
     private int sellerId;
     private Seller seller;
@@ -52,6 +49,7 @@ public class SellerDashboardController {
         this.walletButton.setOnAction(event ->
                 new ShowWalletButton().handle(this));
 
+        this.reloadButton.setOnAction(event -> new ReloadButton().handle(this));
 
 
     }

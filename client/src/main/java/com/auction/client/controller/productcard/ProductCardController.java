@@ -1,6 +1,7 @@
 package com.auction.client.controller.productcard;
 
 // 1. CHÚ Ý: Import đúng class Auction từ common.model!
+import com.auction.client.controller.bidderdashboard.BidderDashboardController;
 import com.auction.client.controller.productcard.buttonhandler.JoinRoomButton;
 import com.auction.common.model.Auction.Auction;
 
@@ -28,15 +29,18 @@ public class ProductCardController {
     private Timeline timeline;
     private int userId;
     private Bidder bidder;
+    private BidderDashboardController bidderDashboardController;
     //
     public void initialize(){
         this.joinRoomButton.setOnAction(event ->
-                new JoinRoomButton().handle(this.auctionData,userId,this.bidder));
+                new JoinRoomButton().handle(this.auctionData,userId,this.bidder,
+                        this.bidderDashboardController));
     }
 
     //Method for other classes to call:
-    public void setData(Auction auction, String imagePath,int userId) {
+    public void setData(Auction auction, String imagePath,int userId,BidderDashboardController bidderDashboardController) {
         this.auctionData = auction;
+        this.bidderDashboardController=bidderDashboardController;
         this.userId=userId; // LƯU LẠI ĐỐI TƯỢNG ĐỂ DÙNG KHI BID
 
         // Lấy tên từ Item thay vì getItemName()

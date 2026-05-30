@@ -11,6 +11,7 @@ import com.auction.common.enums.RequestType;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.dao.AuctionDAO;
 import com.auction.server.dao.AutoBidDAO;
+import com.auction.server.dao.UserDAO;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.service.auction.AuctionRoomService;
 import com.auction.server.service.auction.AuctionService;
@@ -23,6 +24,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientHandler implements Runnable{
 
@@ -33,7 +36,7 @@ public class ClientHandler implements Runnable{
     private BufferedWriter bufferedWriter;
     //other fields:
     private int userId;
-    private List<Integer> auctionRoomJoinId;
+    private double maxBidDuringAuction;
     private AutoBidRequestDTO autoBidRequestDTO;
 
 
@@ -48,6 +51,7 @@ public class ClientHandler implements Runnable{
     public void run() {
         Gson gson= Converters.registerAll(new GsonBuilder()).create();
         AutoBidDAO autoBidDAO=new AutoBidDAO();
+        UserDAO userDAO=new UserDAO();
 
 
         try{
@@ -55,10 +59,13 @@ public class ClientHandler implements Runnable{
             String joinRoomRequestJson=bufferedReader.readLine();
 
             JoinRoomRequestDTO joinRoomRequestDTO=gson.fromJson(joinRoomRequestJson, JoinRoomRequestDTO.class);
+            this.userId=joinRoomRequestDTO.getUserId();
+            this.maxBidDuringAuction= joinRoomRequestDTO.getMiniWallet();
 
             System.out.println(gson.toJson(joinRoomRequestJson));
 
             BaseResponse joinRoomResponseDTO=new AuctionRoomService().joinRoom(this,joinRoomRequestDTO);
+
 
             bufferedWriter.write(gson.toJson(joinRoomResponseDTO));
             bufferedWriter.newLine();
@@ -147,13 +154,18 @@ public class ClientHandler implements Runnable{
         bufferedWriter.newLine();
         bufferedWriter.flush();
     }
-    //setter
+    //setter -- getter:
     public void setUserId(int userId){
         this.userId=userId;
     }
     public AutoBidRequestDTO getAutoBidRequestDTO(){
         return this.autoBidRequestDTO;
     }
+    public int getUserId(){
+        return this.userId;
+    }
 
-
+    public double getMaxBidDuringAuction() {
+        return maxBidDuringAuction;
+    }
 }

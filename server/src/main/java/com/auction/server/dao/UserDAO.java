@@ -99,18 +99,18 @@ public class UserDAO {
 
       /*  try (Connection conn = DatabaseConnection.getConnection())*/
         try (Connection conn = MyDatabaseConfig.getConnection()){
-            conn.setAutoCommit(false);
+            /*conn.setAutoCommit(false);*/
             try (PreparedStatement pst = conn.prepareStatement(query)) {
 
                 pst.setDouble(1, amount);
                 pst.setInt(2, userId);
 
                 int change = pst.executeUpdate();
-                if (change > 0) {
+                /*if (change > 0) {
                     conn.commit();
                     System.out.println("Cap nhat so du thanh cong!");
                 }
-                System.out.println("Cap nhat so du that bai!");
+                System.out.println("Cap nhat so du that bai!");*/
             }
             catch (SQLException e) {
                 conn.rollback();

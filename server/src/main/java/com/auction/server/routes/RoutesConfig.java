@@ -21,6 +21,7 @@ public class RoutesConfig {
         MyHttpServer.addRoute("/getbidinfo/auctionid",new GetBidInfoHandler());
         MyHttpServer.addRoute("/getallusers",new GetAllUsersHandler());
         MyHttpServer.addRoute("/withdraw",new WithdrawHandler());
+        MyHttpServer.addRoute("/getbalance",new GetUserBalanceHandler());
 
     }
 }

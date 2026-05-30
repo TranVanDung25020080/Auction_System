@@ -33,10 +33,11 @@ public class ClientSocket {
         this.userId=userId;
     }
     //method for other classes to call
-    public JoinRoomResponseDTO getJoinRoomResponse(int auctionId) throws IOException {
+    public JoinRoomResponseDTO getJoinRoomResponse(int auctionId,double maxBidDuringAuction) throws IOException {
         Gson gson=new Gson();
 
         JoinRoomRequestDTO joinRoomRequestDTO=new JoinRoomRequestDTO(this.userId,auctionId);
+        joinRoomRequestDTO.setMiniWallet(maxBidDuringAuction);
 
         bufferedWriter.write(gson.toJson(joinRoomRequestDTO));
         bufferedWriter.newLine();

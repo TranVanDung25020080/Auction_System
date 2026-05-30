@@ -11,6 +11,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AuctionDAO {
 
@@ -228,6 +229,7 @@ public class AuctionDAO {
             System.err.println("Loi SQL o ham updateAuctionStatus: " + e.getMessage());
         }
     }
+
 
     public void extendEndTime(int auctionId, int time) throws DatabaseException {
         String query = "UPDATE auction SET endTime = DATE_ADD(endTime, INTERVAL ? SECOND) WHERE auctionId = ?";

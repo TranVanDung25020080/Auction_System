@@ -8,8 +8,10 @@ import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.AuctionStatus;
 import com.auction.common.enums.ItemStatus;
 import com.auction.common.model.Auction.Auction;
+import com.auction.common.model.User.User;
 import com.auction.server.dao.AuctionDAO;
 import com.auction.server.dao.ItemDAO;
+import com.auction.server.dao.UserDAO;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.handler.socketserver.AuctionHandler;
 import com.auction.server.handler.socketserver.AuctionRoomHandler;
@@ -18,38 +20,87 @@ import com.auction.server.handler.socketserver.ClientHandler;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class AuctionRoomService {
-    public JoinRoomResponseDTO joinRoom (ClientHandler clientHandler, JoinRoomRequestDTO joinRoomRequestDTO) throws IOException {
+/*    private static final ReentrantReadWriteLock reentrantReadWriteLock=new ReentrantReadWriteLock();
+    private static final Lock writeLock= reentrantReadWriteLock.writeLock();
+    private static final Lock readLock= reentrantReadWriteLock.readLock();*/
+    // Map<int,reeandlock> 1 auctionRoomId sẽ có 1 lock riêng
+/*    private final Map<Integer, ReentrantReadWriteLock> reentrantReadWriteLockMap=new ConcurrentHashMap<>();
+
+    //Method for gettting reentrantlock:
+    private ReentrantReadWriteLock getReadWriteLock(int auctionId){
+        return  reentrantReadWriteLockMap.computeIfAbsent(auctionId,key->new ReentrantReadWriteLock());
+    }*/
+
+
+    public JoinRoomResponseDTO joinRoom (ClientHandler clientHandler, JoinRoomRequestDTO joinRoomRequestDTO) throws IOException, DatabaseException {
+        UserDAO userDAO=new UserDAO();
 
         int userId= joinRoomRequestDTO.getUserId();
         int auctionId=joinRoomRequestDTO.getAuctionId();
+        double maxBidDuringAuction=joinRoomRequestDTO.getMiniWallet();
 
+        double currentBalance=userDAO.showBalance(userId);
+
+        if (maxBidDuringAuction<=currentBalance){
+            userDAO.updateBalance(userId,currentBalance-maxBidDuringAuction);
+
+        }
 
         clientHandler.setUserId(userId);
 
         JoinRoomResponseDTO joinRoomResponseDTO=new JoinRoomResponseDTO(userId,auctionId);
         joinRoomResponseDTO.setAuctionStatus(AuctionStatus.PENDING);
+        joinRoomResponseDTO.setCurrentBalance(currentBalance-maxBidDuringAuction);
 
 
         return joinRoomResponseDTO;
 
     }
 
-    public AuctionResultResponseDTO endAuction(int auctionId) throws DatabaseException {
-        AuctionDAO auctionDAO=new AuctionDAO();
+    public AuctionResultResponseDTO endAuction(int auctionId,AuctionRoomHandler auctionRoomHandler) throws DatabaseException {
+       /* readLock.lock();
+        writeLock.lock();*/
+/*
+        ReentrantReadWriteLock reentrantReadWriteLock=getReadWriteLock(auctionId);
+        reentrantReadWriteLock.writeLock().lock();
+*/
 
-        auctionDAO.endAuction(auctionId);
+        try{
+            AuctionDAO auctionDAO=new AuctionDAO();
 
-        Auction auction=auctionDAO.getAuctionInfoById(auctionId);
+            auctionDAO.endAuction(auctionId);
 
-        int winnerId=auction.getWinningBidderId();
+            Auction auction=auctionDAO.getAuctionInfoById(auctionId);
 
+            int winnerId=auction.getWinningBidderId();
 
-        AuctionResultResponseDTO auctionResultResponseDTO= new AuctionResultResponseDTO(winnerId);
-        auctionResultResponseDTO.setStatus(AuctionStatus.FINISHED);
+            //Hoan tien
+            for (ClientHandler clientHandler: auctionRoomHandler.getParticipants()){
+                UserDAO userDAO=new UserDAO();
 
-        return auctionResultResponseDTO;
+                int userId= clientHandler.getUserId();
+                double currentBalance=userDAO.showBalance(userId);
+
+                userDAO.updateBalance(userId,currentBalance+ clientHandler.getMaxBidDuringAuction());
+
+            }
+
+            AuctionResultResponseDTO auctionResultResponseDTO= new AuctionResultResponseDTO(winnerId);
+            auctionResultResponseDTO.setStatus(AuctionStatus.FINISHED);
+
+            return auctionResultResponseDTO;
+        }
+        finally {
+            /*readLock.unlock();
+            writeLock.unlock();*/
+       /*     reentrantReadWriteLock.writeLock().unlock();*/
+        }
 
     }
     public CreateAuctionResponseDTO createAuction(Auction auction) throws DatabaseException, SQLException {

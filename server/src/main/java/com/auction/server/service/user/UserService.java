@@ -128,6 +128,24 @@ public class UserService {
         return userResponseDTO;
 
     }
+    public UserBalanceResponseDTO getUserBalanceById(UserBalanceRequestDTO userBalanceRequestDTO){
+        int userId= userBalanceRequestDTO.getUserId();
+
+        UserBalanceResponseDTO userBalanceResponseDTO=new UserBalanceResponseDTO();
+        try {
+            double currentBalance=new UserDAO().showBalance(userId);
+            userBalanceResponseDTO.setCurrentBalance(currentBalance);
+            userBalanceResponseDTO.setMessage("Get balance successfully");
+            userBalanceResponseDTO.setAuthStatus(AuthStatus.SUCCESS);
+
+        } catch (DatabaseException e) {
+            userBalanceResponseDTO.setMessage(e.getMessage());
+            userBalanceResponseDTO.setAuthStatus(AuthStatus.FAILED);
+        }
+
+        return userBalanceResponseDTO;
+
+    }
 
 
 

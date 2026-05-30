@@ -52,6 +52,7 @@ public class BiddingPopupController {
     private ClientSocket clientSocket;
     private int userId;
     private Bidder bidder;
+    private double maxBidDuringAuction;
     //init method which is gonna be called automaticly:
     public void initialize(){
         //set on action for buttons:
@@ -206,5 +207,11 @@ public class BiddingPopupController {
     }
     public void setEndTime(LocalDateTime endTime){
         this.currentAuction.setEndTime(endTime);
+    }
+    public void setMaxBidDuringAuction(double maxBidDuringAuction){
+        this.maxBidDuringAuction=maxBidDuringAuction;
+    }
+    public double getMaxBidDuringAuction(){
+        return this.maxBidDuringAuction;
     }
 }

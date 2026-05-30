@@ -53,7 +53,8 @@ public class BidderDashboardController {
 
                 // Bây giờ auction đã là bản common, card sẽ nhận được dữ liệu
                 controller.setBidder(this.bidder);
-                controller.setData(auction, "/com/auction/client/view/khanh.png", bidder.getUserId());
+                /*controller.setData(auction, "/com/auction/client/view/khanh.png", bidder.getUserId());*/
+                controller.setData(auction, "/com/auction/client/view/khanh.png", bidder.getUserId(),this);
                 productContainer.getChildren().add(card);
             }
         } catch (Exception e) {
