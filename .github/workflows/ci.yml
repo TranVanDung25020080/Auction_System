@@ -112,8 +112,9 @@ jobs:
           mkdir jpackage_input
           copy client\target\client-1.0-SNAPSHOT-jar-with-dependencies.jar jpackage_input\
 
-      - name: Kích hoạt jpackage tạo bản cài đặt EXE
-        run: jpackage --type exe --input jpackage_input --dest release_output --name AuctionClient --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar --main-class com.auction.client.main.MainApplication --win-shortcut --win-dir-chooser
+      - # SỬA DÒNG NÀY TRONG FILE .YML CỦA BẠN:
+        - name: Kích hoạt jpackage tạo bản cài đặt EXE
+          run: jpackage --type exe --input jpackage_input --dest release_output --name AuctionClient --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar --main-class com.auction.client.main.AppLauncher --win-shortcut --win-dir-chooser
 
       - name: Upload EXE to GitHub Release
         uses: softprops/action-gh-release@v1

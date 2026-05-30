@@ -78,7 +78,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.auction.client.main.MainApplication</mainClass>
+                            <mainClass>com.auction.client.main.AppLauncher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
