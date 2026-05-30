@@ -89,6 +89,8 @@ jobs:
 
   # chay tren may ao window de dong goi file exe
   build-client-windows-exe:
+    permissions:
+      contents: write
     needs: build
     runs-on: windows-latest
     if: github.ref == 'refs/heads/master'
@@ -116,7 +118,8 @@ jobs:
       - name: Upload EXE to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          # Trỏ đường dẫn lấy file exe từ thư mục output
+          tag_name: "v1.0.${{ github.run_number }}"
+          name: "Release v1.0.${{ github.run_number }}"
           files: release_output/AuctionClient-1.0.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
