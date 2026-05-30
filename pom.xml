@@ -67,7 +67,7 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.50</minimum> <!-- Tạm thời để 0.00 để CI không bị báo lỗi FAILED ngay từ đầu -->
+                                            <minimum>0.80</minimum> <!-- Tạm thời để 0.00 để CI không bị báo lỗi FAILED ngay từ đầu -->
                                         </limit>
                                     </limits>
                                 </rule>
