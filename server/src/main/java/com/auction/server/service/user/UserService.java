@@ -38,6 +38,7 @@ public class UserService {
 
         return userBalanceResponseDTO;
     }
+
     public UserBalanceResponseDTO withDraw(UserBalanceRequestDTO userBalanceRequestDTO){
         UserBalanceResponseDTO userBalanceResponseDTO=new UserBalanceResponseDTO();
 
@@ -70,7 +71,6 @@ public class UserService {
         return userBalanceResponseDTO;
 
     }
-
 
     public GetBidInfoResponseDTO getBidInfoByBidderId(GetBidInfoRequestDTO getBidInfoRequestDTO){
         GetBidInfoResponseDTO getBidInfoResponseDTO=new GetBidInfoResponseDTO();
@@ -111,6 +111,7 @@ public class UserService {
 
         return getBidInfoResponseDTO;
     }
+
     public UserResponseDTO getAllUsers(){
         UserResponseDTO userResponseDTO=new UserResponseDTO();
 

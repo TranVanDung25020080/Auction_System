@@ -249,13 +249,5 @@ public class AuctionDAO {
         }
     }
 
-/*    //Test
-    static void main(String[] args) throws DatabaseException, SQLException {
-        AuctionDAO auctionDAO=new AuctionDAO();
-
-        auctionDAO.extendEndTime(1,120);
-
-
-    }*/
 
 }

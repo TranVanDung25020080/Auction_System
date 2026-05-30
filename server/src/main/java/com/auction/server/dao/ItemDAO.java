@@ -145,6 +145,7 @@ public class ItemDAO {
             throw new DatabaseException("Loi he thong: Khong the lay vat pham theo id nguoi ban.", e);
         }
     }
+
     public void updateItemStatus(int itemId, ItemStatus itemStatus) throws SQLException {
         String sql="UPDATE item SET item_status=? WHERE id=?";
 

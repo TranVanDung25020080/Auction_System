@@ -145,6 +145,7 @@ public class UserDAO {
             throw new DatabaseException("Loi he thong: khong the lay so du cua user nay", e);
         }
     }
+
     public List<User> getAllUsers() throws SQLException {
         List<User> userList=new ArrayList<>();
 
