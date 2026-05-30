@@ -27,6 +27,9 @@ public class AuctionResultResponseDTO extends BaseResponse{
     public int getWinnerName() { return winnerId; }
     public double getFinalPrice() { return finalPrice; }
     public AuctionStatus getStatus() { return status; }
+    public int getWinnerId(){
+        return this.winnerId;
+    }
 
     @Override
     public String displayMessage() {

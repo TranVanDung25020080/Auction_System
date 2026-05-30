@@ -16,14 +16,14 @@ public class BidDAO {
     UserDAO userDAO = new UserDAO();
     AuctionDAO auctionDAO = new AuctionDAO();
 
-    public void placeBid(int auctionId, int bidderId, double bidAmount) throws DatabaseException {
+    public void placeBid(int auctionId, int bidderId, double bidAmount,double maxBidDuringAuction) throws DatabaseException {
         String insertBidQuery = "INSERT INTO bid_transaction (auctionId, bidderId, bidAmount, bidTime) VALUES (?, ?, ?, NOW())";
 
         double bidderBalance = userDAO.showBalance(bidderId);
 
         try (Connection conn = MyDatabaseConfig.getConnection();
             PreparedStatement pst = conn.prepareStatement(insertBidQuery)) {
-            if (bidderBalance >= bidAmount) {
+            if (maxBidDuringAuction >= bidAmount) {
                 pst.setInt(1, auctionId);
                 pst.setInt(2, bidderId);
                 pst.setDouble(3, bidAmount);

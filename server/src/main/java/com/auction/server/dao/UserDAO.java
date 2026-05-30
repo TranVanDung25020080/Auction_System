@@ -14,11 +14,14 @@ import com.auction.server.dp.factory.UFac.register.SellerRegister;
 import com.auction.server.dp.factory.UFac.register.UserRegister;
 import com.auction.server.exception.DatabaseException;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserDAO {
@@ -65,62 +68,6 @@ public class UserDAO {
         return  null;
     }
 
-    public User getUserByUsername(String userName) throws DatabaseException {
-        String query = "SELECT * FROM user WHERE username = ?";
-
-        try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(query)) {
-
-            pst.setString(1, userName);
-            ResultSet rs = pst.executeQuery();
-
-            if (rs.next()) {
-                String role = rs.getString("role");
-                UserLogin uc = userCreators.get(role.toUpperCase());
-
-                if (uc == null) {
-                    throw new IllegalArgumentException("Vai trò của User chưa xác định: " + role);
-                }
-                User user = uc.logUser(rs);
-
-                String realPassword = rs.getString("password");
-                if (realPassword != null && user != null) {
-                    user.setPassword(realPassword.trim());
-                }
-                return user;
-            }
-        } catch (SQLException e) {
-            System.err.println("Loi SQL o ham getUserByUsername: " + e.getMessage());
-            throw new DatabaseException("Loi he thong: khong the truy van thong tin nguoi dung!", e);
-        }
-        return null;
-    }
-
-    public User getUserById(int userId) throws DatabaseException {
-        String query = "SELECT * FROM user WHERE userId = ?";
-
-        try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(query)) {
-
-            pst.setInt(1, userId);
-            ResultSet rs = pst.executeQuery();
-
-            if (rs.next()) {
-                String role = rs.getString("role");
-                UserLogin uc = userCreators.get(role.toUpperCase());
-
-                if (uc == null) {
-                    throw new IllegalArgumentException("Vai trò của User chưa xác định cho ID: " + userId);
-                }
-                return uc.logUser(rs);
-            }
-        } catch (SQLException e) {
-            System.err.println("Loi SQL o ham getUserById: " + e.getMessage());
-            throw new DatabaseException("Loi he thong: khong the truy van thong tin User theo ID!", e);
-        }
-        return null;
-    }
-
     public boolean registerUser(String ownerName, String userName, String password, UserRole role) throws DatabaseException {
 
         String query = "INSERT INTO user (ownerName, userName, password, role, role_level, rating, balance) " +
@@ -147,53 +94,84 @@ public class UserDAO {
         }
     }
 
-    public void updateBalance(int userId, double amount) throws Exception {
-        String query = "UPDATE user SET balance = balance + ? WHERE userId = ? AND (UPPER(role) = 'BIDDER' OR UPPER(role) = 'SELLER')";
+    public void updateBalance(int userId, double amount) throws DatabaseException {
+        String query = "UPDATE user SET balance = ? WHERE userId = ? AND (role = 'BIDDER' or role = 'SELLER')";
 
-        try (Connection conn = MyDatabaseConfig.getConnection()) {
-            conn.setAutoCommit(false);
-
+      /*  try (Connection conn = DatabaseConnection.getConnection())*/
+        try (Connection conn = MyDatabaseConfig.getConnection()){
+            /*conn.setAutoCommit(false);*/
             try (PreparedStatement pst = conn.prepareStatement(query)) {
+
                 pst.setDouble(1, amount);
                 pst.setInt(2, userId);
 
                 int change = pst.executeUpdate();
-
-                if (change > 0) {
+                /*if (change > 0) {
                     conn.commit();
                     System.out.println("Cap nhat so du thanh cong!");
-                } else {
-                    conn.rollback();
-                    System.out.println("Cap nhat so du that bai! (Khong tim thay user hop le hoac sai Role)");
                 }
-            } catch (SQLException e) {
-                conn.rollback();
-                throw new DatabaseException("Loi he thong: khong the cap nhat so du, tu dong rollback", e);
+                System.out.println("Cap nhat so du that bai!");*/
             }
-        } catch (SQLException e) {
+            catch (SQLException e) {
+                conn.rollback();
+                throw new DatabaseException("Loi he thong: khong the cap nhat so du, tu dong rollback",e);
+            }
+        }
+        catch (SQLException e) {
             System.err.println("Loi SQL o ham UpdateBalance: " + e.getMessage());
-            throw new DatabaseException("Loi ket noi Database ở ham updateBalance", e);
         }
     }
 
-    public double showBalance(int bidderId) throws DatabaseException {
+    public double showBalance(int userId) throws DatabaseException {
         String query = "SELECT balance FROM user WHERE userId = ?";
 
+/*        try (Connection conn = DatabaseConnection.getConnection();*/
         try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(query)) {
+            PreparedStatement pst = conn.prepareStatement(query)) {
 
-            pst.setInt(1, bidderId);
+            pst.setInt(1, userId);
 
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getDouble("balance");
-                } else {
-                    throw new DatabaseException("Không tìm thấy người dùng có ID: " + bidderId);
-                }
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                System.out.println("So du cua nguoi dung " + userId + " la: " + rs.getBigDecimal("balance"));
+                return rs.getDouble("balance");
             }
-        } catch (SQLException e) {
+            else {
+                throw new DatabaseException("Khong tim thay id nguoi dung nay");
+            }
+        }
+        catch (SQLException e) {
             System.err.println("Loi SQL o ham showBalance: " + e.getMessage());
-            throw new DatabaseException("Lỗi hệ thống: không thể lấy số dư tài khoản!", e);
+            throw new DatabaseException("Loi he thong: khong the lay so du cua user nay", e);
         }
     }
+    public List<User> getAllUsers() throws SQLException {
+        List<User> userList=new ArrayList<>();
+
+        String query="SELECT * FROM user;";
+
+        try (Connection connection=MyDatabaseConfig.getConnection()){
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+
+            try (ResultSet resultSet=preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    //int userId, String ownerName, String userName, double balance
+                    User user=new User(resultSet.getInt("userId"),
+                            resultSet.getString("ownerName"),
+                            resultSet.getString("userName"),
+                            resultSet.getDouble("balance"));
+                    user.setUserRole(UserRole.valueOf(resultSet.getString("role")));
+
+                    userList.add(user);
+
+                }
+            }
+            return userList;
+        }
+    }
+
+
+
+
+
 }

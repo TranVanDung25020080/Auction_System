@@ -9,6 +9,7 @@ public class BidRequestDTO extends BaseRequestDTO{
     private double bidAmount;
     private double highCurrentPrice;
     private LocalDateTime endTime;
+    private double maxBidDuringAuction;
 
 
     public BidRequestDTO(int bidderId ,int auctionId, double bidAmount,double highCurrentPrice) {
@@ -17,6 +18,15 @@ public class BidRequestDTO extends BaseRequestDTO{
         this.highCurrentPrice=highCurrentPrice;
         this.bidderId=bidderId;
         this.requestType= RequestType.NORMAL_BIDDING;
+    }
+    public BidRequestDTO(int bidderId ,int auctionId, double bidAmount,double highCurrentPrice,LocalDateTime endTime,double maxBidDuringAuction) {
+        this.auctionId = auctionId;
+        this.bidAmount = bidAmount;
+        this.highCurrentPrice=highCurrentPrice;
+        this.bidderId=bidderId;
+        this.requestType= RequestType.NORMAL_BIDDING;
+        this.maxBidDuringAuction=maxBidDuringAuction;
+        this.endTime=endTime;
     }
     public BidRequestDTO(int bidderId ,int auctionId, double bidAmount,double highCurrentPrice,LocalDateTime endTime) {
         this.auctionId = auctionId;
@@ -38,8 +48,16 @@ public class BidRequestDTO extends BaseRequestDTO{
     public LocalDateTime getEndTime(){
         return this.endTime;
     }
+
+    public double getGetMaxBidDuringAuction() {
+        return this.maxBidDuringAuction;
+    }
+
     //setter
     public void setEndTime(LocalDateTime endTime){
         this.endTime=endTime;
+    }
+    public void setMaxBidDuringAuction(double maxBidDuringAuction){
+        this.maxBidDuringAuction=maxBidDuringAuction;
     }
 }

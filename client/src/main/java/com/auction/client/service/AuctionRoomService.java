@@ -18,21 +18,37 @@ import com.google.gson.internal.bind.util.ISO8601Utils;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.Properties;
 
 public class AuctionRoomService {
     public ClientSocket joinRoom(int userId, int auctionRoomId, BiddingPopupController biddingPopupController) throws IOException {
-        String host = com.auction.client.util.ConfigLoader.get("server.socket.host");
-        int port = com.auction.client.util.ConfigLoader.getInt("server.socket.port");
-        Socket socket = new Socket(host, port);
 //        Socket socket=new Socket("100.65.119.25",6969);
-//        Socket socket=new Socket("localhost",6969);
+        Socket socket=new Socket("localhost",6969);
+//        Properties prop = new Properties();
+//        String host = "localhost";
+//        int port = 6969;
+//
+//        try (FileInputStream fis = new FileInputStream("config.properties")) {
+//            prop.load(fis);
+//            host = prop.getProperty("server.socket.host", "localhost");
+//            port = Integer.parseInt(prop.getProperty("server.socket.port", "6969"));
+//        } catch (IOException | NumberFormatException e) {
+//            // Fallback về localhost nếu không đọc được file cấu hình
+//        }
+//
+//        // Kết nối đến Socket Server qua đường hầm Public Serveo
+//        Socket socket = new Socket(host, port);
+
+
 
         ClientSocket clientSocket=new ClientSocket(socket,userId);
 
-        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(auctionRoomId);
+        double maxBidDuringAuction= biddingPopupController.getMaxBidDuringAuction();
+        JoinRoomResponseDTO joinRoomResponseDTO=clientSocket.getJoinRoomResponse(auctionRoomId,maxBidDuringAuction);
 
         if (joinRoomResponseDTO.getAuctionStatus()== AuctionStatus.PENDING || joinRoomResponseDTO.getAuctionStatus()==AuctionStatus.OPEN){
             //Luon nghe thong tin tu server tra ve:

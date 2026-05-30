@@ -5,18 +5,27 @@ import com.auction.common.dto.request.BaseRequestDTO;
 import com.auction.common.dto.request.BidRequestDTO;
 import com.auction.common.dto.request.JoinRoomRequestDTO;
 import com.auction.common.dto.response.BaseResponse;
+import com.auction.common.dto.response.BidUpdateResponseDTO;
+import com.auction.common.dto.response.JoinRoomResponseDTO;
 import com.auction.common.enums.RequestType;
 import com.auction.common.model.Auction.Auction;
+import com.auction.server.dao.AuctionDAO;
 import com.auction.server.dao.AutoBidDAO;
+import com.auction.server.dao.UserDAO;
 import com.auction.server.exception.DatabaseException;
-import com.auction.server.auction.AuctionRoomService;
-import com.auction.server.auction.AuctionService;
-import com.auction.server.auction.BidService;
+import com.auction.server.service.auction.AuctionRoomService;
+import com.auction.server.service.auction.AuctionService;
+import com.auction.server.service.auction.BidService;
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientHandler implements Runnable{
 
@@ -27,7 +36,7 @@ public class ClientHandler implements Runnable{
     private BufferedWriter bufferedWriter;
     //other fields:
     private int userId;
-    private List<Integer> auctionRoomJoinId;
+    private double maxBidDuringAuction;
     private AutoBidRequestDTO autoBidRequestDTO;
 
 
@@ -40,8 +49,9 @@ public class ClientHandler implements Runnable{
     //Override
     @Override
     public void run() {
-        Gson gson=new Gson();
+        Gson gson= Converters.registerAll(new GsonBuilder()).create();
         AutoBidDAO autoBidDAO=new AutoBidDAO();
+        UserDAO userDAO=new UserDAO();
 
 
         try{
@@ -49,10 +59,13 @@ public class ClientHandler implements Runnable{
             String joinRoomRequestJson=bufferedReader.readLine();
 
             JoinRoomRequestDTO joinRoomRequestDTO=gson.fromJson(joinRoomRequestJson, JoinRoomRequestDTO.class);
+            this.userId=joinRoomRequestDTO.getUserId();
+            this.maxBidDuringAuction= joinRoomRequestDTO.getMiniWallet();
 
             System.out.println(gson.toJson(joinRoomRequestJson));
 
             BaseResponse joinRoomResponseDTO=new AuctionRoomService().joinRoom(this,joinRoomRequestDTO);
+
 
             bufferedWriter.write(gson.toJson(joinRoomResponseDTO));
             bufferedWriter.newLine();
@@ -65,31 +78,32 @@ public class ClientHandler implements Runnable{
 
             //Start countdown:
             Auction auction=new AuctionService().getAuction(joinRoomRequestDTO.getAuctionId());
+            /*Auction auction=this.getAuction(joinRoomRequestDTO.getAuctionId());*/
             auctionRoomHandler.startCountDown(auction);
 
             //Bidding:
-            while (socket.isConnected()){
-                String baseRequestDTOJson=bufferedReader.readLine();
-                System.out.println(baseRequestDTOJson);
+            /*while (socket.isConnected()){
+                String baseRequestDTOJson=bufferedReader.readLine();*/
 
-                BaseRequestDTO baseRequestDTO=gson.fromJson(baseRequestDTOJson, BaseRequestDTO.class);
-                RequestType requestType=baseRequestDTO.getRequestType();
+                /*if (baseRequestDTOJson!=null){*/
+            String baseRequestDTOJson;
+            while ((baseRequestDTOJson = bufferedReader.readLine()) != null) {
 
-                if (requestType==RequestType.NORMAL_BIDDING){
+                BaseRequestDTO baseRequestDTO = gson.fromJson(baseRequestDTOJson, BaseRequestDTO.class);
+                RequestType requestType = baseRequestDTO.getRequestType();
 
-                    BidRequestDTO bidRequestDTO=gson.fromJson(baseRequestDTOJson, BidRequestDTO.class);
+                if (requestType == RequestType.NORMAL_BIDDING) {
 
-                    BaseResponse bidUpdateResponseDTO=new BidService().normalBid(bidRequestDTO);
+                    BidRequestDTO bidRequestDTO = gson.fromJson(baseRequestDTOJson, BidRequestDTO.class);
 
+                    BaseResponse bidUpdateResponseDTO = new BidService().normalBid(bidRequestDTO, auctionRoomHandler);
 
                     auctionRoomHandler.broadcast(gson.toJson(bidUpdateResponseDTO));
 
                     auctionRoomHandler.handleAutoBidding();
-                }
+                } else if (requestType == RequestType.AUTO_BIDDING) {
 
-                else if(requestType==RequestType.AUTO_BIDDING){
-
-                    AutoBidRequestDTO autoBid=gson.fromJson(baseRequestDTOJson, AutoBidRequestDTO.class);
+                    AutoBidRequestDTO autoBid = gson.fromJson(baseRequestDTOJson, AutoBidRequestDTO.class);
 
 /*                    int bidderId=autoBid.getBidderId();
                     int auctionId=autoBid.getAuctionId();
@@ -103,13 +117,20 @@ public class ClientHandler implements Runnable{
                         autoBidDAO.insertAutoBid(bidderId,auctionId,maxBid,increment);
                     }*/
 
-                    this.autoBidRequestDTO=autoBid;
+                    this.autoBidRequestDTO = autoBid;
 
                 }
 
-
-
+                //}
             }
+
+
+
+
+
+
+
+            //}
 
         } catch (IOException e) {
             e.printStackTrace();// chua xu ly loi ky o day
@@ -139,12 +160,18 @@ public class ClientHandler implements Runnable{
         bufferedWriter.newLine();
         bufferedWriter.flush();
     }
-    //setter
+    //setter -- getter:
     public void setUserId(int userId){
         this.userId=userId;
     }
     public AutoBidRequestDTO getAutoBidRequestDTO(){
         return this.autoBidRequestDTO;
     }
+    public int getUserId(){
+        return this.userId;
+    }
 
+    public double getMaxBidDuringAuction() {
+        return maxBidDuringAuction;
+    }
 }

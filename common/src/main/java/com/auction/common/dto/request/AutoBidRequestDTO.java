@@ -12,6 +12,7 @@ public class AutoBidRequestDTO extends BaseRequestDTO{
     private String created_at;
     private double highCurrentPrice;
     private LocalDateTime endTime;
+    private double maxBidDuringAuction;
 
     //Constructor:
     public AutoBidRequestDTO(int auctionId,int bidderId,double maxBid,double increment,double highCurrentPrice){
@@ -30,6 +31,16 @@ public class AutoBidRequestDTO extends BaseRequestDTO{
         this.highCurrentPrice=highCurrentPrice;
         this.requestType= RequestType.AUTO_BIDDING;
         this.endTime=endTime;
+    }
+    public AutoBidRequestDTO(int auctionId,int bidderId,double maxBid,double increment,double highCurrentPrice,LocalDateTime endTime,double maxBidDuringAuction){
+        this.auctionId=auctionId;
+        this.bidderId=bidderId;
+        this.maxBid=maxBid;
+        this.increment=increment;
+        this.highCurrentPrice=highCurrentPrice;
+        this.requestType= RequestType.AUTO_BIDDING;
+        this.endTime=endTime;
+        this.maxBidDuringAuction=maxBidDuringAuction;
     }
     public AutoBidRequestDTO(){
         this.requestType=RequestType.AUTO_BIDDING;
@@ -56,6 +67,11 @@ public class AutoBidRequestDTO extends BaseRequestDTO{
     public LocalDateTime getEndTime(){
         return this.endTime;
     }
+
+    public double getMaxBidDuringAuction() {
+        return this.maxBidDuringAuction;
+    }
+
     //setter
     public void setAuctionId(int auctionId){
         this.auctionId=auctionId;
@@ -77,5 +93,8 @@ public class AutoBidRequestDTO extends BaseRequestDTO{
     }
     public void setEndTime(LocalDateTime endTime){
         this.endTime=endTime;
+    }
+    public void setMaxBidDuringAuction(double maxBidDuringAuction){
+        this.maxBidDuringAuction=maxBidDuringAuction;
     }
 }

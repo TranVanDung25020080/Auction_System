@@ -26,14 +26,14 @@ public class NormalBidButton {
                 if (amount > currentAuction.getCurrentPrice()/* && amount <=bidder.getBalance()*/) {
 
                     // TODO: Gửi yêu cầu bid lên Server ở đây:
-                    if (amount <=bidder.getBalance()){
+                    if (amount <= biddingPopupController.getMaxBidDuringAuction()){
 
                         new BidService().sendBid(biddingPopupController,amount);
 
                     }
                     else{
 
-                        Alert.showAlert("ERROR","Your bidAmount must be less than your balance!");
+                        Alert.showAlert("ERROR","Your bidAmount must be less than your max bid that you chose!");
                     }
 
 
