@@ -15,8 +15,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    # MySQL Service chạy trên Linux để phục vụ quá trình test
-
     permissions:
       contents: write
 
@@ -87,7 +85,6 @@ jobs:
           push: true
           tags: ghcr.io/tranvandung25020080/auction_system/auction-server:latest
 
-  # chay tren may ao window de dong goi file exe
   build-client-windows-exe:
     permissions:
       contents: write
@@ -112,9 +109,8 @@ jobs:
           mkdir jpackage_input
           copy client\target\client-1.0-SNAPSHOT-jar-with-dependencies.jar jpackage_input\
 
-      # SỬA DÒNG NÀY TRONG FILE .YML CỦA BẠN:
       - name: Kích hoạt jpackage tạo bản cài đặt EXE
-        run: jpackage --type exe --input jpackage_input --dest release_output --name AuctionClient --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar --main-class com.auction.client.main.AppLauncher --win-shortcut --win-dir-chooser
+        run: jpackage --type exe --input jpackage_input --dest release_output --name AuctionClient --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar --main-class com.auction.client.main.AppLauncher --win-shortcut --win-dir-chooser --add-modules javafx.controls,javafx.fxml
 
       - name: Upload EXE to GitHub Release
         uses: softprops/action-gh-release@v1
