@@ -94,35 +94,29 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
-          distribution: 'oracle'
-          cache: 'maven'
+          # Nếu có distribution: 'temurin' thì giữ nguyên
 
-      - name: Build Client Fat JAR
-        # Lệnh này chỉ build riêng module common và client để tiết kiệm thời gian
-        run: mvn clean package -pl client -am -DskipTests
+      - name: Build Fat JAR with Maven
+        run: mvn clean package -DskipTests
 
-      - name: Convert JAR to Windows EXE Installer
-        # Dùng công cụ jpackage có sẵn trong JDK 21 để tạo file cài đặt .exe
+      - name: Lọc file sạch để chuẩn bị đóng gói
         run: |
-          jpackage --type exe `
-            --name "AuctionClient" `
-            --input client/target `
-            --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar `
-            --main-class com.auction.client.main.MainApplication `
-            --win-dir-chooser `
-            --win-shortcut `
-            --dest dist
+          mkdir jpackage_input
+          copy client\target\client-1.0-SNAPSHOT-jar-with-dependencies.jar jpackage_input\
+
+      - name: Kích hoạt jpackage tạo bản cài đặt EXE
+        run: jpackage --type exe --input jpackage_input --dest release_output --name AuctionClient --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar --main-class com.auction.client.main.MainApplication --win-shortcut --win-dir-chooser
 
       - name: Upload EXE to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.0.${{ github.run_number }}
-          files: dist/*.exe
+          # Trỏ đường dẫn lấy file exe từ thư mục output
+          files: release_output/AuctionClient-1.0.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
