@@ -16,15 +16,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     # MySQL Service chạy trên Linux để phục vụ quá trình test
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: '123Dung#'
-          MYSQL_DATABASE: auction_db
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     permissions:
       contents: write
@@ -44,9 +35,9 @@ jobs:
         run: mvn clean verify
         env:
           DATABASE_SECRET_KEY: ${{ secrets.APP_DB_CONN }}
-          DB_URL: jdbc:mysql://localhost:3306/auction_db
+          DB_URL: ${{ secrets.RAILWAY_DB_URL }}
           DB_USER: root
-          DB_PASSWORD: '123Dung#'
+          DB_PASSWORD: ${{ secrets.RAILWAY_DB_PASSWORD }}
 
       - name: Upload JaCoCo Coverage Report
         if: always()
