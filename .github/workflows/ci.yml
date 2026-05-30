@@ -110,7 +110,7 @@ jobs:
           copy client\target\client-1.0-SNAPSHOT-jar-with-dependencies.jar jpackage_input\
 
       - name: Kích hoạt jpackage tạo bản cài đặt EXE
-        run: jpackage --type exe --input jpackage_input --dest release_output --name AuctionClient --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar --main-class com.auction.client.main.AppLauncher --module-path jpackage_input --add-modules javafx.controls,javafx.fxml --win-shortcut --win-dir-chooser
+        run: jpackage --type exe --input jpackage_input --dest release_output --name AuctionClient --main-jar client-1.0-SNAPSHOT-jar-with-dependencies.jar --main-class com.auction.client.main.AppLauncher --win-shortcut --win-dir-chooser
 
       - name: Upload EXE to GitHub Release
         uses: softprops/action-gh-release@v1
