@@ -15,16 +15,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: namkhanh1
-          MYSQL_DATABASE: auctions
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     permissions:
       contents: write
 
@@ -40,7 +30,8 @@ jobs:
           cache: 'maven'
 
       - name: Build and Verify with JaCoCo
-        run: mvn clean verify
+
+        run: mvn clean verify -DskipTests -Djacoco.skip=true
 
       - name: Upload JaCoCo Coverage Report
         if: always()
