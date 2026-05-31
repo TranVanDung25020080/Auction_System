@@ -1,96 +1,118 @@
-# 🏛️ Cấu Trúc Dự Án: Hệ Thống Đấu Giá (Auction System)
+# 🏷️ Hệ Thống Đấu Giá Trực Tuyến (Auction System)
 
-Dự án này được xây dựng theo kiến trúc **Client-Server**, áp dụng mô hình **MVC** cho giao diện người dùng (JavaFX) và **DAO Pattern** cho cơ sở dữ liệu. Mã nguồn được chia thành 3 module riêng biệt quản lý bằng Maven để đảm bảo tính module hóa và dễ bảo trì (Separation of Concerns).
-
-Dưới đây là chi tiết công dụng của từng package trong hệ thống:
+**Đồ án / Bài tập lớn môn học**
 
 ---
 
-## 📦 1. Module `common` (Thư viện dùng chung)
-*Đóng vai trò là "ngôn ngữ chung" giúp Client và Server giao tiếp. Tuyệt đối không chứa logic giao diện hay kết nối cơ sở dữ liệu.*
+## 1. Mô tả bài toán và phạm vi hệ thống
 
-* **`com.auction.common.model`**: Chứa các lớp Thực thể (Entity) đại diện cho các bảng trong CSDL (ví dụ: `User`, `Item`, `Bid`).
+**Bài toán:**
+Hệ thống giải quyết nhu cầu định giá và giao dịch tài sản trực tuyến thông qua hình thức đấu giá thời gian thực (Real-time). Thách thức lớn nhất đặt ra đối với nền tảng là phải đảm bảo tính toàn vẹn dữ liệu khi có nhiều người cùng đặt giá tại một mili-giây, đồng thời duy trì kết nối ổn định liên tục giữa máy chủ và nhiều máy khách.
 
-* **`com.auction.common.dto`**: Chứa các đối tượng Data Transfer Object. Dùng để đóng gói dữ liệu gửi qua mạng, giúp ẩn giấu thông tin nhạy cảm (như mật khẩu, CCCD) và tối ưu băng thông (ví dụ: `UserDTO`, `AuctionItemDTO`).
-
-* **`com.auction.common.network`**: Định nghĩa cấu trúc gói tin giao tiếp giữa Client và Server (ví dụ: `Request` chứa lệnh yêu cầu, `Response` chứa kết quả trả về kèm chuỗi JSON).
-
-* **`com.auction.common.exception`**: Chứa các class ngoại lệ tự định nghĩa (Custom Exceptions) để xử lý các lỗi nghiệp vụ chung (ví dụ: `InvalidBidException`, `AuctionEndedException`).
-
-* **`com.auction.common.enums`**: Chứa các hằng số tĩnh của hệ thống để tránh sai sót khi gõ chuỗi (ví dụ: `Role` cho phân quyền, `ItemStatus` cho trạng thái sản phẩm).
+**Phạm vi hệ thống:**
+Ứng dụng hoạt động theo kiến trúc Client-Server, phân quyền thành 3 nhóm người dùng chính:
+* **Quản trị viên (Admin):** Quản lý hệ thống, người dùng và theo dõi thống kê các phiên đấu giá.
+* **Người bán (Seller):** Đăng tải hàng hóa, thiết lập giá khởi điểm và thời gian bắt đầu phiên.
+* **Người mua (Bidder):** Tham gia vào các phòng đấu giá trực tuyến, theo dõi biến động giá realtime và thực hiện đặt giá (Bid).
 
 ---
 
-## ⚙️ 2. Module `server` (Backend - Xử lý nghiệp vụ & Database)
-*Khối óc của hệ thống, chịu trách nhiệm kết nối CSDL, xử lý logic, đồng bộ hóa đa luồng (chống Race Condition) và phản hồi Client.*
+## 2. Công nghệ sử dụng, môi trường chạy và yêu cầu cài đặt
 
-**Phần Source Code (`src/main/java`)**
-* **`com.auction.server.main`**: Điểm khởi chạy của Server (lưu ý đặt tên class là `MainServer` cho khớp vs file pom.xml nhé) để mở Server Socket lắng nghe kết nối.
+**Công nghệ cốt lõi:**
+* **Ngôn ngữ lập trình:** Java (Core & Đa luồng)
+* **Giao diện Frontend:** JavaFX, FXML (Scene Builder), CSS
+* **Giao tiếp mạng:** Java Socket (TCP/IP)
+* **Cơ sở dữ liệu:** MySQL / MariaDB (Triển khai trên Cloud Railway)
+* **Công cụ Quản lý & Build:** Apache Maven
+* **Kiểm thử (Testing):** JUnit 5
 
-* **`com.auction.server.dao`**: (Data Access Object) Tầng duy nhất giao tiếp trực tiếp với MySQL/SQL Server. Chứa các câu lệnh SQL để truy vấn và cập nhật dữ liệu (ví dụ: `DBConnection`, `UserDAO`, `ItemDAO`).
-
-* **`com.auction.server.service`**: Tầng nghiệp vụ cốt lõi. Nhận Request, kiểm tra tính hợp lệ của dữ liệu, áp dụng các thuật toán đấu giá và quản lý luồng đồng thời (`synchronized`) trước khi gọi DAO lưu dữ liệu (ví dụ: `UserService`, `AuctionService`).
-
-* **`com.auction.server.network`**: Quản lý mạng và Socket. Cấp cho mỗi Client một luồng (`ClientHandler`) riêng biệt và quản lý danh sách Client đang online (`SessionManager`) để gửi dữ liệu Realtime.
-
-* **`com.auction.server.dp`**: Áp dụng các mẫu thiết kế cần thiết (ví dụ: Factory Method) để thay thế việc sử dụng if-else hay switch-case.
-
-
-**Phần Resources (`src/main/resources`)**
-* Nằm trực tiếp ở thư mục gốc của resources. Chứa các file cấu hình hệ thống (ví dụ: `database.properties` lưu cấu hình chuỗi kết nối DB, mật khẩu, port).
-
-**Phần Unit Test (`src/test/java`)**
-* Chứa các kịch bản kiểm thử (JUnit) cho các logic quan trọng, ví dụ như test thuật toán đấu giá với hàng trăm người gọi cùng lúc để kiểm tra tính toàn vẹn dữ liệu.
+**Yêu cầu môi trường & Cài đặt:**
+* **Hệ điều hành:** Đa nền tảng (Windows, macOS, Linux).
+* **Môi trường:** Máy tính cần cài đặt JDK (phiên bản 17 hoặc 21) và đã thiết lập biến môi trường `JAVA_HOME`.
+* **Mạng:** Bắt buộc có kết nối Internet để ứng dụng giao tiếp với Server và Cơ sở dữ liệu đám mây. Không yêu cầu cài đặt MySQL/XAMPP dưới Localhost.
 
 ---
 
-## 💻 3. Module `client` (Frontend - Giao diện người dùng)
-*Gương mặt của hệ thống, xử lý hiển thị giao diện bằng JavaFX, bắt sự kiện người dùng và giao tiếp với Server.*
+## 3. Cấu trúc thư mục và các module chính
 
-**Phần Source Code (`src/main/java`)**
-* **`com.auction.client.main`**: Chứa class kế thừa từ `Application` của JavaFX, dùng để khởi chạy app và nạp màn hình đầu tiên (tương tự nhớ đạt tên class là MainApplication nhóe)
+Dự án áp dụng mô hình **MVC** cho giao diện và **DAO Pattern** cho CSDL. Mã nguồn được chia thành 3 module độc lập quản lý bởi Maven nhằm đảm bảo tính Separation of Concerns:
 
-* **`com.auction.client.controller`**: Bộ điều khiển (Chữ C trong MVC). Gắn kết trực tiếp với các file `.fxml`, bắt sự kiện click/nhập liệu, gửi Request lên Server và cập nhật dữ liệu trả về lên màn hình (ví dụ: `LoginController`, `AuctionRoomController`).
+```text
+📦 Auction_System
+ ┣ 📂 common (Thư viện giao tiếp dùng chung)
+ ┃ ┣ 📂 model     : Thực thể (Entity) đại diện cho các bảng CSDL (User, Item, Bid)
+ ┃ ┣ 📂 dto       : Data Transfer Object đóng gói dữ liệu qua mạng
+ ┃ ┣ 📂 network   : Định nghĩa cấu trúc gói tin (Request/Response)
+ ┃ ┣ 📂 exception : Xử lý lỗi nghiệp vụ tùy chỉnh (InvalidBidException...)
+ ┃ ┗ 📂 enums     : Tập hằng số cấu hình hệ thống (Role, ItemStatus)
+ ┃
+ ┣ 📂 server (Backend - Xử lý nghiệp vụ & Database)
+ ┃ ┗ 📂 src/main/java/com.auction.server
+ ┃   ┣ 📂 dao       : Data Access Object tương tác trực tiếp với MySQL/MariaDB.
+ ┃   ┣ 📂 db        : Cấu hình và quản lý kết nối Cơ sở dữ liệu.
+ ┃   ┣ 📂 dp        : Chứa các Design Patterns (Mẫu thiết kế) áp dụng trong hệ thống.
+ ┃   ┣ 📂 exception : Định nghĩa các ngoại lệ (lỗi) tùy chỉnh phía Server.
+ ┃   ┣ 📂 handler   : Quản lý luồng xử lý độc lập cho từng Client kết nối (ClientHandler).
+ ┃   ┣ 📂 main      : Điểm khởi chạy Server Socket.
+ ┃   ┣ 📂 network   : Quản lý giao tiếp mạng, luồng Server và SessionManager.
+ ┃   ┣ 📂 routes    : Điều hướng và định tuyến các endpoint / yêu cầu xử lý.
+ ┃   ┣ 📂 service   : Tầng nghiệp vụ cốt lõi, xử lý đồng bộ và kiểm tra logic hệ thống.
+ ┃   ┗ 📂 util      : Các lớp tiện ích hỗ trợ (ví dụ: băm mật khẩu, format ngày tháng).
+    📂 src/main/resources
+      ┗ ⚙️ config.properties   : Tách biệt các thông số cấu hình (configuration) ra khỏi mã nguồn (source code)
+ ┃
+ ┗ 📂 client (Frontend - Giao diện JavaFX)
+   ┣ 📂 src/main/java/com.auction.client
+   ┃ ┣ 📂 controller: Điều khiển giao diện, bắt sự kiện thao tác của người dùng.
+   ┃ ┣ 📂 main      : Điểm nạp giao diện và khởi chạy ứng dụng JavaFX.
+   ┃ ┣ 📂 network   : Lớp xử lý kết nối mạng (Socket Client / HTTP) gửi nhận gói tin.
+   ┃ ┣ 📂 service   : Quản lý các tác vụ luồng nền, lắng nghe Response realtime.
+   ┃ ┗ 📂 util      : Tiện ích hỗ trợ giao diện (Load cấu hình, Session, Dialog cảnh báo).
+   ┃
+   ┗ 📂 src/main/resources
+     ┣ 📂 com.auction.client : Chứa các file tĩnh như giao diện (.fxml), thiết kế (.css) và hình ảnh.
+     ┗ ⚙️ config.properties   : Tệp cấu hình lưu tham số mạng (Host, Port, URL Server).
+```
 
-* **`com.auction.client.service`**: Chịu trách nhiệm duy trì Socket kết nối tới Server, gửi gói tin đi và chạy luồng nền để lắng nghe `Response` Realtime từ Server (`ServerConnection`).
+---
 
-* **`com.auction.client.util`**: Chứa các lớp hỗ trợ tiện ích cho UI (ví dụ: `Session` lưu thông tin người dùng đang đăng nhập, `DialogHelper` hiển thị popup cảnh báo lỗi/thành công).
+## 4. Hướng dẫn khởi chạy ứng dụng bằng Command Line
 
-**Phần Resources (`src/main/resources`)**
-*Cấu trúc thư mục con bắt buộc phải khớp 100% với package bên java để JavaFX có thể nạp được file.*
+Hệ thống sử dụng các plugin của Maven nên thao tác khởi chạy hoàn toàn thống nhất và **chạy được trên mọi Terminal/Command Prompt của Windows, Linux, hoặc macOS**.
 
-* **`com/auction/client/view`**: Chứa các file giao diện tĩnh thiết kế bằng Scene Builder (`.fxml`).
-
-* **`com/auction/client/css`**: Chứa các file định dạng (`.css`) để trang trí, làm đẹp nút bấm, bố cục.
-
-* **`com/auction/client/images`**: Chứa các tài nguyên hình ảnh (logo, icon) dùng trong ứng dụng.
-
-
-## 🛠️ Hướng Dẫn Cài Đặt & Chạy Dự Án
-
-Sử dụng Terminal tại thư mục gốc của dự án (`Auction_System`) để thực hiện các lệnh sau:
-
-### Bước 1: Biên dịch toàn dự án (Chạy 1 lần khi có thay đổi code)
-Lệnh này giúp làm sạch và đóng gói lại các module để chúng nhận diện được nhau.
+### Bước 1: Biên dịch toàn dự án (Chỉ chạy 1 lần)
+Mở Terminal tại thư mục gốc của dự án (nơi chứa file `pom.xml` cha) để tải thư viện và liên kết các module:
 ```bash
 mvn clean install
 ```
-### Bước 2: Khởi động Server (CHẠY 1 LẦN DUY NHẤT)
-Server đóng vai trò là trung tâm điều phối, chỉ cần 1 Server chạy để quản lý tất cả các kết nối.
 
+### Bước 2: Khởi động Server (Bắt buộc chạy trước)
+Chuyển hướng Terminal (hoặc mở Terminal mới tại thư mục gốc) và chạy lệnh:
 ```bash
 mvn exec:java -pl server
 ```
-(Giữ nguyên cửa sổ này để Server duy trì hoạt động).
+*(Lưu ý: Cần giữ nguyên cửa sổ này để Server liên tục hoạt động và điều phối các kết nối).*
 
-### Bước 3: Khởi động Client (CHẠY NHIỀU LẦN ĐỂ TEST)
-Lệnh này mở giao diện người dùng. Có thể mở nhiều tab Terminal khác nhau và chạy lệnh này nhiều lần để tạo ra nhiều người tham gia đấu giá cùng lúc.
-
+### Bước 3: Khởi động Client (Có thể chạy nhiều cửa sổ)
+Mở một cửa sổ Terminal **hoàn toàn mới** và chạy lệnh:
 ```bash
 mvn javafx:run -pl client
 ```
-Lần 1: Mở cửa sổ cho Người dùng A.
+*(Mẹo: Có thể mở nhiều tab Terminal và chạy lệnh này lặp đi lặp lại để tạo ra 2, 3, hay nhiều Client giả lập các người dùng khác nhau cùng tham gia vào một phòng đấu giá).*
 
-Lần 2: Mở cửa sổ cho Người dùng B.
+---
 
-Lần n: Mở thêm bao nhiêu người tùy thích để test tính năng realtime.
+## 5. Danh sách các chức năng đã hoàn thành
+
+* **Tương tác thời gian thực (Real-time):** Bất kỳ lệnh đặt giá (Bid) nào cũng lập tức được Broadcast (phát sóng) đến toàn bộ Client đang online trong phòng với độ trễ tối thiểu.
+* **Chống xung đột dữ liệu (Concurrency Control):** Áp dụng từ khóa `synchronized` trên tầng Service của Server để khóa luồng, ngăn chặn lỗi Race Condition khi hàng chục người cùng thao tác.
+* **Bảo mật & Tối ưu băng thông:** Các thông tin nhạy cảm không được gửi trực tiếp mà đều thông qua lớp giáp `DTO`, gói gọn trong định dạng JSON nhẹ nhàng.
+* **Triển khai Cloud trên máy:** Database và server cùng host trên chung 1 máy, client chạy với nhau thông qua LAN ảo.
+* **Trải nghiệm UI/UX tốt:** Cảnh báo popup rõ ràng (DialogHelper), cập nhật giao diện mượt mà không gây đơ ứng dụng nhờ phân tách luồng UI và luồng Network.
+
+---
+
+## 6. Tài liệu Báo cáo và Video Demo
+
+* 📄🎥 **Báo cáo PDF và Video Demo toàn bộ luồng hệ thống:** [https://drive.google.com/drive/folders/12BNc9SLQoVMXROSgmx39HYHk-L7iVNlY?fbclid=IwY2xjawSJP19leHRuA2FlbQIxMABicmlkETFVSHdmZWR6dFZ4TEpXM1ZJc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsjIWpSXZ5ZdXin0d3A57S2YX4j3UJln5rVlFq_ZyMtPBW3oLzH1jMHsaczz_aem_bMPxaVml-cJJ8VqqtT-eXQ]
