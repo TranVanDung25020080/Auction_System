@@ -18,14 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ItemDAOTest {
     private ItemDAO itemDAO;
-    private final String testItemName = "Macbook NEO 2026";
+    private final String testItemName = "mác búc pờ rồ 2026";
     private int dynamicSellerId = -1;
 
     @BeforeEach
     void setUp() throws SQLException {
         itemDAO = new ItemDAO();
 
-        String getSellerSql = "SELECT userId FROM user LIMIT 1";
+        String getSellerSql = "SELECT userId FROM user WHERE role = 'SELLER' LIMIT 1";
         try (Connection conn = MyDatabaseConfig.getConnection();
              PreparedStatement pst = conn.prepareStatement(getSellerSql);
              ResultSet rs = pst.executeQuery()) {
@@ -47,15 +47,25 @@ class ItemDAOTest {
     }
 
     private void cleanTestData() throws SQLException {
+        String disableFk = "SET FOREIGN_KEY_CHECKS = 0";
         String deleteSql = "DELETE FROM item WHERE name = ?";
-        try (Connection conn = MyDatabaseConfig.getConnection();
-             PreparedStatement pst = conn.prepareStatement(deleteSql)) {
-            pst.setString(1, testItemName);
-            pst.executeUpdate();
+        String enableFk = "SET FOREIGN_KEY_CHECKS = 1";
+
+        try (Connection conn = MyDatabaseConfig.getConnection()) {
+            try (PreparedStatement pstDisable = conn.prepareStatement(disableFk)) {
+                pstDisable.execute();
+            }
+            try (PreparedStatement pstDelete = conn.prepareStatement(deleteSql)) {
+                pstDelete.setString(1, testItemName);
+                pstDelete.executeUpdate();
+            }
+            try (PreparedStatement pstEnable = conn.prepareStatement(enableFk)) {
+                pstEnable.execute();
+            }
         }
     }
 
-    //Kiểm thử hàm addItem() thành công
+    //Test phương thức addItem()
     @Test
     void testAddItem_Success() {
         Electronics laptop = new Electronics(testItemName, "Máy đẹp nguyên seal", 2000.0, dynamicSellerId, ItemStatus.AVAILABLE);
@@ -70,7 +80,7 @@ class ItemDAOTest {
                 try (ResultSet rs = pst.executeQuery()) {
                     if (rs.next()) {
                         isInserted = true;
-                        System.out.println("-> [XÁC NHẬN] Sản phẩm " + testItemName + " đã nằm trong DB với ID: " + rs.getInt("id"));
+                        System.out.println("->Sản phẩm " + testItemName + " đã nằm trong DB với ID: " + rs.getInt("id"));
                     }
                 }
             }
@@ -79,7 +89,7 @@ class ItemDAOTest {
         }, "Lỗi: Thêm vật phẩm thất bại, hệ thống ném ngoại lệ!");
     }
 
-    //Kiểm thử hàm getItemById() chính xác
+    //Test phương thức getItemById()
     @Test
     void testGetItemById_Success() {
         assertDoesNotThrow(() -> {
@@ -107,7 +117,7 @@ class ItemDAOTest {
         });
     }
 
-    //Kiểm thử hàm getAllItems() tải danh sách sản phẩm thành công
+    //test phương thức getAllItems()
     @Test
     void testGetAllItems_Success() {
         assertDoesNotThrow(() -> {
@@ -117,16 +127,12 @@ class ItemDAOTest {
         });
     }
 
-    //Kiểm thử hàm getItemBySellerId() lọc sản phẩm theo đúng cột seller_id
+    //Test phương thức getItemBySellerId()
     @Test
     void testGetItemBySellerId_Success() {
         assertDoesNotThrow(() -> {
             Electronics laptop = new Electronics(testItemName, "Kiểm thử theo Seller", 2000.0, dynamicSellerId, ItemStatus.AVAILABLE);
-            try {
-                itemDAO.addItem(laptop);
-            } catch (Exception e) {
-                System.out.println("Bỏ qua lỗi Factory.");
-            }
+            itemDAO.addItem(laptop);
 
             List<Item> itemsOfSeller = itemDAO.getItemBySellerId(dynamicSellerId);
             assertNotNull(itemsOfSeller, "Lỗi: Kết quả danh sách trả về bị null!");
@@ -134,7 +140,7 @@ class ItemDAOTest {
         }, "Lỗi hệ thống: Hàm ném ra ngoại lệ không mong muốn khi truy vấn!");
     }
 
-    //Kiểm thử hàm updateItemStatus() cập nhật trạng thái sản phẩm
+    //Test phương tức updateItemStatus()
     @Test
     void testUpdateItemStatus_Success() {
         assertDoesNotThrow(() -> {

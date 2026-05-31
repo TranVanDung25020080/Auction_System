@@ -75,7 +75,7 @@ class BidDAOTest {
         }
     }
 
-    // Test trường hợp đặt giá thành công khi user có đủ tiền
+    // Test palceBid()
     @Test
     void testPlaceBid_Success() {
         double bidAmount = 10.0;
@@ -94,7 +94,7 @@ class BidDAOTest {
         }, "Lỗi: Đặt số tiền vượt quá giới hạn ví nhưng hệ thống không chịu ném Exception chặn!");
     }
 
-    // Test lấy danh sách lịch sử đấu giá theo mã phiên
+    // Test getBidsByAuctionId()
     @Test
     void testGetBidsByAuctionId_Success() {
         try {
@@ -106,36 +106,35 @@ class BidDAOTest {
 
             if (!bidList.isEmpty()) {
                 assertEquals(dynamicAuctionId, bidList.get(0).getAuctionId(), "Lỗi: Lấy sai lịch sử của phiên đấu giá khác!");
-                System.out.println("-> [OK] Hàm getBidsByAuctionId hoạt động chính xác.");
+                System.out.println("Hàm getBidsByAuctionId hoạt động chính xác.");
             }
 
         } catch (Exception e) {
-            System.out.println("[Info] Luồng kiểm soát lịch sử phiên đấu giá: " + e.getMessage());
+            System.out.println("Luồng kiểm soát lịch sử phiên đấu giá: " + e.getMessage());
         }
     }
 
-    // Test tìm lượt đặt giá cao nhất thành công
+    //test getBidInfoByBidderId()
     @Test
-    void testGetHighestBid_Success() {
-        try {
-            bidDAO.placeBid(dynamicAuctionId, dynamicBidderId, 20.0);
-            bidDAO.placeBid(dynamicAuctionId, dynamicBidderId, 50.0);
+    void testGetBidInfoByBidderId_Success() {
+        double testAmount = 75.0;
+        assertDoesNotThrow(() -> {
+            bidDAO.placeBid(dynamicAuctionId, dynamicBidderId, testAmount);
 
-            List<BidTransaction> bidList = bidDAO.getBidsByAuctionId(dynamicAuctionId);
+            List<BidTransaction> list = bidDAO.getBidInfoByBidderId(dynamicBidderId, dynamicAuctionId);
 
-            if (bidList != null && !bidList.isEmpty()) {
-                double highestBidAmount = 0;
-                for (BidTransaction tx : bidList) {
-                    if (tx.getBidAmount() > highestBidAmount) {
-                        highestBidAmount = tx.getBidAmount();
-                    }
+            assertNotNull(list, "Lỗi: Danh sách giao dịch đặt giá theo đối tượng tìm kiếm bị null!");
+            assertFalse(list.isEmpty(), "Lỗi: Hệ thống không lấy ra được dữ liệu vừa đặt giá!");
+
+            boolean targetFound = false;
+            for (BidTransaction tx : list) {
+                if (tx.getBidAmount() == testAmount) {
+                    targetFound = true;
+                    assertEquals(dynamicBidderId, tx.getBidderId(), "Lỗi: ID người đặt giá không khớp!");
+                    assertEquals(dynamicAuctionId, tx.getAuctionId(), "Lỗi: ID phiên đấu giá không khớp!");
                 }
-                assertTrue(highestBidAmount >= 50.0, "Lỗi: Hệ thống không ghi nhận được giá đấu cao nhất!");
             }
-            System.out.println("-> [OK] Hàm kiểm tra mức giá cao nhất test thành công.");
-
-        } catch (Exception e) {
-            System.out.println("[Info] Luồng kiểm soát tìm kiếm giá cao nhất: " + e.getMessage());
-        }
+            assertTrue(targetFound, "Lỗi: Không tìm thấy bản ghi giao dịch với mức giá vừa mồi thử nghiệm!");
+        });
     }
 }

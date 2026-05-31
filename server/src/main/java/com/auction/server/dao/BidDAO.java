@@ -4,6 +4,7 @@ import com.auction.common.model.Auction.BidTransaction;
 import com.auction.server.db.MyDatabaseConfig;
 import com.auction.server.exception.DatabaseException;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,6 +98,8 @@ public class BidDAO {
             return bidTransactionList;
 
         }
+
+
     }
 
 

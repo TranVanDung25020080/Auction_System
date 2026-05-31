@@ -17,7 +17,7 @@
 
                 <Button fx:id="showInventoryButton" maxWidth="Infinity" styleClass="menu-item" text="📦 Kho hàng của tôi" />
                 <Button fx:id="showLiveAuctionsButton" maxWidth="Infinity" styleClass="menu-item" text="⚡ Đang đấu giá" />
-            <Button fx:id="walletButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="  💳Ví Tiền" />
+            <Button fx:id="walletBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenWallet" text="  💳Ví Tiền" />
 
                 <Separator styleClass="sidebar-separator" />
 

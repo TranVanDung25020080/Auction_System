@@ -91,7 +91,7 @@ class AuctionDAOTest {
         }
     }
 
-    // Kiểm thử tạo phiên đấu giá thành công
+    // Test createAuction()
     @Test
     void testCreateAuction_Success() {
         LocalDateTime startTime = LocalDateTime.now();
@@ -102,7 +102,7 @@ class AuctionDAOTest {
         }, "Lỗi: Khởi tạo phiên đấu giá bị hệ thống báo lỗi khóa ngoại hoặc cấu trúc!");
     }
 
-    // Kiểm thử cập nhật bước giá đấu cao nhất hiện tại
+    // test updateCurrentPrice()
     @Test
     void testUpdateCurrentPrice_Success() {
         assertDoesNotThrow(() -> {
@@ -132,7 +132,7 @@ class AuctionDAOTest {
         });
     }
 
-    // Kiểm thử hàm bốc thông tin phiên đấu giá theo ID
+    // Test getAuctionInfoById()
     @Test
     void testGetAuctionInfoById_Success() {
         assertDoesNotThrow(() -> {
@@ -158,7 +158,7 @@ class AuctionDAOTest {
         });
     }
 
-    // Kiểm thử lấy danh sách phiên đấu giá theo người bán
+    // test getAuctionBySellerId()
     @Test
     void testGetAuctionBySellerId_Success() {
         assertDoesNotThrow(() -> {
@@ -178,7 +178,7 @@ class AuctionDAOTest {
         });
     }
 
-    // Kiểm thử hàm lấy toàn bộ danh sách phiên đấu giá hiện có
+    // test getAllAuction()
     @Test
     void testGetAllAuction_Success() {
         assertDoesNotThrow(() -> {
@@ -187,7 +187,7 @@ class AuctionDAOTest {
         });
     }
 
-    // Kiểm thử hàm cập nhật trạng thái phiên
+    // Test updateAuctionStatus()
     @Test
     void testUpdateAuctionStatus_Success() {
         assertDoesNotThrow(() -> {
@@ -216,7 +216,92 @@ class AuctionDAOTest {
         });
     }
 
-    // Kiểm thử hàm gia hạn thời gian kết thúc của phiên
+    //test endAuction()
+    @Test
+    void testEndAuction_Success() {
+        assertDoesNotThrow(() -> {
+            LocalDateTime startTime = LocalDateTime.now();
+            LocalDateTime endTime = LocalDateTime.now().plusDays(1);
+            auctionDAO.createAuction(dynamicItemId, testItemName, 500.0, dynamicSellerId, startTime, endTime);
+
+            int generatedAuctionId = -1;
+            String findIdSql = "SELECT auctionId FROM auction WHERE item_name = ?";
+            try (Connection conn = MyDatabaseConfig.getConnection();
+                 PreparedStatement pst = conn.prepareStatement(findIdSql)) {
+                pst.setString(1, testItemName);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        generatedAuctionId = rs.getInt("auctionId");
+                    }
+                }
+            }
+
+            assertTrue(generatedAuctionId != -1, "Lỗi mồi dữ liệu: Không lấy được auctionId của phiên test!");
+
+            double highestPrice = 750.0;
+            auctionDAO.updateCurrentPrice(generatedAuctionId, highestPrice, dynamicBidderId);
+
+            double initialBidderBalance = 0;
+            double initialSellerBalance = 0;
+
+            String balanceSql = "SELECT userId, balance FROM user WHERE userId IN (?, ?)";
+            try (Connection conn = MyDatabaseConfig.getConnection();
+                 PreparedStatement pst = conn.prepareStatement(balanceSql)) {
+                pst.setInt(1, dynamicBidderId);
+                pst.setInt(2, dynamicSellerId);
+                try (ResultSet rs = pst.executeQuery()) {
+                    while (rs.next()) {
+                        int uId = rs.getInt("userId");
+                        if (uId == dynamicBidderId) initialBidderBalance = rs.getDouble("balance");
+                        if (uId == dynamicSellerId) initialSellerBalance = rs.getDouble("balance");
+                    }
+                }
+            }
+
+            auctionDAO.endAuction(generatedAuctionId);
+
+
+            Auction closedAuction = auctionDAO.getAuctionInfoById(generatedAuctionId);
+            assertNotNull(closedAuction, "Lỗi: Phiên đấu giá biến mất sau khi đóng!");
+            assertEquals(AuctionStatus.FINISHED, closedAuction.getStatus(), "Lỗi: Phiên đấu giá chưa chuyển về trạng thái FINISHED!");
+
+            String checkUserSql = "SELECT userId, balance FROM user WHERE userId IN (?, ?)";
+            try (Connection conn = MyDatabaseConfig.getConnection();
+                 PreparedStatement pst = conn.prepareStatement(checkUserSql)) {
+                pst.setInt(1, dynamicBidderId);
+                pst.setInt(2, dynamicSellerId);
+                try (ResultSet rs = pst.executeQuery()) {
+                    while (rs.next()) {
+                        int uId = rs.getInt("userId");
+                        double currentBalance = rs.getDouble("balance");
+
+                        if (uId == dynamicBidderId) {
+                            assertEquals(initialBidderBalance - highestPrice, currentBalance, 0.1,
+                                    "Lỗi: Người mua (Bidder) chưa bị trừ đúng số tiền thắng đấu giá!");
+                        }
+                        if (uId == dynamicSellerId) {
+                            assertEquals(initialSellerBalance + highestPrice, currentBalance, 0.1,
+                                    "Lỗi: Người bán (Seller) chưa nhận được số tiền từ phiên đấu giá!");
+                        }
+                    }
+                }
+            }
+
+            String checkItemSql = "SELECT item_status FROM item WHERE id = ?";
+            try (Connection conn = MyDatabaseConfig.getConnection();
+                 PreparedStatement pst = conn.prepareStatement(checkItemSql)) {
+                pst.setInt(1, dynamicItemId);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        assertEquals("SOLD", rs.getString("item_status"),
+                                "Lỗi: Sản phẩm trong phiên đấu giá chưa được cập nhật trạng thái thành SOLD!");
+                    }
+                }
+            }
+        });
+    }
+
+    // Test extendEndTime()
     @Test
     void testExtendEndTime_Success() {
         assertDoesNotThrow(() -> {

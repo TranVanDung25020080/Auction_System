@@ -11,7 +11,7 @@ class AuctionItemResponseDTOTest {
     @Test
     void testConstructorAndGetters() {
         String expectedAuctionId = "AUCTION 1";
-        String expectedItemName = "Tranh Sơn DầU";
+        String expectedItemName = "Tranh Sơn Dầu";
         double expectedPrice = 3200.0;
 
         ItemStatus expectedStatus = ItemStatus.AVAILABLE;

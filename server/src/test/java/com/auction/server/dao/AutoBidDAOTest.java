@@ -62,7 +62,7 @@ class AutoBidDAOTest {
         }
     }
 
-    // Test chức năng cấu hình tự động đấu giá mới (insertAutoBid) thành công
+    // Test insertAutoBid()
     @Test
     void testInsertAutoBid_Success() {
         double maxBid = 2000.0;
@@ -75,7 +75,7 @@ class AutoBidDAOTest {
         }, "Lỗi: Thiết lập tự động đấu giá hợp lệ nhưng hệ thống lại ném ngoại lệ!");
     }
 
-    // Test chức năng cập nhật cấu hình tự động đấu giá (updateAutoBid) thành công
+    // Test updateAutoBid()
     @Test
     void testUpdateAutoBid_Success() {
         double initialMaxBid = 1500.0;

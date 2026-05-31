@@ -145,6 +145,7 @@ public class ItemDAO {
             throw new DatabaseException("Loi he thong: Khong the lay vat pham theo id nguoi ban.", e);
         }
     }
+
     public void updateItemStatus(int itemId, ItemStatus itemStatus) throws SQLException {
         String sql="UPDATE item SET item_status=? WHERE id=?";
 
@@ -158,10 +159,15 @@ public class ItemDAO {
         }
     }
 
-    //test
+/*    //test
     static void main(String[] args) throws Exception {
-        System.out.println(new ItemDAO().getItemBySellerId(2));
+        Item car=new Vehicle("Car2","nothing to describe ",100,3,ItemStatus.AVAILABLE);
+*//*        car.printInfo();*//*
+        new ItemDAO().addItem(car);
+        System.out.println("OK");
+        new ItemDAO().getItemById(2).printInfo();
 
-    }
+
+    }*/
 
 }

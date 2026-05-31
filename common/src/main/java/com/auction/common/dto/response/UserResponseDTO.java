@@ -2,6 +2,9 @@ package com.auction.common.dto.response;
 
 import com.auction.common.enums.AuthStatus;
 import com.auction.common.enums.UserRole;
+import com.auction.common.model.User.User;
+
+import java.util.List;
 
 public class UserResponseDTO {
     private int userId;
@@ -12,9 +15,11 @@ public class UserResponseDTO {
     private AuthStatus authStatus;
     private String message;
 
+    private List<User> userList;
+
 
     //Construtor
-    public UserResponseDTO(int userId, String ownerName, String userName, double balance, UserRole userRole) {
+    public UserResponseDTO(int userId,  String ownerName, String userName, UserRole userRole, double balance) {
         this.userId = userId;
         this.ownerName = ownerName;
         this.userName = userName;
@@ -39,7 +44,9 @@ public class UserResponseDTO {
     public double getBalance() {return balance;}
     public String getMessage(){return this.message;}
     public AuthStatus getAuthStatus(){return this.authStatus;}
-
+    public List<User> getUserList(){
+        return this.userList;
+    }
     //Setter
     public void setAuthStatus(AuthStatus authStatus){
         this.authStatus=authStatus;
@@ -47,18 +54,8 @@ public class UserResponseDTO {
     public void setMessage(String message){
         this.message=message;
     }
-    public void setUserName(String userName){
-        this.userName=userName;
-    }
-    public void setUserRole(UserRole userRole){
-        this.userRole=userRole;
+    public void setUserList(List<User> userList){
+        this.userList=userList;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 }

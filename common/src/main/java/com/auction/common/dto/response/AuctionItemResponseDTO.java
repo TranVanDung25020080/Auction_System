@@ -18,8 +18,10 @@ public class AuctionItemResponseDTO {
     //Getter
     //region
     public String getAuctionId() {return auctionId;}
-    public void setAuctionId(String auctionId) {this.auctionId = auctionId;}
     public String getItemName() {return itemName;}
+
+    //Setter
+    public void setAuctionId(String auctionId) {this.auctionId = auctionId;}
     public void setItemName(String itemName) {this.itemName = itemName;}
     //endregion
 }

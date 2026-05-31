@@ -16,7 +16,7 @@ class UserResponseDTOTest {
         double expectedBalance = 150.0;
         UserRole expectedRole = UserRole.BIDDER;
 
-        UserResponseDTO userResponse = new UserResponseDTO(expectedId, expectedOwner, expectedUserName, expectedBalance, expectedRole);
+        UserResponseDTO userResponse = new UserResponseDTO(expectedId, expectedOwner, expectedUserName, expectedRole, expectedBalance);
 
         assertEquals(expectedId, userResponse.getUserId(), "Lỗi: Khởi tạo userId bị sai!");
         assertEquals(expectedOwner, userResponse.getOwnerName(), "Lỗi: Khởi tạo ownerName bị sai!");
@@ -42,17 +42,26 @@ class UserResponseDTOTest {
     //Test tất cả các hàm Setter và Getter
     @Test
     void testSettersAndGetters() {
-        UserResponseDTO userResponse = new UserResponseDTO();
+        int testUserId = 2;
+        String testOwnerName = "Nguyen Van A";
+        String testUserName = "DaddyDung";
+        UserRole testUserRole = UserRole.SELLER;
+        double testBalance = 500.0;
 
-        userResponse.setUserId(2);
-        userResponse.setUserName("DaddyDung");
-        userResponse.setUserRole(UserRole.SELLER);
-        userResponse.setBalance(500.0);
+        UserResponseDTO userResponse = new UserResponseDTO(
+                testUserId,
+                testOwnerName,
+                testUserName,
+                testUserRole,
+                testBalance
+        );
+
         userResponse.setAuthStatus(AuthStatus.SUCCESS);
         userResponse.setMessage("Đăng nhập thành công!");
 
         assertEquals(2, userResponse.getUserId());
         assertEquals("DaddyDung", userResponse.getUserName());
+        assertEquals("Nguyen Van A", userResponse.getOwnerName());
         assertEquals(UserRole.SELLER, userResponse.getUserRole());
         assertEquals(500.0, userResponse.getBalance());
         assertEquals(AuthStatus.SUCCESS, userResponse.getAuthStatus());

@@ -59,7 +59,7 @@ public class AuctionRoomHandler {
 
         scheduledTask=executorService.schedule(()->{
             try{
-                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId(),this);
+                AuctionResultResponseDTO auctionResultResponseDTO=new AuctionRoomService().endAuction(auction.getAuctionId());
                 this.broadcast(new Gson().toJson(auctionResultResponseDTO));
 
                 /*double maxBidDuringAuction= clientHandler.getMaxBidDuringAuction();

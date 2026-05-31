@@ -4,7 +4,7 @@ import com.auction.common.dto.response.CreateAuctionResponseDTO;
 import com.auction.common.model.Auction.Auction;
 import com.auction.server.exception.DatabaseException;
 import com.auction.server.handler.HttpBaseHandler;
-import com.auction.server.auction.AuctionRoomService;
+import com.auction.server.service.auction.AuctionRoomService;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

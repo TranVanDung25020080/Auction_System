@@ -3,7 +3,7 @@ package com.auction.server.handler.httpserver;
 import com.auction.common.dto.request.ItemRequestDTO;
 import com.auction.common.dto.response.ItemResponseDTO;
 import com.auction.server.handler.HttpBaseHandler;
-import com.auction.server.item.ItemService;
+import com.auction.server.service.item.ItemService;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 

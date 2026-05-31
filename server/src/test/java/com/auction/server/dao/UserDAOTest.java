@@ -1,123 +1,153 @@
 package com.auction.server.dao;
 
+import com.auction.common.enums.UserRole;
 import com.auction.common.model.User.User;
-import com.auction.server.exception.DatabaseException;
 import com.auction.server.db.MyDatabaseConfig;
+import com.auction.server.exception.DatabaseException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserDAOTest {
-
     private UserDAO userDAO;
-    private Connection testConnection;
+
+    private final String testOwnerName = "TRAN DANG TEST";
+    private final String testUserName = "trandang_test_2026";
+    private final String testPassword = "password123";
+    private final UserRole testRole = UserRole.BIDDER;
+
+    private int dynamicUserId = -1;
 
     @BeforeEach
     void setUp() throws SQLException {
         userDAO = new UserDAO();
-        testConnection = MyDatabaseConfig.getConnection();
-        testConnection.setAutoCommit(false);
+
+        String getUserIdSql = "SELECT userId FROM user WHERE (role = 'BIDDER' OR role = 'SELLER') AND balance IS NOT NULL LIMIT 1";
+        try (Connection conn = MyDatabaseConfig.getConnection();
+             PreparedStatement pst = conn.prepareStatement(getUserIdSql);
+             ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                dynamicUserId = rs.getInt("userId");
+            }
+        }
+
+        if (dynamicUserId == -1) {
+            dynamicUserId = 9;
+        }
+
+        cleanTestUser();
     }
 
     @AfterEach
     void tearDown() throws SQLException {
-        if (testConnection != null && !testConnection.isClosed()) {
-            testConnection.rollback();
-            testConnection.close();
+        cleanTestUser();
+    }
+    private void cleanTestUser() throws SQLException {
+        String deleteSql = "DELETE FROM user WHERE userName = ?";
+        try (Connection conn = MyDatabaseConfig.getConnection();
+             PreparedStatement pst = conn.prepareStatement(deleteSql)) {
+            pst.setString(1, testUserName);
+            pst.executeUpdate();
         }
     }
 
-    //Test tìm kiếm người dùng bằng ID thành công
+    //test phương thức registerUser()
     @Test
-    void testGetUserById_Success() {
-        int targetId = 3;
-        try {
-            User user = userDAO.getUserById(targetId);
+    void testRegisterUser_Success() {
+        assertDoesNotThrow(() -> {
+            boolean result = userDAO.registerUser(testOwnerName, testUserName, testPassword, testRole);
+            assertTrue(result, "Lỗi: Hàm trả về false, đăng ký tài khoản thất bại!");
 
-            assertNotNull(user, "Lỗi: Không tìm thấy User dù ID tồn tại trong DB");
-            assertEquals(targetId, user.getUserId());
-            assertEquals("admin", user.getUserName());
-        } catch (DatabaseException e) {
-            fail("Không được ném ra lỗi ngoại lệ ở case này: " + e.getMessage());
-        }
+            String verifySql = "SELECT userId FROM user WHERE userName = ?";
+            try (Connection conn = MyDatabaseConfig.getConnection();
+                 PreparedStatement pst = conn.prepareStatement(verifySql)) {
+                pst.setString(1, testUserName);
+                try (ResultSet rs = pst.executeQuery()) {
+                    assertTrue(rs.next(), "Lỗi: Hệ thống báo đăng ký thành công nhưng không tìm thấy data trong DB!");
+                }
+            }
+        }, "Lỗi: Quá trình đăng ký người dùng ném ngoại lệ không mong muốn!");
     }
 
-    //Test tìm kiếm bằng ID không tồn tại trong hệ thống
+
+    //test login()
     @Test
-    void testGetUserById_NotFound() {
-        int fakeId = 999999;
-        try {
-            User user = userDAO.getUserById(fakeId);
-            assertNull(user, "Lỗi: Hàm phải trả về null khi không tìm thấy User");
-        } catch (DatabaseException e) {
-            fail("Tìm không thấy chỉ cần trả về null, không cần ném lỗi: " + e.getMessage());
-        }
+    void testLogin_Success() {
+        assertDoesNotThrow(() -> {
+            userDAO.registerUser(testOwnerName, testUserName, testPassword, testRole);
+
+            User user = userDAO.login(testUserName, testPassword);
+
+            assertNotNull(user, "Lỗi: Đăng nhập thất bại, thực thể User trả về bị null!");
+            assertEquals(testOwnerName, user.getOwnerName(), "Lỗi: Sai thông tin tên chủ sở hữu!");
+            assertEquals(testRole, user.getUserRole(), "Lỗi: Sai quyền hạn của User!");
+        });
     }
 
-    //Test lấy thông tin bằng Username hợp lệ
     @Test
-    void testGetUserByUsername_Success() {
-        String targetUsername = "admin";
-        try {
-            User user = userDAO.getUserByUsername(targetUsername);
+    void testLogin_WrongPassword_ShouldReturnNull() {
+        assertDoesNotThrow(() -> {
+            userDAO.registerUser(testOwnerName, testUserName, testPassword, testRole);
 
-            assertNotNull(user);
-            assertEquals(3, user.getUserId());
-            assertEquals("ADMIN", user.getUserRole().name());
-        } catch (DatabaseException e) {
-            fail("Lỗi truy vấn username: " + e.getMessage());
-        }
+            User user = userDAO.login(testUserName, "mat_khau_sai");
+
+            assertNull(user, "Lỗi: Nhập sai mật khẩu hệ thống vẫn trả về thực thể User đăng nhập thành công!");
+        });
     }
 
-    //Test cập nhật số dư tài khoản thành công
-    @Test
-    void testUpdateBalance_Success() {
-        int bidderId = 1;
-        double addAmount = 100.0;
 
-        try {
-            User userBefore = userDAO.getUserById(bidderId);
-            assertNotNull(userBefore);
-            double originalBalance = userBefore.getBalance(); //Lấy số dư gốc của User
-
-            userDAO.updateBalance(bidderId, addAmount);
-
-            User userAfter = userDAO.getUserById(bidderId);
-            assertEquals(originalBalance + addAmount, userAfter.getBalance(), //Cộng dồn với tiền thêm
-                    "Lỗi: Số dư sau khi cập nhật không chính xác!");
-
-            userDAO.updateBalance(bidderId, -addAmount);
-
-        } catch (Exception e) {
-            fail("Lỗi khi thực hiện update số dư: " + e.getMessage());
-        }
-    }
-
-    //Test hàm lấy số dư showBalance hoạt động chính xác
+    // test showBalance()
     @Test
     void testShowBalance_Success() {
-        int bidderId = 1;
-        double addAmount = 100.0;
+        assertDoesNotThrow(() -> {
+            double balance = userDAO.showBalance(dynamicUserId);
+            assertTrue(balance >= 0, "Lỗi: Số dư lấy từ Database bị âm bất thường!");
+            System.out.println("Ví tiền của User " + dynamicUserId + " hiện tại: " + balance);
+        });
+    }
 
-        try {
-            double initialBalance = userDAO.showBalance(bidderId);
+    @Test
+    void testShowBalance_UserNotFound_ShouldThrowException() {
+        int fakeUserId = -8888;
 
-            userDAO.updateBalance(bidderId, addAmount);
+        DatabaseException exception = assertThrows(DatabaseException.class, () -> {
+            userDAO.showBalance(fakeUserId);
+        }, "Lỗi: Truy vấn ID không tồn tại nhưng hàm không quăng DatabaseException để xử lý!");
 
-            double balanceAfterUpdate = userDAO.showBalance(bidderId);
+        assertTrue(exception.getMessage().contains("Khong tim thay id nguoi dung nay"),
+                "Lỗi: Nội dung thông báo lỗi trong Exception không chính xác!");
+    }
 
-            double expectedBalance = initialBalance + addAmount;
+    // test updateBalance()
+    @Test
+    void testUpdateBalance_Success() {
+        assertDoesNotThrow(() -> {
+            double currentBalance = userDAO.showBalance(dynamicUserId);
+            double newBalanceAmount = currentBalance + 1000.0;
 
-            assertEquals(expectedBalance, balanceAfterUpdate,
-                    "Lỗi: Hàm showBalance lấy sai số tiền sau khi được cộng dồn!");
-            userDAO.updateBalance(bidderId, -addAmount);
-        } catch (Exception e) {
-            fail("Lỗi hệ thống khi gọi showBalance hoặc updateBalance: " + e.getMessage());
-        }
+            userDAO.updateBalance(dynamicUserId, newBalanceAmount);
+
+            double balanceAfterUpdate = userDAO.showBalance(dynamicUserId);
+            assertEquals(newBalanceAmount, balanceAfterUpdate, "Lỗi: Số dư trong DB chưa được cập nhật chính xác sang số tiền mới!");
+        });
+    }
+
+    // test getAllUsers()
+    @Test
+    void testGetAllUsers_Success() {
+        assertDoesNotThrow(() -> {
+            List<User> list = userDAO.getAllUsers();
+            assertNotNull(list, "Lỗi: Danh sách người dùng trả về bị null!");
+            assertFalse(list.isEmpty(), "Lỗi: Hệ thống đang chạy thực tế có data nhưng hàm lại trả về danh sách rỗng!");
+            System.out.println("Tìm thấy tổng số " + list.size() + " người dùng trong hệ thống.");
+        });
     }
 }
