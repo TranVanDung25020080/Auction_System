@@ -85,7 +85,7 @@ jobs:
           context: ./server
           file: server/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/auction-server:latest
+          tags: ghcr.io/tranvandung25020080/auction_system/auction-server:latest
 
   # chay tren may ao window de dong goi file exe
   build-client-windows-exe:

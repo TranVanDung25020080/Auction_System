@@ -11,7 +11,7 @@ public class MySocketServer {
     private static ServerSocket serverSocket;
 
     public static void start() throws IOException {
-        serverSocket=new ServerSocket(ConfigLoader.getInt("server.socket.port"));
+        serverSocket=new ServerSocket(6969);
 
         while (!serverSocket.isClosed()){
             Socket socket=serverSocket.accept();
