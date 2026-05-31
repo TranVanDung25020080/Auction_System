@@ -29,7 +29,7 @@ public class BidService {
     private ReentrantReadWriteLock getReadWriteLock(int auctionId){
         return  reentrantReadWriteLockMap.computeIfAbsent(auctionId,key->new ReentrantReadWriteLock());
     }
-    //
+
     public BidUpdateResponseDTO normalBid(BaseRequestDTO bidRequestDTO, AuctionRoomHandler auctionRoomHandler) throws DatabaseException {
         BidUpdateResponseDTO bidUpdateResponseDTO=new BidUpdateResponseDTO();
         BidRequestDTO bid= (BidRequestDTO) bidRequestDTO;
