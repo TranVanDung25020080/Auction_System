@@ -30,7 +30,8 @@ public class AuctionRoomService {
 //        int port = com.auction.client.util.ConfigLoader.getInt("server.socket.port");
 //        Socket socket = new Socket(host, port);
 //        Socket socket=new Socket("100.65.119.25",6969);
-        Socket socket=new Socket("localhost",6969);
+        /*Socket socket=new Socket("localhost",6969);*/
+        Socket socket=new Socket("100.65.119.25",6969);
 
 
         ClientSocket clientSocket=new ClientSocket(socket,userId);
